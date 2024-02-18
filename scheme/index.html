@@ -8,7 +8,13 @@
   </head>
 
   <body>
-    <svg id="svg" width="1400" height="1000"></svg>
+    <svg id="svg" width="1400" height="1000">
+      <defs>
+        <filter id="f1" xmlns="http://www.w3.org/2000/svg">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+        </filter>
+      </defs>
+    </svg>
     <script src="script.js"></script>
   </body>
 </html>
