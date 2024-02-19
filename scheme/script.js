@@ -580,6 +580,7 @@ window.addEventListener("DOMContentLoaded", () => {
     })
   })
   var hitTestLine = function(cx, cy, r) {
+    // https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter/275537#275537
     for(let i = 0; i < scheme.branches.length; i++) {
       
       let ax = scheme.branches[i].image.pole1.coordinates.x;
@@ -610,6 +611,80 @@ window.addEventListener("DOMContentLoaded", () => {
   };
   window.addEventListener('mousedown', (e) => {
     
+    let test = hitTestLine(e.clientX, e.clientY, 10);
+    if(!test && selectBranch && e.shiftKey) {
+      //selectBranch.image.list.push({ "coordinates": { "x": e.clientX, "y": e.clientY }});
+      
+      let d1 = [];
+      let index1 = 0;
+      let index2 = 0;
+      
+      for(let i = 0; i < selectBranch.image.list.length - 1; i++) {
+        let x1 = selectBranch.image.list[i].coordinates.x;
+        let y1 = selectBranch.image.list[i].coordinates.y;
+        let x2 = selectBranch.image.list[i + 1].coordinates.x;
+        let y2 = selectBranch.image.list[i + 1].coordinates.y;
+
+        let len = Math.abs((y2-y1)*e.clientX-(x2-x1)*e.clientY+x2*y1-y2*x1) / Math.sqrt(Math.pow(y2-y1, 2) + Math.pow(x2-x1, 2));
+
+        xv1 = x1 - e.clientX;
+        yv1 = y1 - e.clientY;
+        xv2 = x1 - x2;
+        yv2 = y1 - y2;
+
+        let cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
+
+        if(cos <= 0) {
+          len = Math.sqrt(Math.pow(x1 - e.clientX, 2) + Math.pow(y1 - e.clientY, 2))
+          console.log(cos);
+        }
+        
+
+        xv1 = x2 - e.clientX;
+        yv1 = y2 - e.clientY;
+        xv2 = x2 - x1;
+        yv2 = y2 - y1;
+        cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
+
+        if(cos <= 0) {
+          len = Math.sqrt(Math.pow(x2 - e.clientX, 2) + Math.pow(y2 - e.clientY, 2))
+          console.log(cos);
+        }
+
+        console.log(len);
+
+
+
+        
+
+        d1.push({"d": len, "index": i});
+      }
+
+      d1 = d1.sort((x1, x2) => x1['d'] - x2['d']);
+      console.log("D1")
+      console.log(d1)
+      
+      
+      selectBranch.image.list.splice(d1[0].index + 1, 0, { "coordinates": { "x": e.clientX, "y": e.clientY }});
+
+      
+      console.log(d1)
+      
+
+      let points = "";
+      for(let l = 0; l < selectBranch.image.list.length; l++) {
+        points += `${selectBranch.image.list[l].coordinates.x},${selectBranch.image.list[l].coordinates.y} `;
+      }
+      selectBranch.image.line.setAttribute("points", points);
+     
+      let rect = DrawRectanle({ "x": e.clientX - 5, "y": e.clientY - 5 }, 10, 10, 0, "white", "white");
+      rect.setAttribute("filter", "url(#f1)");
+      DrawRectanle({ "x": e.clientX - 4, "y": e.clientY - 4 }, 8, 8, 0, "black", "black");
+      DrawRectanle({ "x": e.clientX - 3, "y": e.clientY - 3 }, 6, 6, 0, "black", "white");
+      
+
+    }
+
     if(!selectBranch) {
       selectBranch = hitTestLine(e.clientX, e.clientY, 10);
       if(selectBranch) {
@@ -692,6 +767,19 @@ window.addEventListener("DOMContentLoaded", () => {
     circle.setAttribute("fill", fill);
     svg.append(circle);
     return circle;
+  }
+
+  function DrawRectanle(point, w, h, sw, s, fill) {
+    var rectangle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rectangle.setAttribute("x", point.x);
+    rectangle.setAttribute("y", point.y);
+    rectangle.setAttribute("width", w);
+    rectangle.setAttribute("height", h);
+    rectangle.setAttribute("stroke", s);
+    rectangle.setAttribute("stroke-width", sw);
+    rectangle.setAttribute("fill", fill);
+    svg.append(rectangle);
+    return rectangle;
   }
 
   function DrawText(point, content, size, fill) {
