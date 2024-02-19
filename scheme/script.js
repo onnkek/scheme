@@ -627,31 +627,34 @@ window.addEventListener("DOMContentLoaded", () => {
 
         let len = Math.abs((y2-y1)*e.clientX-(x2-x1)*e.clientY+x2*y1-y2*x1) / Math.sqrt(Math.pow(y2-y1, 2) + Math.pow(x2-x1, 2));
 
-        xv1 = x1 - e.clientX;
-        yv1 = y1 - e.clientY;
-        xv2 = x1 - x2;
-        yv2 = y1 - y2;
+       // xv1 = x1 - e.clientX;
+        //yv1 = y1 - e.clientY;
+        //xv2 = x1 - x2;
+        //yv2 = y1 - y2;
 
-        let cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
+        //let cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
 
+        let da = Math.sqrt(Math.pow(x1 - e.clientX, 2) + Math.pow(y1 - e.clientY, 2));
+        let db = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        let dc = Math.sqrt(Math.pow(x2 - e.clientX, 2) + Math.pow(y2 - e.clientY, 2));
+        let cos = Math.pow(da, 2) + Math.pow(db, 2) - Math.pow(dc, 2);
         if(cos <= 0) {
-          len = Math.sqrt(Math.pow(x1 - e.clientX, 2) + Math.pow(y1 - e.clientY, 2))
-          console.log(cos);
+          len = da;
         }
         
-
-        xv1 = x2 - e.clientX;
-        yv1 = y2 - e.clientY;
-        xv2 = x2 - x1;
-        yv2 = y2 - y1;
-        cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
-
+        //https://habr.com/ru/sandbox/163599/
+        //xv1 = x2 - e.clientX;
+        //yv1 = y2 - e.clientY;
+        //xv2 = x2 - x1;
+        //yv2 = y2 - y1;
+        //cos = xv1 * xv2 + yv1*yv2 / (Math.sqrt(Math.pow(xv1, 2) + Math.pow(yv1, 2)) + Math.sqrt(Math.pow(xv2, 2) + Math.pow(yv2, 2)))
+        
+        cos = Math.pow(dc, 2) + Math.pow(db, 2) - Math.pow(da, 2);
         if(cos <= 0) {
-          len = Math.sqrt(Math.pow(x2 - e.clientX, 2) + Math.pow(y2 - e.clientY, 2))
-          console.log(cos);
+          len = dc;
         }
 
-        console.log(len);
+        //console.log(len);
 
 
 
