@@ -87,6 +87,7 @@ window.addEventListener("DOMContentLoaded", () => {
         "pole2": [],
         "image": {
           "line": "",
+          "list": [],
           "pole1": [
             {
               "coordinates": [
@@ -121,6 +122,7 @@ window.addEventListener("DOMContentLoaded", () => {
         "pole2": [],
         "image": {
           "line": "",
+          "list": [],
           "pole1": [
             {
               "coordinates": [
@@ -155,6 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
         "pole2": [],
         "image": {
           "line": "",
+          "list": [],
           "pole1": [
             {
               "coordinates": [
@@ -189,6 +192,7 @@ window.addEventListener("DOMContentLoaded", () => {
         "pole2": [],
         "image": {
           "line": "",
+          "list": [],
           "pole1": [
             {
               "coordinates": [
@@ -233,6 +237,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let select = null;
   let selectBranchCP = null;
+  let selectBranch = null;
   let point = null;
   let selectNodeCP = null;
   let aIn = 0;
@@ -311,8 +316,18 @@ window.addEventListener("DOMContentLoaded", () => {
       let branches1 = scheme.branches.filter(x => x.number1 == select.number);
       for (let i = 0; i < branches1.length; i++) {
         if (branches1[i].image.pole1.nodePole) {
-          branches1[i].image.line.setAttribute("x1", branches1[i].image.pole1.nodePole.coordinates.x);
-          branches1[i].image.line.setAttribute("y1", branches1[i].image.pole1.nodePole.coordinates.y);
+          
+          let points = "";
+          branches1[i].image.list[0].coordinates.x = branches1[i].image.pole1.nodePole.coordinates.x;
+          branches1[i].image.list[0].coordinates.y = branches1[i].image.pole1.nodePole.coordinates.y;
+          for(let l = 0; l < branches1[i].image.list.length; l++) {
+            points += `${branches1[i].image.list[l].coordinates.x},${branches1[i].image.list[l].coordinates.y} `;
+          }
+          branches1[i].image.line.setAttribute("points", points);
+          
+
+          //branches1[i].image.line.setAttribute("x1", branches1[i].image.pole1.nodePole.coordinates.x);
+          //branches1[i].image.line.setAttribute("y1", branches1[i].image.pole1.nodePole.coordinates.y);
           branches1[i].image.pole1.circle.setAttribute("cx", branches1[i].image.pole1.nodePole.coordinates.x);
           branches1[i].image.pole1.circle.setAttribute("cy", branches1[i].image.pole1.nodePole.coordinates.y);
           branches1[i].image.pole1.coordinates = { "x": branches1[i].image.pole1.nodePole.coordinates.x, "y": branches1[i].image.pole1.nodePole.coordinates.y };
@@ -321,8 +336,16 @@ window.addEventListener("DOMContentLoaded", () => {
       let branches2 = scheme.branches.filter(x => x.number2 == select.number);
       for (let i = 0; i < branches2.length; i++) {
         if (branches2[i].image.pole2.nodePole) {
-          branches2[i].image.line.setAttribute("x2", branches2[i].image.pole2.nodePole.coordinates.x);
-          branches2[i].image.line.setAttribute("y2", branches2[i].image.pole2.nodePole.coordinates.y);
+          let points = "";
+          branches2[i].image.list[branches2[i].image.list.length - 1].coordinates.x = branches2[i].image.pole2.nodePole.coordinates.x;
+          branches2[i].image.list[branches2[i].image.list.length - 1].coordinates.y = branches2[i].image.pole2.nodePole.coordinates.y;
+          for(let l = 0; l < branches2[i].image.list.length; l++) {
+            points += `${branches2[i].image.list[l].coordinates.x},${branches2[i].image.list[l].coordinates.y} `;
+          }
+          branches2[i].image.line.setAttribute("points", points);
+
+          //branches2[i].image.line.setAttribute("x2", branches2[i].image.pole2.nodePole.coordinates.x);
+          //branches2[i].image.line.setAttribute("y2", branches2[i].image.pole2.nodePole.coordinates.y);
           branches2[i].image.pole2.circle.setAttribute("cx", branches2[i].image.pole2.nodePole.coordinates.x);
           branches2[i].image.pole2.circle.setAttribute("cy", branches2[i].image.pole2.nodePole.coordinates.y);
           branches2[i].image.pole2.coordinates = { "x": branches2[i].image.pole2.nodePole.coordinates.x, "y": branches2[i].image.pole2.nodePole.coordinates.y };
@@ -556,7 +579,50 @@ window.addEventListener("DOMContentLoaded", () => {
       selectBranchCP = scheme.branches.find(x => x.image.pole2.circle == e.target).image.pole2;
     })
   })
-
+  var hitTestLine = function(cx, cy, r) {
+    for(let i = 0; i < scheme.branches.length; i++) {
+      
+      let ax = scheme.branches[i].image.pole1.coordinates.x;
+      let ay = scheme.branches[i].image.pole1.coordinates.y;
+      let bx = scheme.branches[i].image.pole2.coordinates.x;
+      let by = scheme.branches[i].image.pole2.coordinates.y;
+      // put circle at the center to simplify calcs
+      ax -= cx; ay -= cy;
+      bx -= cx; by -= cy;
+      a = Math.pow(ax, 2) + Math.pow(ay, 2) - Math.pow(r, 2);
+      b = 2*(ax*(bx - ax) + ay*(by - ay));
+      c = Math.pow(bx - ax, 2) + Math.pow(by - ay, 2);
+    
+      // get discriminant
+      disc = Math.pow(b, 2) - 4*a*c;
+    
+      // check if discriminant has real values
+      if(disc <= 0) continue;
+    
+      // find intersection points
+      sqrtdisc = Math.sqrt(disc);
+      t1 = (-b + sqrtdisc)/(2*a);
+      t2 = (-b - sqrtdisc)/(2*a);
+      if(0 < t1 && t1 < r && 0 < t2 && t2 < r) 
+        return scheme.branches[i];
+    }
+    return false;
+  };
+  window.addEventListener('mousedown', (e) => {
+    
+    if(!selectBranch) {
+      selectBranch = hitTestLine(e.clientX, e.clientY, 10);
+      if(selectBranch) {
+        selectBranch.image.line.setAttribute("stroke", "magenta");
+      }
+    } else {
+      selectBranch.image.line.setAttribute("stroke", "red");
+      selectBranch = hitTestLine(e.clientX, e.clientY, 10);
+      if(selectBranch) {
+        selectBranch.image.line.setAttribute("stroke", "magenta");
+      }
+    }
+  })
 
   function DrawBranch(branch) {
     node1 = scheme.nodes.find(x => x.number == branch.number1);
@@ -568,9 +634,13 @@ window.addEventListener("DOMContentLoaded", () => {
     branch.image.pole1.coordinates = { "x": node1.image.cp[2].coordinates.x, "y": node1.image.cp[2].coordinates.y };
     branch.image.pole2.coordinates = { "x": node2.image.cp[2].coordinates.x, "y": node2.image.cp[2].coordinates.y };
 
-
-    let line = DrawLine(branch.image.pole1.coordinates, branch.image.pole2.coordinates, 4, "red");
+    
+    let line = DrawPolyLine(branch.image.pole1.coordinates, branch.image.pole2.coordinates, 4, "red");
     branch.image.line = line;
+
+    branch.image.list.push({ "coordinates": { "x": branch.image.pole1.coordinates.x, "y": branch.image.pole1.coordinates.y }});
+    branch.image.list.push({ "coordinates": { "x": branch.image.pole2.coordinates.x, "y": branch.image.pole2.coordinates.y }});
+    console.log(branch.image.list)
 
     let circle1 = DrawCircle(node1.coordinates, 8, 0, cpNodeColor, cpNodeColor);
     let circle2 = DrawCircle(node2.coordinates, 8, 0, cpNodeColor, cpNodeColor);
@@ -601,6 +671,15 @@ window.addEventListener("DOMContentLoaded", () => {
     line.setAttribute("stroke", s);
     svg.append(line);
     return line;
+  }
+
+  function DrawPolyLine(point1, point2, sw, s) {
+    var polyLine = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    polyLine.setAttribute("points", `${point1.x},${point1.y} ${point2.x},${point2.y}`);
+    polyLine.setAttribute("stroke-width", sw);
+    polyLine.setAttribute("stroke", s);
+    svg.append(polyLine);
+    return polyLine;
   }
 
   function DrawCircle(point, radius, sw, s, fill) {
