@@ -8,6 +8,12 @@ body {
     background-color: black;
 }
 
+.context {
+    width: 200px;
+    height: 40px;
+    position: absolute;
+    background-color: white;
+}
 
 #svg{
     margin: 0 0 0 0;

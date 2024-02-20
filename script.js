@@ -251,6 +251,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let selectEditBranch = null;
   let funcLine1 = null;
   let funcLine2 = null;
+  let contextMenu = null;
   //let test = null;
 
   function DrawNode(node) {
@@ -313,10 +314,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
       let x = Number(branchEditPoints[ind * 3 - 3].getAttribute('x'));
       let y = Number(branchEditPoints[ind * 3 - 3].getAttribute('y'));
-      console.log(x);
+
       x += cursor.x - point.x;
       y += cursor.y - point.y;
-      console.log(x);
+
 
       branchEditPoints[ind * 3 - 3 + 2].setAttribute('x', x + 2);
       branchEditPoints[ind * 3 - 3 + 2].setAttribute('y', y + 2);
@@ -368,29 +369,16 @@ window.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < branches1.length; i++) {
         if (branches1[i].image.pole1.nodePole) {
           let points = "";
-          branches1[i].image.list[0].coordinates.x =
-            branches1[i].image.pole1.nodePole.coordinates.x;
-          branches1[i].image.list[0].coordinates.y =
-            branches1[i].image.pole1.nodePole.coordinates.y;
+          branches1[i].image.list[0].coordinates.x = branches1[i].image.pole1.nodePole.coordinates.x;
+          branches1[i].image.list[0].coordinates.y = branches1[i].image.pole1.nodePole.coordinates.y;
           for (let l = 0; l < branches1[i].image.list.length; l++) {
             points += `${branches1[i].image.list[l].coordinates.x},${branches1[i].image.list[l].coordinates.y} `;
           }
           branches1[i].image.line.setAttribute("points", points);
-
-          //branches1[i].image.line.setAttribute("x1", branches1[i].image.pole1.nodePole.coordinates.x);
-          //branches1[i].image.line.setAttribute("y1", branches1[i].image.pole1.nodePole.coordinates.y);
-          branches1[i].image.pole1.circle.setAttribute(
-            "cx",
-            branches1[i].image.pole1.nodePole.coordinates.x
-          );
-          branches1[i].image.pole1.circle.setAttribute(
-            "cy",
-            branches1[i].image.pole1.nodePole.coordinates.y
-          );
-          branches1[i].image.pole1.coordinates = {
-            x: branches1[i].image.pole1.nodePole.coordinates.x,
-            y: branches1[i].image.pole1.nodePole.coordinates.y,
-          };
+          
+          branches1[i].image.pole1.circle.setAttribute("cx", branches1[i].image.pole1.nodePole.coordinates.x);
+          branches1[i].image.pole1.circle.setAttribute("cy", branches1[i].image.pole1.nodePole.coordinates.y);
+          branches1[i].image.pole1.coordinates = { x: branches1[i].image.pole1.nodePole.coordinates.x, y: branches1[i].image.pole1.nodePole.coordinates.y };
         }
       }
       let branches2 = scheme.branches.filter((x) => x.number2 == select.number);
@@ -428,19 +416,28 @@ window.addEventListener("DOMContentLoaded", () => {
       selectBranchCP.coordinates.x += cursor.x - point.x;
       selectBranchCP.coordinates.y += cursor.y - point.y;
 
-      let branch1 = scheme.branches.find(
-        (x) => x.image.pole1 == selectBranchCP
-      );
+      
+
+      let branch1 = scheme.branches.find((x) => x.image.pole1 == selectBranchCP);
       if (branch1) {
-        branch1.image.line.setAttribute("x1", selectBranchCP.coordinates.x);
-        branch1.image.line.setAttribute("y1", selectBranchCP.coordinates.y);
+        let points = "";
+        branch1.image.list[0].coordinates.x = selectBranchCP.coordinates.x;
+        branch1.image.list[0].coordinates.y = selectBranchCP.coordinates.y;
+        for (let l = 0; l < branch1.image.list.length; l++) {
+          points += `${branch1.image.list[l].coordinates.x},${branch1.image.list[l].coordinates.y} `;
+        }
+        branch1.image.line.setAttribute("points", points);
       }
-      let branch2 = scheme.branches.find(
-        (x) => x.image.pole2 == selectBranchCP
-      );
+
+      let branch2 = scheme.branches.find((x) => x.image.pole2 == selectBranchCP);
       if (branch2) {
-        branch2.image.line.setAttribute("x2", selectBranchCP.coordinates.x);
-        branch2.image.line.setAttribute("y2", selectBranchCP.coordinates.y);
+        let points = "";
+        branch2.image.list[branch2.image.list.length - 1].coordinates.x = selectBranchCP.coordinates.x;
+        branch2.image.list[branch2.image.list.length - 1].coordinates.y = selectBranchCP.coordinates.y;
+        for (let l = 0; l < branch2.image.list.length; l++) {
+          points += `${branch2.image.list[l].coordinates.x},${branch2.image.list[l].coordinates.y} `;
+        }
+        branch2.image.line.setAttribute("points", points);
       }
 
       selectBranchCP.circle.setAttribute("cx", selectBranchCP.coordinates.x);
@@ -612,36 +609,29 @@ window.addEventListener("DOMContentLoaded", () => {
 
       selectBranchCP.circle.setAttribute("cx", selectNodeCP.coordinates.x);
       selectBranchCP.circle.setAttribute("cy", selectNodeCP.coordinates.y);
-      let branch1 = scheme.branches.find(
-        (x) => x.image.pole1 == selectBranchCP
-      );
-      let numBus = scheme.nodes.find((x) =>
-        x.image.cp.find((cp) => cp == selectNodeCP)
-      ).number;
+      let branch1 = scheme.branches.find((x) => x.image.pole1 == selectBranchCP);
+      let numBus = scheme.nodes.find((x) => x.image.cp.find((cp) => cp == selectNodeCP)).number;
       if (branch1) {
-        branch1.image.line.setAttribute(
-          "x1",
-          branch1.image.pole1.nodePole.coordinates.x
-        );
-        branch1.image.line.setAttribute(
-          "y1",
-          branch1.image.pole1.nodePole.coordinates.y
-        );
+        let points = "";
+        branch1.image.list[0].coordinates.x = branch1.image.pole1.nodePole.coordinates.x;
+        branch1.image.list[0].coordinates.y = branch1.image.pole1.nodePole.coordinates.y;
+        for (let l = 0; l < branch1.image.list.length; l++) {
+          points += `${branch1.image.list[l].coordinates.x},${branch1.image.list[l].coordinates.y} `;
+        }
+        branch1.image.line.setAttribute("points", points);
+        
+        
         branch1.number1 = numBus;
-        console.log(numBus);
       }
-      let branch2 = scheme.branches.find(
-        (x) => x.image.pole2 == selectBranchCP
-      );
+      let branch2 = scheme.branches.find((x) => x.image.pole2 == selectBranchCP);
       if (branch2) {
-        branch2.image.line.setAttribute(
-          "x2",
-          branch2.image.pole2.nodePole.coordinates.x
-        );
-        branch2.image.line.setAttribute(
-          "y2",
-          branch2.image.pole2.nodePole.coordinates.y
-        );
+        let points = "";
+        branch2.image.list[branch2.image.list.length - 1].coordinates.x = branch2.image.pole2.nodePole.coordinates.x;
+        branch2.image.list[branch2.image.list.length - 1].coordinates.y = branch2.image.pole2.nodePole.coordinates.y;
+        for (let l = 0; l < branch2.image.list.length; l++) {
+          points += `${branch2.image.list[l].coordinates.x},${branch2.image.list[l].coordinates.y} `;
+        }
+        branch2.image.line.setAttribute("points", points);
         branch2.number2 = numBus;
       }
       selectBranchCP.circle.setAttribute("fill", cpNodeColor);
@@ -709,9 +699,9 @@ window.addEventListener("DOMContentLoaded", () => {
         ay -= cy;
         bx -= cx;
         by -= cy;
-        a = Math.pow(ax, 2) + Math.pow(ay, 2) - Math.pow(r, 2);
+        a = Math.pow(bx - ax, 2) + Math.pow(by - ay, 2);
         b = 2 * (ax * (bx - ax) + ay * (by - ay));
-        c = Math.pow(bx - ax, 2) + Math.pow(by - ay, 2);
+        c = Math.pow(ax, 2) + Math.pow(ay, 2) - Math.pow(r, 2);
 
         // get discriminant
         disc = Math.pow(b, 2) - 4 * a * c;
@@ -723,27 +713,122 @@ window.addEventListener("DOMContentLoaded", () => {
         sqrtdisc = Math.sqrt(disc);
         t1 = (-b + sqrtdisc) / (2 * a);
         t2 = (-b - sqrtdisc) / (2 * a);
-        if (0 < t1 && t1 < r && 0 < t2 && t2 < r) return scheme.branches[i];
+        if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) 
+          return scheme.branches[i];
       }
     }
     return false;
   };
+  svg.oncontextmenu = () => false;
   window.addEventListener("mousedown", (e) => {
-    
+    if(contextMenu && e.target != contextMenu) {
+      contextMenu.remove();
+      contextMenu = null;
+    }
     if(selectBranch) {
+      
       for(let i = 1; i < selectBranch.image.list.length - 1; i++) {
-        if(Math.pow(selectBranch.image.list[i].coordinates.x - e.clientX, 2) + Math.pow(selectBranch.image.list[i].coordinates.y - e.clientY, 2) < 25) {
-          selectEditBranch = selectBranch.image.list[i];
+        if(Math.pow(selectBranch.image.list[i].coordinates.x - e.clientX, 2) + Math.pow(selectBranch.image.list[i].coordinates.y - e.clientY, 2) < 50) {
           
-          funcLine1 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i + 1].coordinates, 2, "red");
-          funcLine2 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i - 1].coordinates, 2, "red");
+          if(e.button === 2 && !contextMenu) {
+      
+            let body = document.getElementById('body');
+            contextMenu = document.createElement('div');
+            contextMenu.oncontextmenu = () => false;
+            contextMenu.style.cssText += `
+              position: absolute;
+              background-color: white;
+              border: 1px solid white;
+              top: ${e.clientY}px;
+              left: ${e.clientX}px;
+              border-radius: 5px;
+              padding: 5px;
+              font-family: sans-serif;
+              font-size: 14px;
+            `;
+            contextMenu.append("Удалить точку");
+      
+            contextMenu.addEventListener("click", (e) => {
+
+              for(let p = 0; p < branchEditPoints.length; p++) {
+                branchEditPoints[p].remove();
+              }
+              branchEditPoints = [];
+
+              selectBranch.image.list.splice(i, 1);
+              for(let i = 1; i < selectBranch.image.list.length - 1; i++) {
+                let rect = DrawRectanle(
+                  { x: selectBranch.image.list[i].coordinates.x - 5, y: selectBranch.image.list[i].coordinates.y - 5 },
+                  10,
+                  10,
+                  0,
+                  "white",
+                  "white"
+                );
+                branchEditPoints.push(rect);
+                rect.setAttribute("filter", "url(#f1)");
+                rect = DrawRectanle(
+                  { x: selectBranch.image.list[i].coordinates.x - 4, y: selectBranch.image.list[i].coordinates.y - 4 },
+                  8,
+                  8,
+                  0,
+                  "black",
+                  "black"
+                );
+                branchEditPoints.push(rect);
+                rect = DrawRectanle(
+                  { x: selectBranch.image.list[i].coordinates.x - 3, y: selectBranch.image.list[i].coordinates.y - 3 },
+                  6,
+                  6,
+                  0,
+                  "black",
+                  "white"
+                );
+                branchEditPoints.push(rect);
+              }
+
+              
+
+
+              let points = "";
+              for (let l = 0; l < selectBranch.image.list.length; l++) {
+                points += `${selectBranch.image.list[l].coordinates.x},${selectBranch.image.list[l].coordinates.y} `;
+              }
+              selectBranch.image.line.setAttribute("points", points.trim());
+              
+              console.log(branchEditPoints);
+              
+              
+
+              contextMenu.remove();
+              contextMenu = null;
+            })
+      
+            body.prepend(contextMenu);
+      
+      
+      
+          } else {
+            selectEditBranch = selectBranch.image.list[i];
+          
+            if(funcLine1 || funcLine2) {
+              funcLine1.remove();
+              funcLine1 = null;
+              funcLine2.remove();
+              funcLine2 = null;
+            }
+            funcLine1 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i + 1].coordinates, 2, "red");
+            funcLine2 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i - 1].coordinates, 2, "red");
+          }
+          
+          
+          
 
         }
       }
     }
 
-    let test = hitTestLine(e.clientX, e.clientY, 10);
-    if (!test && selectBranch && e.shiftKey) {
+    if (selectBranch && e.shiftKey && !contextMenu) {
       let d1 = [];
 
       for (let i = 0; i < selectBranch.image.list.length - 1; i++) {
@@ -778,14 +863,12 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       d1 = d1.sort((x1, x2) => x1["d"] - x2["d"]);
-      console.log("D1");
-      console.log(d1);
+
 
       selectBranch.image.list.splice(d1[0].index + 1, 0, {
         coordinates: { x: e.clientX, y: e.clientY },
       });
 
-      console.log(d1);
 
       let points = "";
       for (let l = 0; l < selectBranch.image.list.length; l++) {
@@ -821,10 +904,9 @@ window.addEventListener("DOMContentLoaded", () => {
         "white"
       );
       branchEditPoints.push(rect);
-      console.log(branchEditPoints);
     }
 
-    if (!selectBranch) {
+    if (!selectBranch && e.button === 0 && !contextMenu) {
       selectBranch = hitTestLine(e.clientX, e.clientY, 10);
       if (selectBranch) {
         // for(let i = 0; i < branchEditPoints.length; i++) {
@@ -864,7 +946,7 @@ window.addEventListener("DOMContentLoaded", () => {
           branchEditPoints.push(rect);
         }
       }
-    } else {
+    } else if (!contextMenu && e.button == 0) {
       for(let i = 0; i < branchEditPoints.length; i++) {
         branchEditPoints[i].remove();
         
@@ -944,7 +1026,6 @@ window.addEventListener("DOMContentLoaded", () => {
         y: branch.image.pole2.coordinates.y,
       },
     });
-    console.log(branch.image.list);
 
     let circle1 = DrawCircle(node1.coordinates, 8, 0, cpNodeColor, cpNodeColor);
     let circle2 = DrawCircle(node2.coordinates, 8, 0, cpNodeColor, cpNodeColor);
