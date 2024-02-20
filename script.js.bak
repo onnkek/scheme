@@ -1,0 +1,8 @@
+window.addEventListener("DOMContentLoaded", () => {
+  
+  console.log("Hello world!");
+  
+  alert("Yaroslav gay!");
+
+
+});
