@@ -2,219 +2,486 @@ window.addEventListener("DOMContentLoaded", () => {
 	const svg = document.getElementById("svg");
 
 	const scheme = {
-		nodes: [
+		"nodes": [
 			{
-				name: "1",
-				number: 1,
-				coordinates: [
-					{
-						x: "",
-						y: "",
-					},
-				],
-				image: {
-					line: "",
-					text: "",
-					cp: [],
-					animateIn: 0,
-					animateOut: 0,
+				"name": "1",
+				"number": 1,
+				"coordinates":
+				{
+					"x": 350,
+					"y": 110
+				}
+				,
+				"image": {
+					"line": {},
+					"text": {},
+					"cp": [
+						{
+							"coordinates": {
+								"x": 250,
+								"y": 110
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 300,
+								"y": 110
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 350,
+								"y": 110
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 400,
+								"y": 110
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						},
+						{
+							"coordinates": {
+								"x": 450,
+								"y": 110
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						}
+					],
+					"animateIn": 0,
+					"animateOut": 0
 				},
+				"animateOut": 1,
+				"animateIn": 0
 			},
 			{
-				name: "2",
-				number: 2,
-				coordinates: [
-					{
-						x: "",
-						y: "",
-					},
-				],
-				image: {
-					line: "",
-					text: "",
-					cp: [],
-					animateIn: 0,
-					animateOut: 0,
+				"name": "2",
+				"number": 2,
+				"coordinates":
+				{
+					"x": 400,
+					"y": 660
+				}
+				,
+				"image": {
+					"line": {},
+					"text": {},
+					"cp": [
+						{
+							"coordinates": {
+								"x": 300,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 350,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 400,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 450,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						},
+						{
+							"coordinates": {
+								"x": 500,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						}
+					],
+					"animateIn": 0,
+					"animateOut": 0
 				},
+				"animateIn": 0,
+				"animateOut": 1
 			},
 			{
-				name: "3",
-				number: 3,
-				coordinates: [
-					{
-						x: "",
-						y: "",
-					},
-				],
-				image: {
-					line: "",
-					text: "",
-					cp: [],
-					animateIn: 0,
-					animateOut: 0,
+				"name": "3",
+				"number": 3,
+				"coordinates":
+				{
+					"x": 710,
+					"y": 210
+				}
+				,
+				"image": {
+					"line": {},
+					"text": {},
+					"cp": [
+						{
+							"coordinates": {
+								"x": 610,
+								"y": 210
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 660,
+								"y": 210
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						},
+						{
+							"coordinates": {
+								"x": 710,
+								"y": 210
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 760,
+								"y": 210
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 810,
+								"y": 210
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						}
+					],
+					"animateIn": 0,
+					"animateOut": 0
 				},
+				"animateIn": 0,
+				"animateOut": 1
 			},
 			{
-				name: "4",
-				number: 4,
-				coordinates: [
-					{
-						x: "",
-						y: "",
-					},
-				],
-				image: {
-					line: "",
-					text: "",
-					cp: [],
-					animateIn: 0,
-					animateOut: 0,
+				"name": "4",
+				"number": 4,
+				"coordinates":
+				{
+					"x": 860,
+					"y": 660
+				}
+				,
+				"image": {
+					"line": {},
+					"text": {},
+					"cp": [
+						{
+							"coordinates": {
+								"x": 760,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						},
+						{
+							"coordinates": {
+								"x": 810,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 1,
+							"animateOut": 0
+						},
+						{
+							"coordinates": {
+								"x": 860,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 910,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						},
+						{
+							"coordinates": {
+								"x": 960,
+								"y": 660
+							},
+							"circle": {},
+							"animateIn": 0,
+							"animateOut": 1
+						}
+					],
+					"animateIn": 0,
+					"animateOut": 0
 				},
-			},
+				"animateIn": 0,
+				"animateOut": 1
+			}
 		],
-
-		branches: [
+		"branches": [
 			{
-				name: "12",
-				number1: 1,
-				number2: 2,
-				pole1: [],
-				pole2: [],
-				image: {
-					line: "",
-					list: [],
-					pole1: [
+				"name": "12",
+				"number1": 1,
+				"number2": 2,
+				"pole1": [],
+				"pole2": [],
+				"image": {
+					"line": {},
+					"list": [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 400,
+								"y": 110
+							}
 						},
-					],
-					pole2: [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
-						},
+							"coordinates": {
+								"x": 400,
+								"y": 660
+							}
+						}
 					],
-				},
+					"pole1": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					],
+					"pole2": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					]
+				}
 			},
 			{
-				name: "23",
-				number1: 2,
-				number2: 3,
-				pole1: [],
-				pole2: [],
-				image: {
-					line: "",
-					list: [],
-					pole1: [
+				"name": "23",
+				"number1": 2,
+				"number2": 3,
+				"pole1": [],
+				"pole2": [],
+				"image": {
+					"line": {},
+					"list": [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 450,
+								"y": 660
+							}
 						},
-					],
-					pole2: [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 450,
+								"y": 380
+							}
 						},
+						{
+							"coordinates": {
+								"x": 660,
+								"y": 380
+							}
+						},
+						{
+							"coordinates": {
+								"x": 660,
+								"y": 210
+							}
+						}
 					],
-				},
+					"pole1": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					],
+					"pole2": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					]
+				}
 			},
 			{
-				name: "34",
-				number1: 3,
-				number2: 4,
-				pole1: [],
-				pole2: [],
-				image: {
-					line: "",
-					list: [],
-					pole1: [
+				"name": "34",
+				"number1": 3,
+				"number2": 4,
+				"pole1": [],
+				"pole2": [],
+				"image": {
+					"line": {},
+					"list": [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 810,
+								"y": 210
+							}
 						},
-					],
-					pole2: [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
-						},
+							"coordinates": {
+								"x": 810,
+								"y": 660
+							}
+						}
 					],
-				},
+					"pole1": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					],
+					"pole2": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					]
+				}
 			},
 			{
-				name: "41",
-				number1: 4,
-				number2: 1,
-				pole1: [],
-				pole2: [],
-				image: {
-					line: "",
-					list: [],
-					pole1: [
+				"name": "41",
+				"number1": 4,
+				"number2": 2,
+				"pole1": [],
+				"pole2": [],
+				"image": {
+					"line": {},
+					"list": [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 760,
+								"y": 660
+							}
 						},
-					],
-					pole2: [
 						{
-							coordinates: [
-								{
-									x: "",
-									y: "",
-								},
-							],
-							circle: "",
-							nodePole: "",
+							"coordinates": {
+								"x": 760,
+								"y": 580
+							}
 						},
+						{
+							"coordinates": {
+								"x": 500,
+								"y": 580
+							}
+						},
+						{
+							"coordinates": {
+								"x": 500,
+								"y": 660
+							}
+						}
 					],
-				},
-			},
-		],
+					"pole1": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					],
+					"pole2": [
+						{
+							"coordinates": [
+								{
+									"x": "",
+									"y": ""
+								}
+							],
+							"circle": "",
+							"nodePole": ""
+						}
+					]
+				}
+			}
+		]
 	};
 	const radius = 8;
 	const nodeWidth = 300;
@@ -222,6 +489,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const cpWidth = 50;
 	const nodeColor = "darkred";
 	const cpNodeColor = "white";
+	const stepOfGrid = 10;
 
 	scheme.nodes.map((x) => {
 		DrawNode(x);
@@ -245,8 +513,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	let selectBranchPoint = 0;
 
 	function DrawNode(node) {
-		node.coordinates.x = Math.random() * (svg.clientWidth - radius);
-		node.coordinates.y = Math.random() * (svg.clientHeight - radius);
+		//node.coordinates.x = Math.random() * (svg.clientWidth - radius);
+		//node.coordinates.y = Math.random() * (svg.clientHeight - radius);
 
 		let p1 = { x: node.coordinates.x - nodeWidth / 2, y: node.coordinates.y };
 		let p2 = { x: node.coordinates.x + nodeWidth / 2, y: node.coordinates.y };
@@ -266,12 +534,13 @@ window.addEventListener("DOMContentLoaded", () => {
 			};
 			let circle = DrawCircle(p, radius, 0, "lime", "lime");
 			circle.setAttribute("filter", "url(#f1)");
-			node.image.cp.push({
-				coordinates: p,
-				circle: circle,
-				animateIn: 0,
-				animateOut: 1,
-			});
+			node.image.cp[i].circle = circle;
+			// push({
+			// 	coordinates: p,
+			// 	circle: circle,
+			// 	animateIn: 0,
+			// 	animateOut: 1,
+			// });
 			circle.setAttribute("opacity", 0);
 		}
 	}
@@ -293,39 +562,37 @@ window.addEventListener("DOMContentLoaded", () => {
 			let ind = selectBranch.image.list.indexOf(selectEditBranch);
 
 			let newPoint = {
-				x: (selectEditBranch.coordinates.x += cursor.x - point.x),
-				y: (selectEditBranch.coordinates.y += cursor.y - point.y),
+				x: Math.round((selectEditBranch.coordinates.x += cursor.x - point.x) / stepOfGrid) * stepOfGrid,
+				y: Math.round((selectEditBranch.coordinates.y += cursor.y - point.y) / stepOfGrid) * stepOfGrid,
 			};
 			funcLine1.setAttribute("x1", newPoint.x);
 			funcLine1.setAttribute("y1", newPoint.y);
 			funcLine2.setAttribute("x1", newPoint.x);
 			funcLine2.setAttribute("y1", newPoint.y);
 
-			let x = Number(branchEditPoints[ind * 3 - 3].getAttribute("x"));
-			let y = Number(branchEditPoints[ind * 3 - 3].getAttribute("y"));
+			branchEditPoints[ind * 3 - 3 + 2].setAttribute("x", newPoint.x + 2 - 5);
+			branchEditPoints[ind * 3 - 3 + 2].setAttribute("y", newPoint.y + 2 - 5);
+			branchEditPoints[ind * 3 - 3 + 1].setAttribute("x", newPoint.x + 1 - 5);
+			branchEditPoints[ind * 3 - 3 + 1].setAttribute("y", newPoint.y + 1 - 5);
+			branchEditPoints[ind * 3 - 3 + 0].setAttribute("x", newPoint.x - 5);
+			branchEditPoints[ind * 3 - 3 + 0].setAttribute("y", newPoint.y - 5);
 
-			x += cursor.x - point.x;
-			y += cursor.y - point.y;
-
-			branchEditPoints[ind * 3 - 3 + 2].setAttribute("x", x + 2);
-			branchEditPoints[ind * 3 - 3 + 2].setAttribute("y", y + 2);
-			branchEditPoints[ind * 3 - 3 + 1].setAttribute("x", x + 1);
-			branchEditPoints[ind * 3 - 3 + 1].setAttribute("y", y + 1);
-			branchEditPoints[ind * 3 - 3 + 0].setAttribute("x", x);
-			branchEditPoints[ind * 3 - 3 + 0].setAttribute("y", y);
 		}
 
 		if (select && point) {
-			select.coordinates.x += cursor.x - point.x;
-			select.coordinates.y += cursor.y - point.y;
+
+
+			select.coordinates.x = select.coordinates.x + cursor.x - point.x;
+			select.coordinates.y = select.coordinates.y + cursor.y - point.y;
+
 
 			let p1 = {
-				x: select.coordinates.x - nodeWidth / 2,
-				y: select.coordinates.y,
+				x: Math.round((select.coordinates.x - nodeWidth / 2) / stepOfGrid) * stepOfGrid,
+				y: Math.round((select.coordinates.y) / stepOfGrid) * stepOfGrid,
 			};
 			let p2 = {
-				x: select.coordinates.x + nodeWidth / 2,
-				y: select.coordinates.y,
+				x: Math.round((select.coordinates.x + nodeWidth / 2) / stepOfGrid) * stepOfGrid,
+				y: Math.round((select.coordinates.y) / stepOfGrid) * stepOfGrid,
 			};
 			select.image.line.setAttribute("x1", p1.x);
 			select.image.line.setAttribute("y1", p1.y);
@@ -333,16 +600,16 @@ window.addEventListener("DOMContentLoaded", () => {
 			select.image.line.setAttribute("y2", p2.y);
 
 			let pText = {
-				x: select.coordinates.x - nodeWidth / 2 - 20,
-				y: select.coordinates.y + 7,
+				x: p1.x - 20,
+				y: p1.y + 6,
 			};
 			select.image.text.setAttribute("x", pText.x);
 			select.image.text.setAttribute("y", pText.y);
 
 			for (let i = 0; i < select.image.cp.length; i++) {
 				let pCircle = {
-					x: select.coordinates.x - nodeWidth / 2 + (i + 1) * cpWidth,
-					y: select.coordinates.y,
+					x: Math.round((select.coordinates.x - nodeWidth / 2 + (i + 1) * cpWidth) / stepOfGrid) * stepOfGrid,
+					y: Math.round((select.coordinates.y) / stepOfGrid) * stepOfGrid,
 				};
 				select.image.cp[i].circle.setAttribute("cx", pCircle.x);
 				select.image.cp[i].circle.setAttribute("cy", pCircle.y);
@@ -720,7 +987,6 @@ window.addEventListener("DOMContentLoaded", () => {
 					if (Math.pow(selectBranch.image.list[i].coordinates.x - e.clientX, 2) + Math.pow(selectBranch.image.list[i].coordinates.y - e.clientY, 2) < 50) {
 						selectBranchPoint = 1;
 						if (e.button === 2 && !contextMenu) {
-							console.log("pkm")
 							let body = document.getElementById("body");
 							contextMenu = document.createElement("div");
 							contextMenu.oncontextmenu = () => false;
@@ -863,8 +1129,10 @@ window.addEventListener("DOMContentLoaded", () => {
 		node1 = scheme.nodes.find((x) => x.number == branch.number1);
 		node2 = scheme.nodes.find((x) => x.number == branch.number2);
 
-		branch.image.pole1.nodePole = node1.image.cp[2];
-		branch.image.pole2.nodePole = node2.image.cp[2];
+		branch.image.pole1.nodePole = node1.image.cp.find(x => x.coordinates.x === branch.image.list[0].coordinates.x && x.coordinates.y === branch.image.list[0].coordinates.y);
+		branch.image.pole2.nodePole = node2.image.cp.find(x => x.coordinates.x == branch.image.list[branch.image.list.length - 1].coordinates.x && x.coordinates.y == branch.image.list[branch.image.list.length - 1].coordinates.y);
+
+		
 
 		branch.image.pole1.coordinates = {
 			x: node1.image.cp[2].coordinates.x,
@@ -876,33 +1144,50 @@ window.addEventListener("DOMContentLoaded", () => {
 		};
 
 		let line = DrawPolyLine(branch.image.pole1.coordinates, branch.image.pole2.coordinates, 4, "red");
+
+		let points = "";
+		for (let l = 0; l < branch.image.list.length; l++) {
+			points += `${branch.image.list[l].coordinates.x},${branch.image.list[l].coordinates.y} `;
+		}
 		branch.image.line = line;
+		branch.image.line.setAttribute("points", points);
 
-		branch.image.list.push({
-			coordinates: {
-				x: branch.image.pole1.coordinates.x,
-				y: branch.image.pole1.coordinates.y,
-			},
-		});
-		branch.image.list.push({
-			coordinates: {
-				x: branch.image.pole2.coordinates.x,
-				y: branch.image.pole2.coordinates.y,
-			},
-		});
 
-		let circle1 = DrawCircle(node1.coordinates, 8, 0, cpNodeColor, cpNodeColor);
-		let circle2 = DrawCircle(node2.coordinates, 8, 0, cpNodeColor, cpNodeColor);
+		
+
+		//branch.image.list[0].x = branch.image.pole1.coordinates.x;
+		//branch.image.list[0].y = branch.image.pole1.coordinates.y;
+
+		//branch.image.listpush({
+		// 	coordinates: {
+		// 		x: branch.image.pole1.coordinates.x,
+		// 		y: branch.image.pole1.coordinates.y,
+		// 	},
+		// });
+
+		//branch.image.list[branch.image.list.length - 1].x = branch.image.pole2.coordinates.x;
+		//branch.image.list[branch.image.list.length - 1].y = branch.image.pole2.coordinates.y;
+
+		// branch.image.list.push({
+		// 	coordinates: {
+		// 		x: branch.image.pole2.coordinates.x,
+		// 		y: branch.image.pole2.coordinates.y,
+		// 	},
+		// });
+
+		let circle1 = DrawCircle(branch.image.list[0].coordinates, 8, 0, cpNodeColor, cpNodeColor);
+		let circle2 = DrawCircle(branch.image.list[branch.image.list.length - 1].coordinates, 8, 0, cpNodeColor, cpNodeColor);
 		branch.image.pole1.coordinates = {
-			x: node1.coordinates.x,
-			y: node1.coordinates.y,
+			x: branch.image.pole1.nodePole.coordinates.x,
+			y: branch.image.pole1.nodePole.coordinates.y,
 		};
 		branch.image.pole2.coordinates = {
-			x: node2.coordinates.x,
-			y: node2.coordinates.y,
+			x: branch.image.pole2.nodePole.coordinates.x,
+			y: branch.image.pole2.nodePole.coordinates.y,
 		};
 		branch.image.pole1.circle = circle1;
 		branch.image.pole2.circle = circle2;
+
 	}
 
 	function DrawLine(point1, point2, sw, s) {
