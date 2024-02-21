@@ -1,13 +1,14 @@
 window.addEventListener("DOMContentLoaded", () => {
 	const svg = document.getElementById("svg");
-
+//тест
+	const test = 1;
 	const scheme = {
 		"nodes": [
 			{
 				"name": "1",
 				"number": 1,
 				"coordinates":
-				{
+				{ //тест
 					"x": 350,
 					"y": 110
 				}
