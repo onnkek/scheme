@@ -796,6 +796,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			selectBranch.image.line.setAttribute("points", points.trim());
 
 			selectEditBranch = null;
+			selectBranchPoint = 0;
 		}
 
 		if (nodeLogic1) {
@@ -982,15 +983,16 @@ window.addEventListener("DOMContentLoaded", () => {
 				branchEditPoints.push(rect);
 			}
 
-			if (true) {
-				for (let i = 1; i < selectBranch.image.list.length - 1; i++) {
-					if (Math.pow(selectBranch.image.list[i].coordinates.x - e.clientX, 2) + Math.pow(selectBranch.image.list[i].coordinates.y - e.clientY, 2) < 50) {
-						selectBranchPoint = 1;
-						if (e.button === 2 && !contextMenu) {
-							let body = document.getElementById("body");
-							contextMenu = document.createElement("div");
-							contextMenu.oncontextmenu = () => false;
-							contextMenu.style.cssText += `
+
+			for (let i = 1; i < selectBranch.image.list.length - 1; i++) {
+				if (Math.pow(selectBranch.image.list[i].coordinates.x - e.clientX, 2) + Math.pow(selectBranch.image.list[i].coordinates.y - e.clientY, 2) < 50) {
+					selectBranchPoint = 1;
+					console.log(selectBranchPoint)
+					if (e.button === 2 && !contextMenu) {
+						let body = document.getElementById("body");
+						contextMenu = document.createElement("div");
+						contextMenu.oncontextmenu = () => false;
+						contextMenu.style.cssText += `
                 position: absolute;
                 background-color: white;
                 border: 1px solid white;
@@ -1001,63 +1003,61 @@ window.addEventListener("DOMContentLoaded", () => {
                 font-family: sans-serif;
                 font-size: 14px;
               `;
-							contextMenu.append("Удалить точку");
+						contextMenu.append("Удалить точку");
 
-							contextMenu.addEventListener("click", (e) => {
-								for (let p = 0; p < branchEditPoints.length; p++) {
-									branchEditPoints[p].remove();
-								}
-								branchEditPoints = [];
-
-								selectBranch.image.list.splice(i, 1);
-								for (let i = 1; i < selectBranch.image.list.length - 1; i++) {
-									let rect = DrawRectanle(
-										{
-											x: selectBranch.image.list[i].coordinates.x - 5,
-											y: selectBranch.image.list[i].coordinates.y - 5,
-										}, 10, 10, 0, "white", "white"
-									);
-									branchEditPoints.push(rect);
-									rect.setAttribute("filter", "url(#f1)");
-									rect = DrawRectanle({
-										x: selectBranch.image.list[i].coordinates.x - 4,
-										y: selectBranch.image.list[i].coordinates.y - 4,
-									}, 8, 8, 0, "black", "black"
-									);
-									branchEditPoints.push(rect);
-									rect = DrawRectanle({
-										x: selectBranch.image.list[i].coordinates.x - 3,
-										y: selectBranch.image.list[i].coordinates.y - 3,
-									}, 6, 6, 0, "black", "white");
-									branchEditPoints.push(rect);
-								}
-
-								let points = "";
-								for (let l = 0; l < selectBranch.image.list.length; l++) {
-									points += `${selectBranch.image.list[l].coordinates.x},${selectBranch.image.list[l].coordinates.y} `;
-								}
-								selectBranch.image.line.setAttribute("points", points.trim());
-
-
-								contextMenu.remove();
-								contextMenu = null;
-							});
-
-							body.prepend(contextMenu);
-						} else {
-							selectEditBranch = selectBranch.image.list[i];
-
-							if (funcLine1 || funcLine2) {
-								funcLine1.remove();
-								funcLine1 = null;
-								funcLine2.remove();
-								funcLine2 = null;
+						contextMenu.addEventListener("click", (e) => {
+							for (let p = 0; p < branchEditPoints.length; p++) {
+								branchEditPoints[p].remove();
 							}
-							funcLine1 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i + 1].coordinates, 2, "red");
-							funcLine2 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i - 1].coordinates, 2, "red");
-						}
+							branchEditPoints = [];
+
+							selectBranch.image.list.splice(i, 1);
+							for (let i = 1; i < selectBranch.image.list.length - 1; i++) {
+								let rect = DrawRectanle(
+									{
+										x: selectBranch.image.list[i].coordinates.x - 5,
+										y: selectBranch.image.list[i].coordinates.y - 5,
+									}, 10, 10, 0, "white", "white"
+								);
+								branchEditPoints.push(rect);
+								rect.setAttribute("filter", "url(#f1)");
+								rect = DrawRectanle({
+									x: selectBranch.image.list[i].coordinates.x - 4,
+									y: selectBranch.image.list[i].coordinates.y - 4,
+								}, 8, 8, 0, "black", "black"
+								);
+								branchEditPoints.push(rect);
+								rect = DrawRectanle({
+									x: selectBranch.image.list[i].coordinates.x - 3,
+									y: selectBranch.image.list[i].coordinates.y - 3,
+								}, 6, 6, 0, "black", "white");
+								branchEditPoints.push(rect);
+							}
+
+							let points = "";
+							for (let l = 0; l < selectBranch.image.list.length; l++) {
+								points += `${selectBranch.image.list[l].coordinates.x},${selectBranch.image.list[l].coordinates.y} `;
+							}
+							selectBranch.image.line.setAttribute("points", points.trim());
+
+
+							contextMenu.remove();
+							contextMenu = null;
+							selectBranchPoint = 0;
+						});
+
+						body.prepend(contextMenu);
 					} else {
-						selectBranchPoint = 0;
+						selectEditBranch = selectBranch.image.list[i];
+
+						if (funcLine1 || funcLine2) {
+							funcLine1.remove();
+							funcLine1 = null;
+							funcLine2.remove();
+							funcLine2 = null;
+						}
+						funcLine1 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i + 1].coordinates, 2, "red");
+						funcLine2 = DrawLine(selectBranch.image.list[i].coordinates, selectBranch.image.list[i - 1].coordinates, 2, "red");
 					}
 				}
 			}
@@ -1070,6 +1070,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				selectBranch.image.line.setAttribute("stroke", "red");
 				if (!selectBranchPoint) {
 					selectBranch = hitTestLine(e.clientX, e.clientY, 10);
+					console.log("RRRRR")
 				}
 
 				if (selectBranch) {
@@ -1132,7 +1133,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		branch.image.pole1.nodePole = node1.image.cp.find(x => x.coordinates.x === branch.image.list[0].coordinates.x && x.coordinates.y === branch.image.list[0].coordinates.y);
 		branch.image.pole2.nodePole = node2.image.cp.find(x => x.coordinates.x == branch.image.list[branch.image.list.length - 1].coordinates.x && x.coordinates.y == branch.image.list[branch.image.list.length - 1].coordinates.y);
 
-		
+
 
 		branch.image.pole1.coordinates = {
 			x: node1.image.cp[2].coordinates.x,
@@ -1153,7 +1154,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		branch.image.line.setAttribute("points", points);
 
 
-		
+
 
 		//branch.image.list[0].x = branch.image.pole1.coordinates.x;
 		//branch.image.list[0].y = branch.image.pole1.coordinates.y;
