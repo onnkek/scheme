@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import './SVGPanel.css';
 import { SelectContext } from '../../context/selectContext';
 import Node from '../Node/Node';
@@ -8,7 +8,7 @@ import { SVGContext } from '../../context/SVGContext';
 
 
 function SVGPanel(props) {
-  const scheme = {
+  const initialSchemeState = {
     "nodes": [
       {
         "name": "1",
@@ -491,17 +491,60 @@ function SVGPanel(props) {
     ]
   };
 
+  const [schemeState, setSchemeState] = useState(initialSchemeState);
+
   const SVGRef = useRef();
 
+  const hitTestLine = function (cx, cy, r) {
+		// https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter/275537#275537
+		for (let i = 0; i < schemeState.branches.length; i++) {
+			for (let j = 0; j < schemeState.branches[i].image.list.length - 1; j++) {
+				let ax = schemeState.branches[i].image.list[j].coordinates.x;
+				let ay = schemeState.branches[i].image.list[j].coordinates.y;
+				let bx = schemeState.branches[i].image.list[j + 1].coordinates.x;
+				let by = schemeState.branches[i].image.list[j + 1].coordinates.y;
+				// put circle at the center to simplify calcs
+				ax -= cx;
+				ay -= cy;
+				bx -= cx;
+				by -= cy;
+				let a = Math.pow(bx - ax, 2) + Math.pow(by - ay, 2);
+				let b = 2 * (ax * (bx - ax) + ay * (by - ay));
+				let c = Math.pow(ax, 2) + Math.pow(ay, 2) - Math.pow(r, 2);
+
+				// get discriminant
+				let disc = Math.pow(b, 2) - 4 * a * c;
+
+				// check if discriminant has real values
+				if (disc <= 0) continue;
+
+				// find intersection points
+				let sqrtdisc = Math.sqrt(disc);
+				let t1 = (-b + sqrtdisc) / (2 * a);
+				let t2 = (-b - sqrtdisc) / (2 * a);
+				if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) return schemeState.branches[i];
+			}
+		}
+		return false;
+	};
+
   const onMD = (e) => {
-    console.log(e.target)
+    let test = hitTestLine(e.clientX, e.clientY, 10);
+    console.log(test)
+    let branchNew = schemeState.branches;
+    console.log(schemeState.branches.indexOf(test))
+    branchNew[schemeState.branches.indexOf(test)].image.list[0].coordinates.x = 100;
+    setSchemeState({
+      ...schemeState,
+      "branches": branchNew,
+    })
   }
 
   return (
     <svg ref={SVGRef} id='svg' onMouseDown={onMD}>
       <SVGContext.Provider value={SVGRef}>
-        {scheme.nodes.map((node) => <Node point={{ "x": node.coordinates.x, "y": node.coordinates.y }} width="300" number={node.number} />)}
-        {scheme.branches.map((branch) => <Branch points={branch.image.list} />)}
+        {schemeState.nodes.map((node) => <Node point={{ "x": node.coordinates.x, "y": node.coordinates.y }} width="300" number={node.number} />)}
+        {schemeState.branches.map((branch) => <Branch points={branch.image.list} />)}
       </SVGContext.Provider>
 
     </svg>
