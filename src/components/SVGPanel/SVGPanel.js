@@ -20,6 +20,7 @@ function SVGPanel(props) {
         }
         ,
         "image": {
+          "width": 300,
           "line": {},
           "text": {},
           "cp": [
@@ -85,6 +86,7 @@ function SVGPanel(props) {
         }
         ,
         "image": {
+          "width": 300,
           "line": {},
           "text": {},
           "cp": [
@@ -150,6 +152,7 @@ function SVGPanel(props) {
         }
         ,
         "image": {
+          "width": 300,
           "line": {},
           "text": {},
           "cp": [
@@ -215,6 +218,7 @@ function SVGPanel(props) {
         }
         ,
         "image": {
+          "width": 300,
           "line": {},
           "text": {},
           "cp": [
@@ -491,60 +495,94 @@ function SVGPanel(props) {
     ]
   };
 
+  const lastCursor = useRef({ x: 0, y: 0 });
+
   const [schemeState, setSchemeState] = useState(initialSchemeState);
 
   const SVGRef = useRef();
 
-  const hitTestLine = function (cx, cy, r) {
-		// https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter/275537#275537
-		for (let i = 0; i < schemeState.branches.length; i++) {
-			for (let j = 0; j < schemeState.branches[i].image.list.length - 1; j++) {
-				let ax = schemeState.branches[i].image.list[j].coordinates.x;
-				let ay = schemeState.branches[i].image.list[j].coordinates.y;
-				let bx = schemeState.branches[i].image.list[j + 1].coordinates.x;
-				let by = schemeState.branches[i].image.list[j + 1].coordinates.y;
-				// put circle at the center to simplify calcs
-				ax -= cx;
-				ay -= cy;
-				bx -= cx;
-				by -= cy;
-				let a = Math.pow(bx - ax, 2) + Math.pow(by - ay, 2);
-				let b = 2 * (ax * (bx - ax) + ay * (by - ay));
-				let c = Math.pow(ax, 2) + Math.pow(ay, 2) - Math.pow(r, 2);
+  const [select, setSelect] = useState(false);
 
-				// get discriminant
-				let disc = Math.pow(b, 2) - 4 * a * c;
+  const hitTestLine = function (point1, point2, cursor, r) {
+    let x1 = point1.x - cursor.x;
+    let y1 = point1.y - cursor.y;
+    let x2 = point2.x - cursor.x;
+    let y2 = point2.y - cursor.y;
+    let a = Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
+    let b = 2 * (x1 * (x2 - x1) + y1 * (y2 - y1));
+    let c = Math.pow(x1, 2) + Math.pow(y1, 2) - Math.pow(r, 2);
 
-				// check if discriminant has real values
-				if (disc <= 0) continue;
+    // get discriminant
+    let disc = Math.pow(b, 2) - 4 * a * c;
 
-				// find intersection points
-				let sqrtdisc = Math.sqrt(disc);
-				let t1 = (-b + sqrtdisc) / (2 * a);
-				let t2 = (-b - sqrtdisc) / (2 * a);
-				if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) return schemeState.branches[i];
-			}
-		}
-		return false;
-	};
+    // check if discriminant has real values
+    if (disc <= 0) return;
+
+    // find intersection points
+    let sqrtdisc = Math.sqrt(disc);
+    let t1 = (-b + sqrtdisc) / (2 * a);
+    let t2 = (-b - sqrtdisc) / (2 * a);
+    if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) return true;
+  }
+  const hitTestBranch = function (cursor, r) {
+    for (let i = 0; i < schemeState.branches.length; i++) {
+      for (let j = 0; j < schemeState.branches[i].image.list.length - 1; j++) {
+        if (hitTestLine(schemeState.branches[i].image.list[j].coordinates, schemeState.branches[i].image.list[j + 1].coordinates, cursor, r)) {
+          console.log("true");
+          return schemeState.branches[i];
+        }
+      }
+    }
+    return false;
+  };
+  const hitTestNode = function (cursor, r) {
+    for (let i = 0; i < schemeState.nodes.length; i++) {
+      if (hitTestLine({
+        x: schemeState.nodes[i].coordinates.x - schemeState.nodes[i].image.width / 2,
+        y: schemeState.nodes[i].coordinates.y
+      }, {
+        x: schemeState.nodes[i].coordinates.x + schemeState.nodes[i].image.width / 2,
+        y: schemeState.nodes[i].coordinates.y
+      }, cursor, r)) {
+        return schemeState.nodes[i];
+      }
+    }
+    return false;
+  };
 
   const onMD = (e) => {
-    let test = hitTestLine(e.clientX, e.clientY, 10);
-    console.log(test)
-    let branchNew = schemeState.branches;
-    console.log(schemeState.branches.indexOf(test))
-    branchNew[schemeState.branches.indexOf(test)].image.list[0].coordinates.x = 100;
-    setSchemeState({
-      ...schemeState,
-      "branches": branchNew,
-    })
+    let node = hitTestNode({ x: e.clientX, y: e.clientY }, 15);
+    if (node) {
+      setSelect(node);
+      lastCursor.current = { x: e.clientX, y: e.clientY };
+      console.log(lastCursor)
+    }
   }
-
+  const onMM = (e) => {
+    if (select) {
+      let delta = { x: e.clientX - lastCursor.current.x, y: e.clientY - lastCursor.current.y };
+      console.log(lastCursor.current)
+      let indexOfNode = schemeState.nodes.findIndex(x => x.number === select.number);
+      let newNode = { ...schemeState.nodes[indexOfNode] };
+      newNode.coordinates = { x: schemeState.nodes[indexOfNode].coordinates.x + delta.x, y: schemeState.nodes[indexOfNode].coordinates.y + delta.y };
+      console.log(delta)
+      setSchemeState({
+        ...schemeState,
+        nodes: [...schemeState.nodes.slice(0, indexOfNode), newNode, ...schemeState.nodes.slice(indexOfNode + 1)]
+      });
+    }
+    lastCursor.current = { x: e.clientX, y: e.clientY };
+  }
+  const onMU = (e) => {
+    setSelect(false);
+    lastCursor.current = { x: 0, y: 0 };
+  }
+  console.log("render SVG")
   return (
-    <svg ref={SVGRef} id='svg' onMouseDown={onMD}>
+    <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU}>
       <SVGContext.Provider value={SVGRef}>
-        {schemeState.nodes.map((node) => <Node point={{ "x": node.coordinates.x, "y": node.coordinates.y }} width="300" number={node.number} />)}
-        {schemeState.branches.map((branch) => <Branch points={branch.image.list} />)}
+        {schemeState.nodes.map((node) => <Node key={node.number} point={{ "x": node.coordinates.x, "y": node.coordinates.y }} width={node.image.width} number={node.number} />)}
+        {schemeState.branches.map((branch) => <Branch key={branch.name} points={branch.image.list} />)}
       </SVGContext.Provider>
 
     </svg>
