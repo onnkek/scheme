@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import './SVGPanel.css';
 import { SelectContext } from '../../context/selectContext';
 import Node from '../Node/Node';
@@ -495,6 +495,25 @@ function SVGPanel(props) {
     ]
   };
 
+  for (let i = 0; i < 500; i++) {
+    initialSchemeState.nodes.push({
+      "name": "1",
+      "number": i + 5,
+      "coordinates":
+      {
+        "x": Math.random() * 700 ,
+        "y": Math.random() * 1000
+      }
+      ,
+      "image": {
+        "width": 300,
+        "line": {},
+        "text": {}
+      }
+    })
+  }
+
+
   const lastCursor = useRef({ x: 0, y: 0 });
 
   const [schemeState, setSchemeState] = useState(initialSchemeState);
@@ -577,7 +596,10 @@ function SVGPanel(props) {
     setSelect(false);
     lastCursor.current = { x: 0, y: 0 };
   }
-  console.log("render SVG")
+
+
+
+  //console.log("render SVG")
   return (
     <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU}>
       <SVGContext.Provider value={SVGRef}>
