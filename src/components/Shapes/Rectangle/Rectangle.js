@@ -1,9 +1,9 @@
 function Rectangle(props) {
 
-  let { point, width, height, stroke, strokeWidth, fill } = props;
+  let { x, y, width, height, stroke, strokeWidth, fill } = props;
 
   return (
-    <rect x={point.x} y={point.y} width={width} height={height} stroke={stroke} strokeWidth={strokeWidth} fill={fill}></rect>
+    <rect x={x} y={y} width={width} height={height} stroke={stroke} strokeWidth={strokeWidth} fill={fill}></rect>
   );
 }
 

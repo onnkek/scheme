@@ -7,17 +7,19 @@ const Node = React.memo((props) => {
   const cpOffset = 50;
   const cpRadius = 4;
   const height = 20;
- 
-  
+
   let { x, y, width, number } = props;
 
   let cp = [];
   for (let i = 0; i < width / cpOffset - 1; i++) {
     cp.push({ x: x - width / 2 + (i + 1) * cpOffset, y: y });
   }
+  
   console.log(`render node - ${number}`)
+
   return (
     <>
+
       <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="darkred"
         strokeWidth={height} />
       {cp.map(p => <Circle center={p} radius={cpRadius} fill="white" />)}

@@ -1,8 +1,6 @@
 import React from "react";
 import Circle from "../Shapes/Circle/Circle";
-import Line from "../Shapes/Line/Line";
 import Polyline from "../Shapes/Polyline/Polyline";
-import Text from "../Shapes/Text/Text";
 
 const Branch = React.memo((props) => {
 	console.log("render Branch")

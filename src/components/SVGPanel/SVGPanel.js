@@ -1,15 +1,17 @@
-import { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './SVGPanel.css';
-import { SelectContext } from '../../context/selectContext';
 import Node from '../Node/Node';
 import Branch from '../Branch/Branch';
 import { SVGContext } from '../../context/SVGContext';
 import { useThrottle } from '../../hooks/useThrottle';
+import { hitTestBranch, hitTestNode } from '../../tools/hitTest';
+import SelectLayer from '../SelectLayer/SelectLayer';
 
 function SVGPanel(props) {
   const initialSchemeState = {
     "nodes": [
       {
+        "type": "node",
         "name": "1",
         "number": 1,
         "coordinates":
@@ -76,6 +78,7 @@ function SVGPanel(props) {
         "animateIn": 0
       },
       {
+        "type": "node",
         "name": "2",
         "number": 2,
         "coordinates":
@@ -142,6 +145,7 @@ function SVGPanel(props) {
         "animateOut": 1
       },
       {
+        "type": "node",
         "name": "3",
         "number": 3,
         "coordinates":
@@ -208,6 +212,7 @@ function SVGPanel(props) {
         "animateOut": 1
       },
       {
+        "type": "node",
         "name": "4",
         "number": 4,
         "coordinates":
@@ -276,6 +281,7 @@ function SVGPanel(props) {
     ],
     "branches": [
       {
+        "type": "branch",
         "name": "12",
         "number1": 1,
         "number2": 2,
@@ -324,6 +330,7 @@ function SVGPanel(props) {
         }
       },
       {
+        "type": "branch",
         "name": "23",
         "number1": 2,
         "number2": 3,
@@ -384,6 +391,7 @@ function SVGPanel(props) {
         }
       },
       {
+        "type": "branch",
         "name": "34",
         "number1": 3,
         "number2": 4,
@@ -432,6 +440,7 @@ function SVGPanel(props) {
         }
       },
       {
+        "type": "branch",
         "name": "41",
         "number1": 4,
         "number2": 2,
@@ -520,67 +529,20 @@ function SVGPanel(props) {
   const SVGRef = useRef();
 
   const [select, setSelect] = useState(false);
-
-  const hitTestLine = function (point1, point2, cursor, r) {
-    let x1 = point1.x - cursor.x;
-    let y1 = point1.y - cursor.y;
-    let x2 = point2.x - cursor.x;
-    let y2 = point2.y - cursor.y;
-    let a = Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
-    let b = 2 * (x1 * (x2 - x1) + y1 * (y2 - y1));
-    let c = Math.pow(x1, 2) + Math.pow(y1, 2) - Math.pow(r, 2);
-
-    // get discriminant
-    let disc = Math.pow(b, 2) - 4 * a * c;
-
-    // check if discriminant has real values
-    if (disc <= 0) return;
-
-    // find intersection points
-    let sqrtdisc = Math.sqrt(disc);
-    let t1 = (-b + sqrtdisc) / (2 * a);
-    let t2 = (-b - sqrtdisc) / (2 * a);
-    if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) return true;
-  }
-  const hitTestBranch = function (cursor, r) {
-    for (let i = 0; i < schemeState.branches.length; i++) {
-      for (let j = 0; j < schemeState.branches[i].image.list.length - 1; j++) {
-        if (hitTestLine(schemeState.branches[i].image.list[j].coordinates, schemeState.branches[i].image.list[j + 1].coordinates, cursor, r)) {
-          console.log("true");
-          return schemeState.branches[i];
-        }
-      }
-    }
-    return false;
-  };
-  const hitTestNode = function (cursor, r) {
-    for (let i = 0; i < schemeState.nodes.length; i++) {
-      if (hitTestLine({
-        x: schemeState.nodes[i].coordinates.x - schemeState.nodes[i].image.width / 2,
-        y: schemeState.nodes[i].coordinates.y
-      }, {
-        x: schemeState.nodes[i].coordinates.x + schemeState.nodes[i].image.width / 2,
-        y: schemeState.nodes[i].coordinates.y
-      }, cursor, r)) {
-        return schemeState.nodes[i];
-      }
-    }
-    return false;
-  };
+  const [isDown, setIsDown] = useState(false);
 
   const onMD = (e) => {
-    let node = hitTestNode({ x: e.clientX, y: e.clientY }, 15);
-    if (node) {
-      setSelect(node);
+    let node = hitTestNode(schemeState.nodes, { x: e.clientX, y: e.clientY }, 15);
+    if (node && node.number === select.number) {
+      setIsDown(true);
       setLastCursor({ x: e.clientX, y: e.clientY });
-      console.log(lastCursor)
     }
   }
 
-
-
   const onMM = useThrottle((event) => {
-    if (select) {
+    console.log(isDown)
+    if(isDown) {
+      if (select) {
       let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
       console.log(lastCursor)
       console.log(event.clientX)
@@ -591,24 +553,40 @@ function SVGPanel(props) {
         ...schemeState,
         nodes: [...schemeState.nodes.slice(0, indexOfNode), newNode, ...schemeState.nodes.slice(indexOfNode + 1)]
       });
+      setSelect(newNode);
     }
     setLastCursor({ x: event.clientX, y: event.clientY });
+    }
+    
   }, 20);
 
   const onMU = (e) => {
-    setSelect(false);
-    setLastCursor({ x: 0, y: 0 });
+    setIsDown(false);
+    let node = hitTestNode(schemeState.nodes, { x: e.clientX, y: e.clientY }, 25);
+    let branch = hitTestBranch(schemeState.branches, { x: e.clientX, y: e.clientY }, 10);
+    if (branch) {
+      setSelect(branch);
+      setLastCursor({ x: e.clientX, y: e.clientY });
+    } else if (node) {
+      setSelect(node);
+      setLastCursor({ x: e.clientX, y: e.clientY });
+    } else {
+      setSelect(false);
+      setLastCursor({ x: 0, y: 0 });
+    }
   }
 
 
 
   console.log("render SVG")
   return (
-    <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU}>
+    <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU} viewBox="0 0 1400 1000">
+      
       <SVGContext.Provider value={SVGRef}>
         {schemeState.nodes.map((node) => <Node key={node.number} x={node.coordinates.x} y={node.coordinates.y} width={node.image.width} number={node.number} />)}
         {schemeState.branches.map((branch) => <Branch key={branch.name} points={branch.image.list} />)}
       </SVGContext.Provider>
+      <SelectLayer select={select}/>
 
     </svg>
   );
