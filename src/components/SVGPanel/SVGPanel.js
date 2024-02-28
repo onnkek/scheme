@@ -1,11 +1,10 @@
-import { useContext, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import './SVGPanel.css';
 import { SelectContext } from '../../context/selectContext';
 import Node from '../Node/Node';
 import Branch from '../Branch/Branch';
 import { SVGContext } from '../../context/SVGContext';
-
-
+import { useThrottle } from '../../hooks/useThrottle';
 
 function SVGPanel(props) {
   const initialSchemeState = {
@@ -495,26 +494,26 @@ function SVGPanel(props) {
     ]
   };
 
-  for (let i = 0; i < 500; i++) {
-    initialSchemeState.nodes.push({
-      "name": "1",
-      "number": i + 5,
-      "coordinates":
-      {
-        "x": Math.random() * 700 ,
-        "y": Math.random() * 1000
-      }
-      ,
-      "image": {
-        "width": 300,
-        "line": {},
-        "text": {}
-      }
-    })
-  }
+  // for (let i = 0; i < 1000; i++) {
+  //   initialSchemeState.nodes.push({
+  //     "name": "1",
+  //     "number": i + 5,
+  //     "coordinates":
+  //     {
+  //       "x": Math.random() * 700,
+  //       "y": Math.random() * 1000
+  //     }
+  //     ,
+  //     "image": {
+  //       "width": 300,
+  //       "line": {},
+  //       "text": {}
+  //     }
+  //   })
+  // }
 
 
-  const lastCursor = useRef({ x: 0, y: 0 });
+  const [lastCursor, setLastCursor] = useState({ x: 0, y: 0 });
 
   const [schemeState, setSchemeState] = useState(initialSchemeState);
 
@@ -573,37 +572,41 @@ function SVGPanel(props) {
     let node = hitTestNode({ x: e.clientX, y: e.clientY }, 15);
     if (node) {
       setSelect(node);
-      lastCursor.current = { x: e.clientX, y: e.clientY };
+      setLastCursor({ x: e.clientX, y: e.clientY });
       console.log(lastCursor)
     }
   }
-  const onMM = (e) => {
+
+
+
+  const onMM = useThrottle((event) => {
     if (select) {
-      let delta = { x: e.clientX - lastCursor.current.x, y: e.clientY - lastCursor.current.y };
-      console.log(lastCursor.current)
+      let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
+      console.log(lastCursor)
+      console.log(event.clientX)
       let indexOfNode = schemeState.nodes.findIndex(x => x.number === select.number);
       let newNode = { ...schemeState.nodes[indexOfNode] };
       newNode.coordinates = { x: schemeState.nodes[indexOfNode].coordinates.x + delta.x, y: schemeState.nodes[indexOfNode].coordinates.y + delta.y };
-      console.log(delta)
       setSchemeState({
         ...schemeState,
         nodes: [...schemeState.nodes.slice(0, indexOfNode), newNode, ...schemeState.nodes.slice(indexOfNode + 1)]
       });
     }
-    lastCursor.current = { x: e.clientX, y: e.clientY };
-  }
+    setLastCursor({ x: event.clientX, y: event.clientY });
+  }, 20);
+
   const onMU = (e) => {
     setSelect(false);
-    lastCursor.current = { x: 0, y: 0 };
+    setLastCursor({ x: 0, y: 0 });
   }
 
 
 
-  //console.log("render SVG")
+  console.log("render SVG")
   return (
     <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU}>
       <SVGContext.Provider value={SVGRef}>
-        {schemeState.nodes.map((node) => <Node key={node.number} point={{ "x": node.coordinates.x, "y": node.coordinates.y }} width={node.image.width} number={node.number} />)}
+        {schemeState.nodes.map((node) => <Node key={node.number} x={node.coordinates.x} y={node.coordinates.y} width={node.image.width} number={node.number} />)}
         {schemeState.branches.map((branch) => <Branch key={branch.name} points={branch.image.list} />)}
       </SVGContext.Provider>
 
