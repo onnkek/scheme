@@ -503,8 +503,9 @@ function SVGPanel(props) {
     ]
   };
 
-  // for (let i = 0; i < 1000; i++) {
+  // for (let i = 0; i < 2000; i++) {
   //   initialSchemeState.nodes.push({
+  //     "type": "node",
   //     "name": "1",
   //     "number": i + 5,
   //     "coordinates":
@@ -558,7 +559,7 @@ function SVGPanel(props) {
     setLastCursor({ x: event.clientX, y: event.clientY });
     }
     
-  }, 20);
+  }, 1);
 
   const onMU = (e) => {
     setIsDown(false);
