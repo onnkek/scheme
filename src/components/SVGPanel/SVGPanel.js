@@ -546,8 +546,8 @@ function SVGPanel(props) {
 
   const svgMouseMoveHandler = useThrottle((event) => {
     if (select) {
+      let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
       if (isDown) {
-        let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
         let indexOfNode = schemeState.nodes.findIndex(x => x.number === select.number);
         let newNode = { ...schemeState.nodes[indexOfNode] };
         newNode.coordinates = { x: schemeState.nodes[indexOfNode].coordinates.x + delta.x, y: schemeState.nodes[indexOfNode].coordinates.y + delta.y };
@@ -559,25 +559,22 @@ function SVGPanel(props) {
       }
 
       if (selectLinePoint) {
-        let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
         let indexOfBranch = schemeState.branches.findIndex(x => x.name === select.name);
-
-        let newBranch = { ...schemeState.branches[indexOfBranch] }
-        newBranch.image.list = [...schemeState.branches[indexOfBranch].image.list]
         let indexOfLinePoint = schemeState.branches[indexOfBranch].image.list.findIndex(x => x.coordinates.x === selectLinePoint.coordinates.x
           && x.coordinates.y === selectLinePoint.coordinates.y);
         let newPoint = {
           "coordinates": {
-            "x": newBranch.image.list[indexOfLinePoint].coordinates.x + delta.x,
-            "y": newBranch.image.list[indexOfLinePoint].coordinates.y + delta.y
+            "x": schemeState.branches[indexOfBranch].image.list[indexOfLinePoint].coordinates.x + delta.x,
+            "y": schemeState.branches[indexOfBranch].image.list[indexOfLinePoint].coordinates.y + delta.y
           }
         };
-        newBranch.image.list = [...newBranch.image.list.slice(0, indexOfLinePoint), newPoint, ...newBranch.image.list.slice(indexOfLinePoint + 1)]
+        schemeState.branches[indexOfBranch].image.list = [...schemeState.branches[indexOfBranch].image.list.slice(0, indexOfLinePoint),
+          newPoint, ...schemeState.branches[indexOfBranch].image.list.slice(indexOfLinePoint + 1)]
         setSchemeState({
           ...schemeState,
-          branches: [...schemeState.branches.slice(0, indexOfBranch), newBranch, ...schemeState.branches.slice(indexOfBranch + 1)]
+          branches: schemeState.branches
         });
-        setSelect(newBranch);
+        setSelect(schemeState.branches[indexOfBranch]);
         setSelectLinePoint(newPoint)
       }
 
@@ -619,7 +616,7 @@ function SVGPanel(props) {
         {schemeState.nodes.map((node) => <Node key={node.number} x={node.coordinates.x} y={node.coordinates.y} width={node.image.width} number={node.number} />)}
         {schemeState.branches.map((branch) => <Branch key={branch.name} name={branch.name} points={branch.image.list} />)}
       </SVGContext.Provider>
-      <SelectLayer select={select} />
+      <SelectLayer select={select} svg={SVGRef}/>
 
     </svg>
   );
