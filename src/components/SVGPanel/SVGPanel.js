@@ -4,8 +4,8 @@ import Node from '../Node/Node';
 import Branch from '../Branch/Branch';
 import { SVGContext } from '../../context/SVGContext';
 import { useThrottle } from '../../hooks/useThrottle';
-import { hitTestBranch, hitTestNode } from '../../tools/hitTest';
-import SelectLayer from '../SelectLayer/SelectLayer';
+import { hitTestBranch, hitTestLinePoint, hitTestNode } from '../../tools/hitTest';
+import SelectLayer from '../Selections/SelectLayer/SelectLayer';
 
 function SVGPanel(props) {
   const initialSchemeState = {
@@ -524,44 +524,73 @@ function SVGPanel(props) {
 
 
   const [lastCursor, setLastCursor] = useState({ x: 0, y: 0 });
-
   const [schemeState, setSchemeState] = useState(initialSchemeState);
-
-  const SVGRef = useRef();
-
   const [select, setSelect] = useState(false);
   const [isDown, setIsDown] = useState(false);
 
-  const onMD = (e) => {
+  const SVGRef = useRef();
+
+  const [selectLinePoint, setSelectLinePoint] = useState(false);
+
+  const svgMouseDownHandler = (e) => {
     let node = hitTestNode(schemeState.nodes, { x: e.clientX, y: e.clientY }, 15);
     if (node && node.number === select.number) {
       setIsDown(true);
       setLastCursor({ x: e.clientX, y: e.clientY });
     }
+    if (select && select.type === "branch") {
+      let linePoint = hitTestLinePoint(select.image.list, { x: e.clientX, y: e.clientY }, 15);
+      setSelectLinePoint(linePoint);
+    }
   }
 
-  const onMM = useThrottle((event) => {
-    console.log(isDown)
-    if(isDown) {
-      if (select) {
-      let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
-      console.log(lastCursor)
-      console.log(event.clientX)
-      let indexOfNode = schemeState.nodes.findIndex(x => x.number === select.number);
-      let newNode = { ...schemeState.nodes[indexOfNode] };
-      newNode.coordinates = { x: schemeState.nodes[indexOfNode].coordinates.x + delta.x, y: schemeState.nodes[indexOfNode].coordinates.y + delta.y };
-      setSchemeState({
-        ...schemeState,
-        nodes: [...schemeState.nodes.slice(0, indexOfNode), newNode, ...schemeState.nodes.slice(indexOfNode + 1)]
-      });
-      setSelect(newNode);
+  const svgMouseMoveHandler = useThrottle((event) => {
+    if (select) {
+      if (isDown) {
+        let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
+        let indexOfNode = schemeState.nodes.findIndex(x => x.number === select.number);
+        let newNode = { ...schemeState.nodes[indexOfNode] };
+        newNode.coordinates = { x: schemeState.nodes[indexOfNode].coordinates.x + delta.x, y: schemeState.nodes[indexOfNode].coordinates.y + delta.y };
+        setSchemeState({
+          ...schemeState,
+          nodes: [...schemeState.nodes.slice(0, indexOfNode), newNode, ...schemeState.nodes.slice(indexOfNode + 1)]
+        });
+        setSelect(newNode);
+      }
+
+      if (selectLinePoint) {
+        let delta = { x: event.clientX - lastCursor.x, y: event.clientY - lastCursor.y };
+        let indexOfBranch = schemeState.branches.findIndex(x => x.name === select.name);
+
+        let newBranch = { ...schemeState.branches[indexOfBranch] }
+        newBranch.image.list = [...schemeState.branches[indexOfBranch].image.list]
+        let indexOfLinePoint = schemeState.branches[indexOfBranch].image.list.findIndex(x => x.coordinates.x === selectLinePoint.coordinates.x
+          && x.coordinates.y === selectLinePoint.coordinates.y);
+        let newPoint = {
+          "coordinates": {
+            "x": newBranch.image.list[indexOfLinePoint].coordinates.x + delta.x,
+            "y": newBranch.image.list[indexOfLinePoint].coordinates.y + delta.y
+          }
+        };
+        newBranch.image.list = [...newBranch.image.list.slice(0, indexOfLinePoint), newPoint, ...newBranch.image.list.slice(indexOfLinePoint + 1)]
+        setSchemeState({
+          ...schemeState,
+          branches: [...schemeState.branches.slice(0, indexOfBranch), newBranch, ...schemeState.branches.slice(indexOfBranch + 1)]
+        });
+        setSelect(newBranch);
+        setSelectLinePoint(newPoint)
+      }
+
+
+
+      setLastCursor({ x: event.clientX, y: event.clientY });
     }
-    setLastCursor({ x: event.clientX, y: event.clientY });
-    }
-    
+
+
+
   }, 1);
 
-  const onMU = (e) => {
+  const svgMouseUpHandler = (e) => {
     setIsDown(false);
     let node = hitTestNode(schemeState.nodes, { x: e.clientX, y: e.clientY }, 25);
     let branch = hitTestBranch(schemeState.branches, { x: e.clientX, y: e.clientY }, 10);
@@ -575,19 +604,22 @@ function SVGPanel(props) {
       setSelect(false);
       setLastCursor({ x: 0, y: 0 });
     }
+    if (select) {
+      setSelectLinePoint(false);
+    }
   }
 
 
 
   console.log("render SVG")
   return (
-    <svg ref={SVGRef} id='svg' onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU} viewBox="0 0 1400 1000">
-      
+    <svg ref={SVGRef} id='svg' onMouseDown={svgMouseDownHandler} onMouseMove={svgMouseMoveHandler} onMouseUp={svgMouseUpHandler} viewBox="0 0 1400 1000">
+
       <SVGContext.Provider value={SVGRef}>
         {schemeState.nodes.map((node) => <Node key={node.number} x={node.coordinates.x} y={node.coordinates.y} width={node.image.width} number={node.number} />)}
-        {schemeState.branches.map((branch) => <Branch key={branch.name} points={branch.image.list} />)}
+        {schemeState.branches.map((branch) => <Branch key={branch.name} name={branch.name} points={branch.image.list} />)}
       </SVGContext.Provider>
-      <SelectLayer select={select}/>
+      <SelectLayer select={select} />
 
     </svg>
   );

@@ -44,3 +44,12 @@ export const hitTestNode = function (list, cursor, r) {
   }
   return false;
 };
+
+export const hitTestLinePoint = function (list, cursor, r) {
+  for (let i = 0; i < list.length; i++) {
+    if (Math.pow(list[i].coordinates.x - cursor.x, 2) + Math.pow(list[i].coordinates.y - cursor.y, 2) < Math.pow(r, 2)) {
+      return list[i];
+    }
+  }
+  return false;
+};
