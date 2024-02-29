@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Circle from "../Shapes/Circle/Circle";
 import Line from "../Shapes/Line/Line";
 import Text from "../Shapes/Text/Text";
@@ -8,11 +8,11 @@ const Node = React.memo((props) => {
   const cpRadius = 8;
   const height = 30;
 
-  let { x, y, width, number } = props;
+  let { x, y, widthRight, widthLeft, number } = props;
 
   let cp = [];
-  for (let i = 0; i < width / cpOffset - 1; i++) {
-    cp.push({ x: x - width / 2 + (i + 1) * cpOffset, y: y });
+  for (let i = 0; i < (widthLeft + widthRight) / cpOffset - 1; i++) {
+    cp.push({ x: x - widthLeft + (i + 1) * cpOffset, y: y });
   }
 
   console.log(`render node - ${number}`)
@@ -20,14 +20,14 @@ const Node = React.memo((props) => {
   return (
     <>
 
-      <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="darkred"
+      <Line p1={{ x: x - widthLeft, y: y }} p2={{ x: x + widthRight, y: y }} stroke="darkred"
         strokeWidth={height} />
       {/* <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="OrangeRed"
         strokeWidth={6}/>
       <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="gray"
         strokeWidth={2}/> */}
       {/* {cp.map(p => <Circle center={p} radius={cpRadius} fill="white" />)} */}
-      <Text point={{ x: x - width / 2 - 20, y: y + 7 }} fill="white" fontSize={20}>{number}</Text>
+      <Text point={{ x: x - widthLeft - 20, y: y + 7 }} fill="white" fontSize={20}>{number}</Text>
     </>
   );
 })

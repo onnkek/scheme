@@ -1,4 +1,4 @@
-const hitTestLine = function (point1, point2, cursor, r) {
+export const hitTestLine = function (point1, point2, cursor, r) {
   let x1 = point1.x - cursor.x;
   let y1 = point1.y - cursor.y;
   let x2 = point2.x - cursor.x;
@@ -33,10 +33,10 @@ export const hitTestBranch = function (list, cursor, r) {
 export const hitTestNode = function (list, cursor, r) {
   for (let i = 0; i < list.length; i++) {
     if (hitTestLine({
-      x: list[i].coordinates.x - list[i].image.width / 2,
+      x: list[i].coordinates.x - list[i].image.widthLeft,
       y: list[i].coordinates.y
     }, {
-      x: list[i].coordinates.x + list[i].image.width / 2,
+      x: list[i].coordinates.x + list[i].image.widthRight,
       y: list[i].coordinates.y
     }, cursor, r)) {
       return list[i];
