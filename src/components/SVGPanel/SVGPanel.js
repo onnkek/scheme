@@ -95,7 +95,7 @@ function SVGPanel(props) {
           newNode.widthLeft = 50;
         if (newNode.widthRight < 50)
           newNode.widthRight = 50;
-
+        
         scheme.elements[indexOfNode] = newNode;
         setScheme(scheme);
         setSelect(newNode);

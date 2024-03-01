@@ -18,6 +18,8 @@ export class Node extends Element {
     return (<NodeComponent key={this.id} number={this.number} x={this.position.x} y={this.position.y} widthLeft={this.widthLeft} widthRight={this.widthRight} />);
   }
   copy() {
-    return new Node(this.name, this.number, this.position, this.widthLeft, this.widthRight);
+    let newNode = new Node(this.name, this.number, this.position, this.widthLeft, this.widthRight);
+    newNode.id = this.getId();
+    return newNode;
   }
 }
