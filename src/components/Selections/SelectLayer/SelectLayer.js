@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import SelectBox from "../SelectBox/SelectBox";
 import SelectLine from "../SelectLine/SelectLine";
+import { Branch } from "../../../models/Branch";
+import { Node } from "../../../models/Node";
 
-const SelectLayer = (select) => {
+const SelectLayer = ({selectElement, cp}) => {
+  console.log("render SelectLayer")
   return (
     <>
-      {select.select.type === "branch" ? (<SelectLine points={select.select.image.list} />) : ""}
-      {select.select.type === "node" ? (<SelectBox cp={select.cp} svg={select.svg} point={select.select.coordinates}
-        widthRight={select.select.image.widthRight} widthLeft={select.select.image.widthLeft} />) : ""}
+      {selectElement instanceof Branch ? (<SelectLine points={selectElement.points} />) : ""}
+      {selectElement instanceof Node ? (<SelectBox cp={cp} point={selectElement.position}
+        widthRight={selectElement.widthRight} widthLeft={selectElement.widthLeft} />) : ""}
     </>
   );
 }

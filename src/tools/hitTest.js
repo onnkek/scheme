@@ -21,9 +21,8 @@ export const hitTestLine = function (point1, point2, cursor, r) {
 }
 export const hitTestBranch = function (list, cursor, r) {
   for (let i = 0; i < list.length; i++) {
-    for (let j = 0; j < list[i].image.list.length - 1; j++) {
-      if (hitTestLine(list[i].image.list[j].coordinates, list[i].image.list[j + 1].coordinates, cursor, r)) {
-        console.log("true");
+    for (let j = 0; j < list[i].points.length - 1; j++) {
+      if (hitTestLine(list[i].points[j], list[i].points[j + 1], cursor, r)) {
         return list[i];
       }
     }
@@ -33,11 +32,11 @@ export const hitTestBranch = function (list, cursor, r) {
 export const hitTestNode = function (list, cursor, r) {
   for (let i = 0; i < list.length; i++) {
     if (hitTestLine({
-      x: list[i].coordinates.x - list[i].image.widthLeft,
-      y: list[i].coordinates.y
+      x: list[i].position.x - list[i].widthLeft,
+      y: list[i].position.y
     }, {
-      x: list[i].coordinates.x + list[i].image.widthRight,
-      y: list[i].coordinates.y
+      x: list[i].position.x + list[i].widthRight,
+      y: list[i].position.y
     }, cursor, r)) {
       return list[i];
     }
@@ -47,7 +46,7 @@ export const hitTestNode = function (list, cursor, r) {
 
 export const hitTestLinePoint = function (list, cursor, r) {
   for (let i = 0; i < list.length; i++) {
-    if (Math.pow(list[i].coordinates.x - cursor.x, 2) + Math.pow(list[i].coordinates.y - cursor.y, 2) < Math.pow(r, 2)) {
+    if (Math.pow(list[i].x - cursor.x, 2) + Math.pow(list[i].y - cursor.y, 2) < Math.pow(r, 2)) {
       return list[i];
     }
   }

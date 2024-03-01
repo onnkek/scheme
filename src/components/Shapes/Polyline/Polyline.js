@@ -4,7 +4,7 @@ function Polyline(props) {
 
   let pointsString = "";
   for(let i = 0; i < points.length; i++) {
-    pointsString += `${points[i].coordinates.x},${points[i].coordinates.y} `;
+    pointsString += `${points[i].x},${points[i].y} `;
   }
   pointsString.trim();
 

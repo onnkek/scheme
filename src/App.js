@@ -1,12 +1,5 @@
 import './App.css';
-import Branch from './components/Branch/Branch';
-import Node from './components/Node/Node';
 import SVGPanel from './components/SVGPanel/SVGPanel';
-import Circle from './components/Shapes/Circle/Circle';
-import Line from './components/Shapes/Line/Line';
-import Polyline from './components/Shapes/Polyline/Polyline';
-import Rectangle from './components/Shapes/Rectangle/Rectangle';
-import Text from './components/Shapes/Text/Text';
 import { useState } from 'react';
 import { SelectContext } from './context/selectContext';
 

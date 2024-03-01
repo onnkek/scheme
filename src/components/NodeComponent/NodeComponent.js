@@ -3,7 +3,7 @@ import Circle from "../Shapes/Circle/Circle";
 import Line from "../Shapes/Line/Line";
 import Text from "../Shapes/Text/Text";
 
-const Node = React.memo((props) => {
+const NodeComponent = React.memo((props) => {
   const cpOffset = 50;
   const cpRadius = 8;
   const height = 30;
@@ -32,4 +32,4 @@ const Node = React.memo((props) => {
   );
 })
 
-export default Node;
+export default NodeComponent;
