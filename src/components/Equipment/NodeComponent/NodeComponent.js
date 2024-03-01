@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import Circle from "../Shapes/Circle/Circle";
-import Line from "../Shapes/Line/Line";
-import Text from "../Shapes/Text/Text";
+import React from "react";
+import Line from "../../Shapes/Line/Line";
+import Text from "../../Shapes/Text/Text";
 
 const NodeComponent = React.memo((props) => {
   const cpOffset = 50;

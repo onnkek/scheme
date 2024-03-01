@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import './SVGPanel.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
-import { hitTestBranch, hitTestLine, hitTestLinePoint, hitTestNode } from '../../tools/hitTest';
+import { hitTestBranch, hitTestFrame, hitTestLine, hitTestLinePoint, hitTestNode } from '../../tools/hitTest';
 import { Point } from '../../models/Point';
 import { Node } from '../../models/Node';
 import { Branch } from '../../models/Branch';
@@ -15,7 +15,6 @@ function SVGPanel(props) {
   const [select, setSelect] = useState(false);
   const [isDown, setIsDown] = useState(false);
   const [selectLinePoint, setSelectLinePoint] = useState(false);
-  const [controlsPoints, setControlsPoints] = useState([]);
   const [selectControl, setSelectControl] = useState();
 
   const SVGRef = useRef();
@@ -32,39 +31,12 @@ function SVGPanel(props) {
       setSelectLinePoint(linePoint);
       setLastCursor(new Point(e.clientX, e.clientY));
     }
-    if (select && select instanceof Node) {
-      for (let i = 0; i < controlsPoints[1].length - 1; i++) {
-        let control = hitTestLine(controlsPoints[1][i], controlsPoints[1][i + 1], new Point(e.clientX, e.clientY), 5)
-        if (control) {
-          setSelectControl(e.clientX);
-          setLastCursor(new Point(e.clientX, e.clientY));
-        }
-      }
-      for (let i = 0; i < controlsPoints[3].length - 1; i++) {
-        let control = hitTestLine(controlsPoints[3][i], controlsPoints[3][i + 1], new Point(e.clientX, e.clientY), 5)
-        if (control) {
-          setSelectControl(e.clientX);
-          setLastCursor(new Point(e.clientX, e.clientY));
-        }
-      }
-      for (let i = 0; i < controlsPoints[0].length - 1; i++) {
-        let control = hitTestLine(controlsPoints[0][i], controlsPoints[0][i + 1], new Point(e.clientX, e.clientY), 5)
-        if (control) {
-          setSelectControl(e.clientX);
-          setLastCursor(new Point(e.clientX, e.clientY));
-        }
-      }
-      for (let i = 0; i < controlsPoints[2].length - 1; i++) {
-        let control = hitTestLine(controlsPoints[2][i], controlsPoints[2][i + 1], new Point(e.clientX, e.clientY), 5)
-        if (control) {
-          setSelectControl(e.clientX);
-          setLastCursor(new Point(e.clientX, e.clientY));
-        }
-      }
-    }
   }
 
   const svgMouseMoveHandler = useThrottle((e) => {
+    
+     
+    
     if (select) {
 
       if (isDown && !selectControl) {
@@ -75,7 +47,6 @@ function SVGPanel(props) {
         scheme.elements[indexOfNode] = newNode;
         setScheme(scheme);
         setSelect(newNode);
-        setControlsPoints(getControls(newNode.position, newNode.widthLeft, newNode.widthRight, 30, 8, 12))
         setLastCursor(new Point(e.clientX, e.clientY));
       }
       else if (selectControl) {
@@ -99,7 +70,6 @@ function SVGPanel(props) {
         scheme.elements[indexOfNode] = newNode;
         setScheme(scheme);
         setSelect(newNode);
-        setControlsPoints(getControls(newNode.position, newNode.widthLeft, newNode.widthRight, 30, 8, 12))
         setLastCursor(new Point(e.clientX, e.clientY));
       }
       else if (selectLinePoint) {
@@ -126,44 +96,28 @@ function SVGPanel(props) {
   }, 10);
 
 
-  const getControls = (point, widthLeft, widthRight, height, selectControlPadding, selectControlLength) => {
-    let result = [];
-    result.push([
-      new Point(point.x - widthLeft - selectControlPadding + selectControlLength, point.y - height / 2 - selectControlPadding),
-      new Point(point.x - widthLeft - selectControlPadding, point.y - height / 2 - selectControlPadding),
-      new Point(point.x - widthLeft - selectControlPadding, point.y - height / 2 - selectControlPadding + selectControlLength)
-    ]);
-    result.push([
-      new Point(point.x + widthRight + selectControlPadding - selectControlLength, point.y - height / 2 - selectControlPadding),
-      new Point(point.x + widthRight + selectControlPadding, point.y - height / 2 - selectControlPadding),
-      new Point(point.x + widthRight + selectControlPadding, point.y - height / 2 - selectControlPadding + selectControlLength)
-    ]);
-    result.push([
-      new Point(point.x - widthLeft - selectControlPadding + selectControlLength, point.y + height / 2 + selectControlPadding),
-      new Point(point.x - widthLeft - selectControlPadding, point.y + height / 2 + selectControlPadding),
-      new Point(point.x - widthLeft - selectControlPadding, point.y + height / 2 + selectControlPadding - selectControlLength)
-    ]);
-    result.push([
-      new Point(point.x + widthRight + selectControlPadding - selectControlLength, point.y + height / 2 + selectControlPadding),
-      new Point(point.x + widthRight + selectControlPadding, point.y + height / 2 + selectControlPadding),
-      new Point(point.x + widthRight + selectControlPadding, point.y + height / 2 + selectControlPadding - selectControlLength)
-    ]);
-    return result;
-  }
-
   const svgMouseUpHandler = (e) => {
     setIsDown(false);
-    let node = hitTestNode(scheme.elements.filter(x => x instanceof Node), new Point(e.clientX, e.clientY), 25);
+    
+    let elems = scheme.elements.filter(x => !(x instanceof Branch));
+    let elem = null;
+    for(let i = 0; i < elems.length; i++) {
+      console.log(elems[i].getFrame());
+      if(hitTestFrame(elems[i].getFrame(), new Point(e.clientX, e.clientY), 20)) {
+        
+        elem = elems[i];
+      }
+    }
+    //let node = hitTestNode(scheme.elements.filter(x => x instanceof Node), new Point(e.clientX, e.clientY), 25);
     let branch = hitTestBranch(scheme.elements.filter(x => x instanceof Branch), new Point(e.clientX, e.clientY), 10);
-
+    console.log(elem);
     if (selectControl) {
       setSelectControl(false);
     } else if (branch) {
       setSelect(branch);
       setLastCursor(new Point(e.clientX, e.clientY));
-    } else if (node) {
-      setSelect(node);
-      setControlsPoints(getControls(node.position, node.widthLeft, node.widthRight, 30, 8, 12))
+    } else if (elem) {
+      setSelect(elem);
       setLastCursor(new Point(e.clientX, e.clientY));
     } else if (!selectControl) {
       setSelect(false);
@@ -180,7 +134,7 @@ function SVGPanel(props) {
   return (
     <svg ref={SVGRef} id='svg' onMouseDown={svgMouseDownHandler} onMouseMove={svgMouseMoveHandler} onMouseUp={svgMouseUpHandler} viewBox="0 0 1400 1000">
       {scheme.elements.map(e => e.drawComponent())}
-      <SelectLayer cp={controlsPoints} selectElement={select} svg={SVGRef} />
+      <SelectLayer selectElement={select} />
 
     </svg>
   );

@@ -1,6 +1,7 @@
 import { Branch } from "./Branch";
 import { Node } from "./Node";
 import { Point } from "./Point";
+import { Switch } from "./Switch";
 
 export class Scheme {
   elements = [];
@@ -27,6 +28,10 @@ export class Scheme {
     this.elements.push(new Branch("41", 4, 1, [
       new Point(760, 660), new Point(760, 580), new Point(500, 580), new Point(500, 660)
     ]));
+
+    this.elements.push(new Switch("S1", true, new Point(300, 300), ));
   }
+
+  
 
 }

@@ -3,14 +3,16 @@ import SelectBox from "../SelectBox/SelectBox";
 import SelectLine from "../SelectLine/SelectLine";
 import { Branch } from "../../../models/Branch";
 import { Node } from "../../../models/Node";
+import { Switch } from "../../../models/Switch";
 
-const SelectLayer = ({selectElement, cp}) => {
+const SelectLayer = ({ selectElement }) => {
   console.log("render SelectLayer")
+  if (selectElement instanceof Switch)
+    console.log(selectElement.getFrame())
   return (
     <>
       {selectElement instanceof Branch ? (<SelectLine points={selectElement.points} />) : ""}
-      {selectElement instanceof Node ? (<SelectBox cp={cp} point={selectElement.position}
-        widthRight={selectElement.widthRight} widthLeft={selectElement.widthLeft} />) : ""}
+      {selectElement && !(selectElement instanceof Branch) ? (<SelectBox frame={selectElement.getFrame()} />) : ""}
     </>
   );
 }
