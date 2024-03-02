@@ -1,7 +1,7 @@
-import { Branch } from "./Branch";
-import { Node } from "./Node";
+import { Branch } from "./Elements/Branch";
+import { Node } from "./Elements/Node";
 import { Point } from "./Point";
-import { Switch } from "./Switch";
+import { Switch } from "./Elements/Switch";
 
 export class Scheme {
   elements = [];

@@ -1,3 +1,6 @@
+import { Branch } from "../models/Elements/Branch";
+import { Point } from "../models/Point";
+
 export const hitTestLine = function (point1, point2, cursor, r) {
   let x1 = point1.x - cursor.x;
   let y1 = point1.y - cursor.y;
@@ -19,12 +22,10 @@ export const hitTestLine = function (point1, point2, cursor, r) {
   let t2 = (-b - sqrtdisc) / (2 * a);
   if ((0 < t1 && t1 < 1) || (0 < t2 && t2 < 1)) return true;
 }
-export const hitTestBranch = function (list, cursor, r) {
-  for (let i = 0; i < list.length; i++) {
-    for (let j = 0; j < list[i].points.length - 1; j++) {
-      if (hitTestLine(list[i].points[j], list[i].points[j + 1], cursor, r)) {
-        return list[i];
-      }
+export const hitTestBranch = function (points, cursor, r) {
+  for (let i = 0; i < points.length - 1; i++) {
+    if (hitTestLine(points[i], points[i + 1], cursor, r)) {
+      return true;
     }
   }
   return false;
@@ -96,8 +97,22 @@ export const hitTestFrame = (points, cursor, radius) => {
     }
   }
   // console.log(check)
-  if(check === 4) {
+  if (check === 4) {
     return true;
   }
-  
+
+}
+
+export const hitTestElement = (elements, cursor, radius) => {
+  for (let i = 0; i < elements.length; i++) {
+    if (elements[i] instanceof Branch) {
+      if (hitTestBranch(elements[i].points, cursor, radius)) {
+        return elements[i];
+      }
+    } else {
+      if (hitTestFrame(elements[i].getFrame(), cursor, radius)) {
+        return elements[i];
+      }
+    }
+  }
 }

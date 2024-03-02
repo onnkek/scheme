@@ -1,5 +1,5 @@
 import { Point } from "./Point";
-import { SizeControl } from "./SizeControl";
+import { SizeControl } from "./Controls/SizeControl";
 
 export class SelectBox {
 	controls = [];

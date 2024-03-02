@@ -1,7 +1,7 @@
-import NodeComponent from "../components/Equipment/NodeComponent/NodeComponent";
+import NodeComponent from "../../components/Equipment/NodeComponent/NodeComponent";
 import { Element } from "./Element";
-import { Point } from "./Point";
-import config from "../config.json";
+import { Point } from "../Point";
+import config from "../../config.json";
 
 export class Node extends Element {
 

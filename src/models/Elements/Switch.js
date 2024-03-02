@@ -1,7 +1,7 @@
-import SwitchComponent from "../components/Equipment/SwitchComponent/SwitchComponent";
+import SwitchComponent from "../../components/Equipment/SwitchComponent/SwitchComponent";
 import { Element } from "./Element";
-import { Point } from "./Point";
-import config from "../config.json";
+import { Point } from "../Point";
+import config from "../../config.json";
 
 export class Switch extends Element {
 	state;

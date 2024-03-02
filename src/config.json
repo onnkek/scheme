@@ -7,6 +7,16 @@
 	},
 	"editor": {
 		"selectControlPadding": 8,
-		"selectControlLength": 12
+		"selectControlLength": 12,
+		"controls": {
+			"pointControl": {
+				"radius": 4
+			},
+			"squareControl": {
+				"size1": 6,
+				"size2": 8,
+				"size3": 10
+			}
+		}
 	}
 }
