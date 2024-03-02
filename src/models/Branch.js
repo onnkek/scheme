@@ -17,7 +17,4 @@ export class Branch extends Element {
   drawComponent() {
     return (<BranchComponent key={this.id} name={this.name} points={this.points} />);
   }
-  hitTest(cursor, radius) {
-
-  }
 }

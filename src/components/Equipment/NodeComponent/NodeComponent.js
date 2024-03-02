@@ -1,11 +1,11 @@
 import React from "react";
 import Line from "../../Shapes/Line/Line";
 import Text from "../../Shapes/Text/Text";
+import config from "../../../config.json";
 
 const NodeComponent = React.memo((props) => {
   const cpOffset = 50;
   const cpRadius = 8;
-  const height = 30;
 
   let { x, y, widthRight, widthLeft, number } = props;
 
@@ -20,7 +20,7 @@ const NodeComponent = React.memo((props) => {
     <>
 
       <Line p1={{ x: x - widthLeft, y: y }} p2={{ x: x + widthRight, y: y }} stroke="darkred"
-        strokeWidth={height} />
+        strokeWidth={config.elements.nodeHeight} />
       {/* <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="OrangeRed"
         strokeWidth={6}/>
       <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="gray"

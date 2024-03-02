@@ -2,15 +2,16 @@ import { useRef, useState } from 'react';
 import './SVGPanel.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
-import { hitTestBranch, hitTestFrame, hitTestLine, hitTestLinePoint, hitTestNode } from '../../tools/hitTest';
+import { hitTestBranch, hitTestFrame, hitTestLinePoint } from '../../tools/hitTest';
 import { Point } from '../../models/Point';
-import { Node } from '../../models/Node';
 import { Branch } from '../../models/Branch';
-import SelectLayer from '../Selections/SelectLayer/SelectLayer';
+import SelectLayerComponent from '../Selections/SelectLayer/SelectLayerComponent';
+import { SelectLayer } from '../../models/SelectLayer';
 
 function SVGPanel(props) {
 
   const [scheme, setScheme] = useState(new Scheme());
+  const [selectLayer, setSelectLayer] = useState(new SelectLayer());
   const [lastCursor, setLastCursor] = useState({ x: 0, y: 0 });
   const [select, setSelect] = useState(false);
   const [isDown, setIsDown] = useState(false);
@@ -20,9 +21,17 @@ function SVGPanel(props) {
   const SVGRef = useRef();
 
   const svgMouseDownHandler = (e) => {
-    let node = hitTestNode(scheme.elements.filter(x => x instanceof Node), new Point(e.clientX, e.clientY), 15);
+    let elems = scheme.elements.filter(x => !(x instanceof Branch));
+    let elem = null;
+    for(let i = 0; i < elems.length; i++) {
+      console.log(elems[i].getFrame());
+      if(hitTestFrame(elems[i].getFrame(), new Point(e.clientX, e.clientY), 20)) {
+        
+        elem = elems[i];
+      }
+    }
 
-    if (node && node.id === select.id) {
+    if (elem && elem.id === select.id) {
       setIsDown(true);
       setLastCursor(new Point(e.clientX, e.clientY));
     }
@@ -117,7 +126,7 @@ function SVGPanel(props) {
       setSelect(branch);
       setLastCursor(new Point(e.clientX, e.clientY));
     } else if (elem) {
-      setSelect(elem);
+      selectLayer.select(elem);
       setLastCursor(new Point(e.clientX, e.clientY));
     } else if (!selectControl) {
       setSelect(false);
@@ -134,7 +143,7 @@ function SVGPanel(props) {
   return (
     <svg ref={SVGRef} id='svg' onMouseDown={svgMouseDownHandler} onMouseMove={svgMouseMoveHandler} onMouseUp={svgMouseUpHandler} viewBox="0 0 1400 1000">
       {scheme.elements.map(e => e.drawComponent())}
-      <SelectLayer selectElement={select} />
+      <SelectLayerComponent selectElement={select} selectLayer={selectLayer}/>
 
     </svg>
   );

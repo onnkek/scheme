@@ -1,0 +1,12 @@
+{
+	"elements": {
+		"nodeHeight": 30,
+		"switchSize": 40,
+		"switchStrokeWidth": 4,
+		"branchStrokeWidth": 6
+	},
+	"editor": {
+		"selectControlPadding": 8,
+		"selectControlLength": 12
+	}
+}

@@ -1,7 +1,7 @@
 import NodeComponent from "../components/Equipment/NodeComponent/NodeComponent";
-import Circle from "../components/Shapes/Circle/Circle";
 import { Element } from "./Element";
 import { Point } from "./Point";
+import config from "../config.json";
 
 export class Node extends Element {
 
@@ -17,10 +17,7 @@ export class Node extends Element {
 
   drawComponent() {
     return (
-    <>
       <NodeComponent key={this.id} number={this.number} x={this.position.x} y={this.position.y} widthLeft={this.widthLeft} widthRight={this.widthRight} />
-      <Circle center={this.position} radius={3} fill="white" stroke="black" strokeWidth={2}/>
-    </>
     );
   }
   copy() {
@@ -30,11 +27,11 @@ export class Node extends Element {
   }
 
   getFrame() {
-		return [
-			new Point(this.position.x - this.widthLeft, this.position.y - 15),
-			new Point(this.position.x + this.widthRight, this.position.y - 15),
-			new Point(this.position.x + this.widthRight, this.position.y + 15),
-			new Point(this.position.x - this.widthLeft, this.position.y + 15)
-		]
-	}
+    return [
+      new Point(this.position.x - this.widthLeft, this.position.y - config.elements.nodeHeight / 2),
+      new Point(this.position.x + this.widthRight, this.position.y - config.elements.nodeHeight / 2),
+      new Point(this.position.x + this.widthRight, this.position.y + config.elements.nodeHeight / 2),
+      new Point(this.position.x - this.widthLeft, this.position.y + config.elements.nodeHeight / 2)
+    ]
+  }
 }

@@ -1,6 +1,7 @@
-import Rectangle from "../components/Shapes/Rectangle/Rectangle";
+import SwitchComponent from "../components/Equipment/SwitchComponent/SwitchComponent";
 import { Element } from "./Element";
 import { Point } from "./Point";
+import config from "../config.json";
 
 export class Switch extends Element {
 	state;
@@ -12,18 +13,21 @@ export class Switch extends Element {
 		this.position = position;
 		this.state = state;
 	}
-	
-	drawComponent() {
-		let fill = this.state ? "darkred" : "none";
-		return (<Rectangle x={this.position.x} y={this.position.y} width={this.size} height={this.size} stroke="darkred" strokeWidth={4} fill={fill} />);
-	}
 
+	drawComponent() {
+		return (<SwitchComponent key={this.id} state={this.state} x={this.position.x} y={this.position.y} />);
+	}
+	copy() {
+		let newSwitch = new Switch(this.name, this.state, this.position);
+		newSwitch.id = this.getId();
+		return newSwitch;
+	}
 	getFrame() {
 		return [
-			new Point(this.position.x - this.size / 2, this.position.y - this.size / 2),
-			new Point(this.position.x + this.size / 2, this.position.y - this.size / 2),
-			new Point(this.position.x + this.size / 2, this.position.y + this.size / 2),
-			new Point(this.position.x - this.size / 2, this.position.y + this.size / 2)
+			new Point(this.position.x - this.size / 2 - config.elements.switchStrokeWidth / 2, this.position.y - this.size / 2 - config.elements.switchStrokeWidth / 2),
+			new Point(this.position.x + this.size / 2 + config.elements.switchStrokeWidth / 2, this.position.y - this.size / 2 - config.elements.switchStrokeWidth / 2),
+			new Point(this.position.x + this.size / 2 + config.elements.switchStrokeWidth / 2, this.position.y + this.size / 2 + config.elements.switchStrokeWidth / 2),
+			new Point(this.position.x - this.size / 2 - config.elements.switchStrokeWidth / 2, this.position.y + this.size / 2 + config.elements.switchStrokeWidth / 2)
 		]
 	}
 }
