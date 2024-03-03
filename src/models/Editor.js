@@ -6,7 +6,8 @@ export class Editor {
 		Select: "Select",
 		Move: "Move",
 		Edit: "Edit",
-		EditBranch: "EditBranch"
+		EditBranch: "EditBranch",
+		ContextMenu: "ContextMenu"
 	}
 	mode;
 	lastCursor;

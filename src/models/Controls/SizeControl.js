@@ -6,11 +6,18 @@ import { Control } from "./Control";
 
 export class SizeControl extends Control {
 
-	angle;
+	static Types = { // enum
+		Right: "Right",
+		Left: "Left"
+	}
 
-	constructor(angle, position) {
+	angle;
+	type;
+
+	constructor(angle, position, type) {
 		super(position);
 		this.angle = angle;
+		this.type = type;
 	}
 
 	getPoints() {

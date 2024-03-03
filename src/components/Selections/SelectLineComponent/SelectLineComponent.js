@@ -2,8 +2,8 @@ import React from "react";
 import Polyline from "../../Shapes/Polyline/Polyline";
 
 const SelectLineComponent = ({ box }) => {
-  console.log(box.points)
 
+  console.log("render SelectLineComponent")
   return (
     <>
       <Polyline key={Math.random()} points={box.points} stroke="Violet" strokeWidth={1} />

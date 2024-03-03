@@ -4,8 +4,9 @@ import SelectBoxComponent from "../SelectBoxComponent/SelectBoxComponent";
 import SelectLineComponent from "../SelectLineComponent/SelectLineComponent";
 
 const SelectLayerComponent = ({ selectElement, selectLayer }) => {
-  console.log("render SelectLayer")
-  console.log(selectElement)
+  
+  console.log("render SelectLayerComponent")
+  
   return (
     <>
       {selectElement instanceof Branch ? (<SelectLineComponent box={selectLayer.box} />) : <></>}

@@ -8,7 +8,6 @@ export class SelectLayer {
 
 	select(element) {
 		this.frame = element.getFrame();
-		console.log(this.frame)
 		if (element instanceof Branch) {
 			this.box = new SelectLine(this.frame);
 		} else {

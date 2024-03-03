@@ -21,10 +21,10 @@ export class SelectBox {
 	}
 
 	addControls() {
-		this.controls.push(new SizeControl(0, this.frame[0]));
-		this.controls.push(new SizeControl(90, this.frame[1]));
-		this.controls.push(new SizeControl(180, this.frame[2]));
-		this.controls.push(new SizeControl(270, this.frame[3]));
+		this.controls.push(new SizeControl(0, this.frame[0], SizeControl.Types.Left));
+		this.controls.push(new SizeControl(90, this.frame[1], SizeControl.Types.Right));
+		this.controls.push(new SizeControl(180, this.frame[2], SizeControl.Types.Right));
+		this.controls.push(new SizeControl(270, this.frame[3], SizeControl.Types.Left));
 	}
 
 }
