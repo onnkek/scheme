@@ -3,7 +3,7 @@ import { Point } from "../Point";
 import config from "../../config.json";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
-import TerminalNodeComponent from "../../components/TerminalNodeComponent/TerminalNodeComponent";
+import { TerminalNode } from "./TerminalNode";
 
 export class Node extends Element {
 
@@ -11,23 +11,31 @@ export class Node extends Element {
   position;
   widthLeft;
   widthRight;
+  isShowTerminals;
 
-  constructor (name, number, position, widthLeft, widthRight) {
+  constructor(name, number, position, widthLeft, widthRight) {
     super(name);
     this.number = number;
     this.position = position;
     this.widthLeft = widthLeft;
     this.widthRight = widthRight;
+    this.isShowTerminals = false;
     this.terminals.push(new Terminal("Терминал " + Math.random(), this.position));
   }
 
   drawComponent() {
     return (
-      <>
-        <NodeComponent key={this.id} number={this.number} x={this.position.x} y={this.position.y} widthLeft={this.widthLeft} widthRight={this.widthRight} />
-        <TerminalNodeComponent position={this.terminals[0].position} id={this.id} widthLeft={this.widthLeft} widthRight={this.widthRight} />
-      </>
-
+      <NodeComponent
+        id={this.id}
+        key={this.id}
+        number={this.number}
+        x={this.position.x}
+        y={this.position.y}
+        widthLeft={this.widthLeft}
+        widthRight={this.widthRight}
+        isShowTerminals={this.isShowTerminals}
+        terminals={this.terminals}
+      />
     );
   }
   copy() {

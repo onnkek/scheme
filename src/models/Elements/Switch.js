@@ -3,28 +3,33 @@ import { Element } from "./Element";
 import { Point } from "../Point";
 import config from "../../config.json";
 import { Terminal } from "./Terminal";
-import TerminalComponent from "../../components/TerminalComponent/TerminalComponent";
 
 export class Switch extends Element {
+
 	state;
-	constructor (name, state, position) {
+	isShowTerminals;
+
+	constructor(name, state, position) {
 		super(name);
 		this.pole1 = null;
 		this.pole2 = null;
 		this.position = position;
 		this.state = state;
+		this.isShowTerminals = false;
 		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2)));
 		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y + config.elements.switchSize / 2 + 2)));
 	}
 
 	drawComponent() {
 		return (
-			<>
-				<SwitchComponent key={this.id} state={this.state} x={this.position.x} y={this.position.y} />
-				{this.terminals.map((t) => <TerminalComponent id={t.id} position={t.position} />)}
-			</>
-
-
+			<SwitchComponent
+				key={this.id}
+				state={this.state}
+				x={this.position.x}
+				y={this.position.y}
+				isShowTerminals={this.isShowTerminals}
+				terminals={this.terminals}
+			/>
 		);
 	}
 	copy() {

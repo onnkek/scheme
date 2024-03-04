@@ -30,6 +30,7 @@ export class Scheme {
     ]));
 
     this.elements.push(new Switch("S1", true, new Point(300, 300), ));
+    this.elements.push(new Switch("S2", true, new Point(300, 500), ));
   }
 
   

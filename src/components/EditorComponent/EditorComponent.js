@@ -11,6 +11,9 @@ import { Editor } from '../../models/Editor';
 import { SizeControl } from '../../models/Controls/SizeControl';
 import { useContextMenu } from '../../hooks';
 import { Branch } from '../../models/Elements/Branch';
+import { Terminal } from '../../models/Elements/Terminal';
+import { TerminalNode } from '../../models/Elements/TerminalNode';
+import { Node } from '../../models/Elements/Node';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -120,8 +123,46 @@ function EditorComponent(props) {
 
 
     if (editor.mode === Editor.Modes.Connect) {
-      
-      
+
+      let elems = scheme.elements.filter(x => !(x instanceof Branch));
+
+      for (let i = 0; i < elems.length; i++) {
+        if (hitTestFrame(elems[i].getFrame(), new Point(e.clientX, e.clientY), 50)) {
+          elems[i].isShowTerminals = true;
+          console.log(elems[i].terminals[0].getFrame())
+          console.log(e.clientX)
+          console.log(e.clientY)
+
+
+          for (let j = 0; j < elems[i].terminals.length; j++) {
+            if (hitTestFrame(elems[i].terminals[j].getFrame(), new Point(e.clientX, e.clientY), 10)) {
+
+              let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
+              newTerminal.canConnect = true;
+              newTerminal.id = elems[i].terminals[j].id;
+
+              elems[i].terminals = [...elems[i].terminals.slice(0, j),
+                newTerminal, ...elems[i].terminals.slice(j + 1)]
+
+
+            } else {
+              let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
+              newTerminal.canConnect = false;
+              newTerminal.id = elems[i].terminals[j].id;
+
+              elems[i].terminals = [...elems[i].terminals.slice(0, j),
+                newTerminal, ...elems[i].terminals.slice(j + 1)]
+            }
+
+          }
+
+        }
+        else {
+          elems[i].isShowTerminals = false;
+        }
+
+      }
+
       let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
       let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
       let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
@@ -158,6 +199,13 @@ function EditorComponent(props) {
       selectLayer.select(elem);
     }
     if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.Connect) {
+
+      let elems = scheme.elements.filter(x => !(x instanceof Branch));
+
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].isShowTerminals = false;
+      }
+
       setEditor({
         ...editor,
         mode: Editor.Modes.Select,
