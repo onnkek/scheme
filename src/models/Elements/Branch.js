@@ -1,5 +1,4 @@
 import BranchComponent from "../../components/Equipment/BranchComponent/BranchComponent";
-import { Point } from "../Point";
 import { Element } from "./Element";
 
 export class Branch extends Element {

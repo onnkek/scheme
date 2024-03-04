@@ -1,7 +1,7 @@
 import React from "react";
-import { Branch } from "../../../models/Elements/Branch";
 import SelectBoxComponent from "../SelectBoxComponent/SelectBoxComponent";
 import SelectLineComponent from "../SelectLineComponent/SelectLineComponent";
+import { Branch } from "../../../models/Elements/Branch";
 
 const SelectLayerComponent = ({ selectElement, selectLayer }) => {
   

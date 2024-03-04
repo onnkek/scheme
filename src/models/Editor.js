@@ -7,7 +7,8 @@ export class Editor {
 		Move: "Move",
 		Edit: "Edit",
 		EditBranch: "EditBranch",
-		ContextMenu: "ContextMenu"
+		ContextMenu: "ContextMenu",
+		Connect: "Connect"
 	}
 	mode;
 	lastCursor;

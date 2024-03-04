@@ -4,13 +4,13 @@ import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
 import { hitTestElement, hitTestFrame } from '../../tools/hitTest';
 import { Point } from '../../models/Point';
-import { Branch } from '../../models/Elements/Branch';
 import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayerComponent';
 import { SelectLayer } from '../../models/SelectLayer';
 import SchemeComponent from '../SchemeComponent/SchemeComponent';
 import { Editor } from '../../models/Editor';
 import { SizeControl } from '../../models/Controls/SizeControl';
 import { useContextMenu } from '../../hooks';
+import { Branch } from '../../models/Elements/Branch';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -65,7 +65,7 @@ function EditorComponent(props) {
           else {
             setEditor({
               ...editor,
-              mode: Editor.Modes.EditBranch,
+              mode: Editor.Modes.Connect,
               selectControl: control,
               lastCursor: new Point(e.clientX, e.clientY)
             });
@@ -85,7 +85,7 @@ function EditorComponent(props) {
   }
 
   const svgMouseMoveHandler = useThrottle((e) => {
-    console.log(editor.mode)
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     if (editor.mode === Editor.Modes.Move) {
       let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
       editor.select.position = new Point(editor.select.position.x + delta.x, editor.select.position.y + delta.y);
@@ -115,7 +115,13 @@ function EditorComponent(props) {
       });
       selectLayer.select(editor.select);
     }
-    if (editor.mode === Editor.Modes.EditBranch) {
+
+
+
+
+    if (editor.mode === Editor.Modes.Connect) {
+      
+      
       let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
       let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
       let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
@@ -131,19 +137,16 @@ function EditorComponent(props) {
       });
     }
 
+
+
+
+
   }, 10);
 
 
   const svgMouseUpHandler = (e) => {
 
     const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 20);
-
-    // if (!elem && editor.mode === Editor.Modes.ContextMenu) {
-    //   setEditor({
-    //     ...editor,
-    //     mode: Editor.Modes.Select
-    //   });
-    // }
 
     if (elem && (editor.mode === Editor.Modes.Default || editor.mode === Editor.Modes.Select)) {
       setEditor({
@@ -154,7 +157,7 @@ function EditorComponent(props) {
       });
       selectLayer.select(elem);
     }
-    if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.EditBranch) {
+    if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.Connect) {
       setEditor({
         ...editor,
         mode: Editor.Modes.Select,

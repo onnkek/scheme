@@ -1,5 +1,4 @@
 import { Branch } from "../models/Elements/Branch";
-import { Point } from "../models/Point";
 
 export const hitTestLine = function (point1, point2, cursor, r) {
   let x1 = point1.x - cursor.x;
@@ -105,6 +104,7 @@ export const hitTestFrame = (points, cursor, radius) => {
 
 export const hitTestElement = (elements, cursor, radius) => {
   for (let i = 0; i < elements.length; i++) {
+    console.log(elements[i] instanceof Branch);
     if (elements[i] instanceof Branch) {
       if (hitTestBranch(elements[i].points, cursor, radius)) {
         return elements[i];

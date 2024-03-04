@@ -21,11 +21,7 @@ const NodeComponent = React.memo((props) => {
 
       <Line p1={{ x: x - widthLeft, y: y }} p2={{ x: x + widthRight, y: y }} stroke="darkred"
         strokeWidth={config.elements.nodeHeight} />
-      {/* <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="OrangeRed"
-        strokeWidth={6}/>
-      <Line p1={{ x: x - width / 2, y: y }} p2={{ x: x + width / 2, y: y }} stroke="gray"
-        strokeWidth={2}/> */}
-      {/* {cp.map(p => <Circle center={p} radius={cpRadius} fill="white" />)} */}
+      
       <Text point={{ x: x - widthLeft - 20, y: y + 7 }} fill="white" fontSize={20}>{number}</Text>
     </>
   );

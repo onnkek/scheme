@@ -1,13 +1,17 @@
 export class Element {
 
+  id;
   name;
-  id = Math.random();
+  terminals;
 
   constructor (name) {
     this.name = name;
+    this.id = Math.random();
+    this.terminals = [];
   }
+  
   drawComponent() { }
-  hitTest(cursor, radius) { }
 
-  getId() { return this.id }
+  getFrame() { }
+
 }
