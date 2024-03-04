@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
@@ -9,9 +9,8 @@ import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayer
 import { SelectLayer } from '../../models/SelectLayer';
 import SchemeComponent from '../SchemeComponent/SchemeComponent';
 import { Editor } from '../../models/Editor';
-import ContextMenu from '../Controls/ContextMenu/ContextMenu';
-import ContextMenuItem from '../Controls/ContextMenuItem/ContextMenuItem';
 import { SizeControl } from '../../models/Controls/SizeControl';
+import { useContextMenu } from '../../hooks';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -24,7 +23,8 @@ function EditorComponent(props) {
   const [editor, setEditor] = useState(new Editor());
   const [scheme] = useState(new Scheme());
   const [selectLayer, setSelectLayer] = useState(new SelectLayer());
-  
+  const { setContextMenu } = useContextMenu();
+
   const svgMouseDownHandler = (e) => {
 
     const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 20);
@@ -56,11 +56,13 @@ function EditorComponent(props) {
           if (e.button === 2) {
             setEditor({
               ...editor,
-              lastCursor: new Point(e.clientX, e.clientY),
               selectControl: control,
               mode: Editor.Modes.ContextMenu
             });
-          } else {
+            editor.selectControl = control;
+            setContextMenu(contextMenuBranchPoint, new Point(e.clientX, e.clientY));
+          }
+          else {
             setEditor({
               ...editor,
               mode: Editor.Modes.EditBranch,
@@ -69,7 +71,8 @@ function EditorComponent(props) {
             });
           }
 
-        } else {
+        }
+        else {
           setEditor({
             ...editor,
             mode: Editor.Modes.Edit,
@@ -135,12 +138,12 @@ function EditorComponent(props) {
 
     const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 20);
 
-    if (!elem && editor.mode === Editor.Modes.ContextMenu) {
-      setEditor({
-        ...editor,
-        mode: Editor.Modes.Select
-      });
-    }
+    // if (!elem && editor.mode === Editor.Modes.ContextMenu) {
+    //   setEditor({
+    //     ...editor,
+    //     mode: Editor.Modes.Select
+    //   });
+    // }
 
     if (elem && (editor.mode === Editor.Modes.Default || editor.mode === Editor.Modes.Select)) {
       setEditor({
@@ -174,9 +177,9 @@ function EditorComponent(props) {
       });
     }
   }
-  
 
-  const removeBranchPointHandler = () => {
+
+  const removeBranchPointHandler = useCallback(() => {
     let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
     editor.select.points = [...editor.select.points.slice(0, indexOfPoint),
     ...editor.select.points.slice(indexOfPoint + 1)]
@@ -185,19 +188,21 @@ function EditorComponent(props) {
       mode: Editor.Modes.Select
     })
     selectLayer.select(editor.select);
-  }
+  }, [selectLayer, editor])
+
+  const contextMenuBranchPoint = useMemo(() => [
+    { text: "Remove point", onClick: () => removeBranchPointHandler() }
+  ], [removeBranchPointHandler])
+
 
   console.log("render EditorComponent")
-  
+
   return (
     <>
       <svg id='svg' onContextMenu={(e) => e.preventDefault()} onMouseDown={svgMouseDownHandler} onMouseMove={svgMouseMoveHandler} onMouseUp={svgMouseUpHandler} viewBox="0 0 1400 1000">
         <SchemeComponent scheme={scheme} />
         <SelectLayerComponent selectElement={editor.select} selectLayer={selectLayer} />
       </svg>
-      <ContextMenu visible={editor.mode === Editor.Modes.ContextMenu} position={editor.lastCursor}>
-        <ContextMenuItem text="Remove point" onClick={removeBranchPointHandler} />
-      </ContextMenu>
     </>
 
 
