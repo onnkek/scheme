@@ -67,30 +67,27 @@ function EditorComponent(props) {
             setContextMenu(contextMenuBranchPoint, new Point(e.clientX, e.clientY));
           }
           else {
+            // if (editor.select.terminal1 && selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x === editor.selectControl) === 0) {
 
-            //let nodes = scheme.elements.filter(x => x instanceof Node);
+            //   for (let i = 0; i < scheme.elements.length; i++) {
+            //     let index = scheme.elements[i].terminals.findIndex(x => x.id === editor.select.terminal1.id);
+            //     if (index !== -1) {
+            //       scheme.elements[i].terminals = [...scheme.elements[i].terminals.slice(0, index), ...scheme.elements[i].terminals.slice(index + 1)]
+            //     }
+            //   }
+            //   editor.select.terminal1 = null;
+            // }
+            // if (editor.select.terminal2 && selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x === editor.selectControl) === 1) {
 
-            let indexTerminal = selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x.id === control.id)
-            for (let i = 0; i < scheme.elements.length; i++) {
-              if (scheme.elements[i] instanceof Node) {
-                if (indexTerminal !== -1) {
-                  if (editor.select.terminals[indexTerminal]) {
-                    let index = scheme.elements[i].terminals.findIndex(x => x.id === editor.select.terminals[indexTerminal].id)
-                    if (index !== -1) {
-                      scheme.elements[i].terminals = [...scheme.elements[i].terminals.slice(0, index), ...scheme.elements[i].terminals.slice(index + 1)]
-                      editor.select.terminals = [...editor.select.terminals.slice(0, indexTerminal), ...editor.select.terminals.slice(indexTerminal + 1)]
+            //   for (let i = 0; i < scheme.elements.length; i++) {
+            //     let index = scheme.elements[i].terminals.findIndex(x => x.id === editor.select.terminal2.id);
+            //     if (index !== -1) {
+            //       scheme.elements[i].terminals = [...scheme.elements[i].terminals.slice(0, index), ...scheme.elements[i].terminals.slice(index + 1)]
+            //     }
+            //   }
+            //   editor.select.terminal2 = null;
+            // }
 
-                    }
-                  }
-
-
-                }
-
-
-
-              }
-
-            }
 
             setEditor({
               ...editor,
@@ -163,39 +160,11 @@ function EditorComponent(props) {
               new Point(e.clientX, e.clientY), 20)) {
               console.log("HITTEST NODE")
               editor.connectNode = elems[i];
-              // let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
-              // newTerminal.canConnect = true;
-              // newTerminal.id = elems[i].terminals[j].id;
-
-              // elems[i].terminals = [...elems[i].terminals.slice(0, j),
-              //   newTerminal, ...elems[i].terminals.slice(j + 1)]
-
 
             } else {
               editor.connectNode = null;
             }
           }
-          // for (let j = 0; j < elems[i].terminals.length; j++) {
-          //   if (hitTestFrame(elems[i].terminals[j].getFrame(), new Point(e.clientX, e.clientY), 10)) {
-
-          //     let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
-          //     newTerminal.canConnect = true;
-          //     newTerminal.id = elems[i].terminals[j].id;
-
-          //     elems[i].terminals = [...elems[i].terminals.slice(0, j),
-          //       newTerminal, ...elems[i].terminals.slice(j + 1)]
-
-
-          //   } else {
-          //     let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
-          //     newTerminal.canConnect = false;
-          //     newTerminal.id = elems[i].terminals[j].id;
-
-          //     elems[i].terminals = [...elems[i].terminals.slice(0, j),
-          //       newTerminal, ...elems[i].terminals.slice(j + 1)]
-          //   }
-
-          // }
 
         }
         else {
@@ -203,15 +172,114 @@ function EditorComponent(props) {
         }
 
       }
+      //console.log(scheme.elements[0].terminals)
+      console.log(scheme.elements[0].terminals)
+      for (let i = 0; i < scheme.elements[1].terminals.length; i++) {
+        console.log(scheme.elements[1].terminals[i]);
+      }
+      console.log(editor.connectNode)
+      if (editor.connectNode) {
+        let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
+        let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
 
-      let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
-      let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
-      let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
-      let newPoint = new Point(scheme.elements[indexOfBranch].points[indexOfPoint].x + delta.x,
-        scheme.elements[indexOfBranch].points[indexOfPoint].y + delta.y);
+        let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
+        let newPoint = new Point(scheme.elements[indexOfBranch].points[indexOfPoint].x + delta.x,
+          editor.connectNode.position.y);
 
-      scheme.elements[indexOfBranch].points = [...scheme.elements[indexOfBranch].points.slice(0, indexOfPoint),
-        newPoint, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint + 1)]
+
+        scheme.elements[indexOfBranch].points = [...scheme.elements[indexOfBranch].points.slice(0, indexOfPoint),
+          newPoint, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint + 1)]
+
+
+        let indexControl = selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x === editor.selectControl);
+        console.log("INDEX CONTROL")
+        console.log(indexControl)
+
+        if (selectLayer.box.controls.findIndex(x => x === editor.selectControl) === 0) {
+          if (editor.select.terminal1) {
+            console.log("HAVE TERMINAL 1")
+            let nodeIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
+            let terminalIndex = scheme.elements[nodeIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
+            console.log("Terminal Index")
+            console.log(terminalIndex)
+            let newTerminal = new Terminal(scheme.elements[nodeIndex].terminals[terminalIndex].name, newPoint);
+            newTerminal.id = scheme.elements[nodeIndex].terminals[terminalIndex].id;
+
+            scheme.elements[nodeIndex].terminals = [
+              ...scheme.elements[nodeIndex].terminals.slice(0, terminalIndex),
+              newTerminal,
+              ...scheme.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+            ]
+
+          } else {
+            console.log("DONT HAVE TERMINAL 1")
+            console.log("ADD TERMINAL")
+            let terminal = new Terminal("Терминал " + Math.random(), new Point(e.clientX, editor.connectNode.position.y))
+            console.log(terminal)
+            editor.connectNode.terminals.push(terminal);
+            editor.select.terminal1 = terminal;
+          }
+        }
+        if (selectLayer.box.controls.findIndex(x => x === editor.selectControl) === selectLayer.box.controls.length - 1) {
+          if (editor.select.terminal2) {
+            console.log("HAVE TERMINAL 2")
+            let nodeIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
+            let terminalIndex = scheme.elements[nodeIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
+            console.log("Terminal Index")
+            console.log(terminalIndex)
+            let newTerminal = new Terminal(scheme.elements[nodeIndex].terminals[terminalIndex].name, newPoint);
+            newTerminal.id = scheme.elements[nodeIndex].terminals[terminalIndex].id;
+
+            scheme.elements[nodeIndex].terminals = [
+              ...scheme.elements[nodeIndex].terminals.slice(0, terminalIndex),
+              newTerminal,
+              ...scheme.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+            ]
+
+          } else {
+            console.log("DONT HAVE TERMINAL 2")
+            console.log("ADD TERMINAL")
+            let terminal = new Terminal("Терминал " + Math.random(), new Point(e.clientX, editor.connectNode.position.y))
+            console.log(terminal)
+            editor.connectNode.terminals.push(terminal);
+            editor.select.terminal2 = terminal;
+          }
+        }
+
+
+
+      } else { // remove terminal at node
+        if (editor.select.terminal1 && selectLayer.box.controls.findIndex(x => x === editor.selectControl) === 0) {
+          let nodeIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
+          console.log(editor.select.terminal1)
+          let terminalIndex = scheme.elements[nodeIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
+
+          scheme.elements[nodeIndex].terminals = [
+            ...scheme.elements[nodeIndex].terminals.slice(0, terminalIndex),
+            ...scheme.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+          ]
+          editor.select.terminal1 = null;
+        }
+        if (editor.select.terminal2 && selectLayer.box.controls.findIndex(x => x === editor.selectControl) === selectLayer.box.controls.length - 1) {
+          let nodeIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
+          console.log(editor.select.terminal2)
+          let terminalIndex = scheme.elements[nodeIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
+
+          scheme.elements[nodeIndex].terminals = [
+            ...scheme.elements[nodeIndex].terminals.slice(0, terminalIndex),
+            ...scheme.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+          ]
+          editor.select.terminal2 = null;
+        }
+        let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
+        let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
+        let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
+        let newPoint = new Point(scheme.elements[indexOfBranch].points[indexOfPoint].x + delta.x,
+          scheme.elements[indexOfBranch].points[indexOfPoint].y + delta.y);
+
+        scheme.elements[indexOfBranch].points = [...scheme.elements[indexOfBranch].points.slice(0, indexOfPoint),
+          newPoint, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint + 1)]
+      }
 
       setEditor({
         ...editor,
@@ -241,33 +309,6 @@ function EditorComponent(props) {
     }
     if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.Connect) {
 
-
-
-      if (editor.connectNode) {
-        let terminal = "";
-        for (let i = 0; i < editor.connectNode.terminals.length; i++) {
-          if (hitTestPoint(editor.connectNode.terminals[i].position, new Point(e.clientX, e.clientY), 10)) {
-            terminal = editor.connectNode.terminals[i];
-          }
-        }
-        if (!terminal) {
-          console.log("ADD TERMINAL")
-          terminal = new Terminal("Терминал " + Math.random(), new Point(e.clientX, editor.connectNode.position.y))
-          editor.connectNode.terminals.push(terminal);
-          console.log(terminal)
-
-        }
-        console.log(terminal.position)
-        let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
-        editor.select.points = [...editor.select.points.slice(0, indexOfPoint),
-        terminal.position, ...editor.select.points.slice(indexOfPoint + 1)]
-        editor.select.terminals.push(terminal);
-      }
-
-
-
-
-
       let elems = scheme.elements.filter(x => !(x instanceof Branch));
 
       for (let i = 0; i < elems.length; i++) {
@@ -277,6 +318,7 @@ function EditorComponent(props) {
       setEditor({
         ...editor,
         mode: Editor.Modes.Select,
+        connectNode: null,
         lastCursor: new Point(e.clientX, e.clientY)
       });
       selectLayer.select(editor.select);

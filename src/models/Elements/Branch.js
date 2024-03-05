@@ -6,6 +6,8 @@ export class Branch extends Element {
   number1;
   number2;
   points;
+  terminal1;
+  terminal2;
 
   constructor(name, number1, number2, points) {
     super(name);
