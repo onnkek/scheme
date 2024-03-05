@@ -68,6 +68,30 @@ function EditorComponent(props) {
           }
           else {
 
+            //let nodes = scheme.elements.filter(x => x instanceof Node);
+
+            let indexTerminal = selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x.id === control.id)
+            for (let i = 0; i < scheme.elements.length; i++) {
+              if (scheme.elements[i] instanceof Node) {
+                if (indexTerminal !== -1) {
+                  if (editor.select.terminals[indexTerminal]) {
+                    let index = scheme.elements[i].terminals.findIndex(x => x.id === editor.select.terminals[indexTerminal].id)
+                    if (index !== -1) {
+                      scheme.elements[i].terminals = [...scheme.elements[i].terminals.slice(0, index), ...scheme.elements[i].terminals.slice(index + 1)]
+                      editor.select.terminals = [...editor.select.terminals.slice(0, indexTerminal), ...editor.select.terminals.slice(indexTerminal + 1)]
+
+                    }
+                  }
+
+
+                }
+
+
+
+              }
+
+            }
+
             setEditor({
               ...editor,
               mode: Editor.Modes.Connect,
@@ -230,6 +254,8 @@ function EditorComponent(props) {
           console.log("ADD TERMINAL")
           terminal = new Terminal("Терминал " + Math.random(), new Point(e.clientX, editor.connectNode.position.y))
           editor.connectNode.terminals.push(terminal);
+          console.log(terminal)
+
         }
         console.log(terminal.position)
         let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
