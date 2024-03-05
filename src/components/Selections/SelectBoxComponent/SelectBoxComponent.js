@@ -2,7 +2,7 @@ import Rectangle from "../../Shapes/Rectangle/Rectangle";
 
 const SelectBoxComponent = ({ box }) => {
 
-  console.log("Render select box")
+ // console.log("Render select box")
 
   return (
     <>

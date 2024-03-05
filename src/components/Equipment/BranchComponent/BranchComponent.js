@@ -4,7 +4,7 @@ import Circle from "../../Shapes/Circle/Circle";
 import config from "../../../config.json";
 
 const BranchComponent = React.memo(({ points, name, terminals }) => {
-	console.log(`render Branch - ${name}`)
+	//console.log(`render Branch - ${name}`)
 	return (
 		<>
 			<Polyline
@@ -13,7 +13,7 @@ const BranchComponent = React.memo(({ points, name, terminals }) => {
 				strokeWidth={config.elements.branchStrokeWidth}
 			/>
 
-			{terminals.length === 0 ?
+			{/* {terminals.length === 0 ?
 				<>
 					<Circle
 						center={points[0]}
@@ -58,7 +58,7 @@ const BranchComponent = React.memo(({ points, name, terminals }) => {
 					fill="white"
 					stroke="black"
 					strokeWidth={2}
-				/> : <></>}
+				/> : <></>} */}
 		</>
 	);
 })

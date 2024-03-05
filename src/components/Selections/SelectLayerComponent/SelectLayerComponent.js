@@ -5,7 +5,7 @@ import { Branch } from "../../../models/Elements/Branch";
 
 const SelectLayerComponent = ({ selectElement, selectLayer }) => {
   
-  console.log("render SelectLayerComponent")
+  //console.log("render SelectLayerComponent")
   
   return (
     <>

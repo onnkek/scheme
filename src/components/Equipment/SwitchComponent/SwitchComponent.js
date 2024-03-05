@@ -6,7 +6,7 @@ import TerminalComponent from "../../TerminalComponent/TerminalComponent";
 const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals }) => {
 
 
-	console.log(`render switch`)
+	//console.log(`render switch`)
 	let fill = state ? "darkred" : "none";
 	return (
 		<>

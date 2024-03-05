@@ -30,11 +30,9 @@ export const hitTestBranch = function (points, cursor, r) {
   return false;
 };
 
-export const hitTestLinePoint = function (list, cursor, r) {
-  for (let i = 0; i < list.length; i++) {
-    if (Math.pow(list[i].x - cursor.x, 2) + Math.pow(list[i].y - cursor.y, 2) < Math.pow(r, 2)) {
-      return list[i];
-    }
+export const hitTestPoint = function (point, cursor, r) {
+  if (Math.pow(point.x - cursor.x, 2) + Math.pow(point.y - cursor.y, 2) < Math.pow(r, 2)) {
+    return true;
   }
   return false;
 };

@@ -3,8 +3,8 @@ import Line from "../Shapes/Line/Line";
 
 const TerminalNodeComponent = ({ position, id, widthLeft, widthRight, canConnect }) => {
 
-  console.log("render TerminalComponent")
-  console.log(canConnect)
+  //console.log("render TerminalComponent")
+  //console.log(canConnect)
   const color = canConnect ? "lime" : "red";
 
   return (

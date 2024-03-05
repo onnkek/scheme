@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
-import { hitTestElement, hitTestFrame } from '../../tools/hitTest';
+import { hitTestElement, hitTestFrame, hitTestLine, hitTestLinePoint, hitTestPoint } from '../../tools/hitTest';
 import { Point } from '../../models/Point';
 import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayerComponent';
 import { SelectLayer } from '../../models/SelectLayer';
@@ -14,6 +14,7 @@ import { Branch } from '../../models/Elements/Branch';
 import { Terminal } from '../../models/Elements/Terminal';
 import { TerminalNode } from '../../models/Elements/TerminalNode';
 import { Node } from '../../models/Elements/Node';
+import { PointControl } from '../../models/Controls/PointControl';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -66,6 +67,7 @@ function EditorComponent(props) {
             setContextMenu(contextMenuBranchPoint, new Point(e.clientX, e.clientY));
           }
           else {
+
             setEditor({
               ...editor,
               mode: Editor.Modes.Connect,
@@ -129,32 +131,47 @@ function EditorComponent(props) {
       for (let i = 0; i < elems.length; i++) {
         if (hitTestFrame(elems[i].getFrame(), new Point(e.clientX, e.clientY), 50)) {
           elems[i].isShowTerminals = true;
-          console.log(elems[i].terminals[0].getFrame())
-          console.log(e.clientX)
-          console.log(e.clientY)
 
+          if (elems[i] instanceof Node) {
+            if (hitTestLine(
+              new Point(elems[i].position.x - elems[i].widthLeft, elems[i].position.y),
+              new Point(elems[i].position.x + elems[i].widthRight, elems[i].position.y),
+              new Point(e.clientX, e.clientY), 20)) {
+              console.log("HITTEST NODE")
+              editor.connectNode = elems[i];
+              // let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
+              // newTerminal.canConnect = true;
+              // newTerminal.id = elems[i].terminals[j].id;
 
-          for (let j = 0; j < elems[i].terminals.length; j++) {
-            if (hitTestFrame(elems[i].terminals[j].getFrame(), new Point(e.clientX, e.clientY), 10)) {
-
-              let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
-              newTerminal.canConnect = true;
-              newTerminal.id = elems[i].terminals[j].id;
-
-              elems[i].terminals = [...elems[i].terminals.slice(0, j),
-                newTerminal, ...elems[i].terminals.slice(j + 1)]
+              // elems[i].terminals = [...elems[i].terminals.slice(0, j),
+              //   newTerminal, ...elems[i].terminals.slice(j + 1)]
 
 
             } else {
-              let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
-              newTerminal.canConnect = false;
-              newTerminal.id = elems[i].terminals[j].id;
-
-              elems[i].terminals = [...elems[i].terminals.slice(0, j),
-                newTerminal, ...elems[i].terminals.slice(j + 1)]
+              editor.connectNode = null;
             }
-
           }
+          // for (let j = 0; j < elems[i].terminals.length; j++) {
+          //   if (hitTestFrame(elems[i].terminals[j].getFrame(), new Point(e.clientX, e.clientY), 10)) {
+
+          //     let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
+          //     newTerminal.canConnect = true;
+          //     newTerminal.id = elems[i].terminals[j].id;
+
+          //     elems[i].terminals = [...elems[i].terminals.slice(0, j),
+          //       newTerminal, ...elems[i].terminals.slice(j + 1)]
+
+
+          //   } else {
+          //     let newTerminal = new Terminal(elems[i].terminals[j].name, elems[i].terminals[j].position);
+          //     newTerminal.canConnect = false;
+          //     newTerminal.id = elems[i].terminals[j].id;
+
+          //     elems[i].terminals = [...elems[i].terminals.slice(0, j),
+          //       newTerminal, ...elems[i].terminals.slice(j + 1)]
+          //   }
+
+          // }
 
         }
         else {
@@ -199,6 +216,31 @@ function EditorComponent(props) {
       selectLayer.select(elem);
     }
     if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.Connect) {
+
+
+
+      if (editor.connectNode) {
+        let terminal = "";
+        for (let i = 0; i < editor.connectNode.terminals.length; i++) {
+          if (hitTestPoint(editor.connectNode.terminals[i].position, new Point(e.clientX, e.clientY), 10)) {
+            terminal = editor.connectNode.terminals[i];
+          }
+        }
+        if (!terminal) {
+          console.log("ADD TERMINAL")
+          terminal = new Terminal("Терминал " + Math.random(), new Point(e.clientX, editor.connectNode.position.y))
+          editor.connectNode.terminals.push(terminal);
+        }
+        console.log(terminal.position)
+        let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
+        editor.select.points = [...editor.select.points.slice(0, indexOfPoint),
+        terminal.position, ...editor.select.points.slice(indexOfPoint + 1)]
+        editor.select.terminals.push(terminal);
+      }
+
+
+
+
 
       let elems = scheme.elements.filter(x => !(x instanceof Branch));
 
@@ -246,7 +288,7 @@ function EditorComponent(props) {
   ], [removeBranchPointHandler])
 
 
-  console.log("render EditorComponent")
+  //console.log("render EditorComponent")
 
   return (
     <>

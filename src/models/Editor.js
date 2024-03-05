@@ -14,6 +14,7 @@ export class Editor {
 	lastCursor;
 	select;
 	selectControl;
+	connectNode;
 
 
 	constructor() {

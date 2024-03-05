@@ -5,7 +5,7 @@ import Circle from "../Shapes/Circle/Circle";
 
 const TerminalComponent = ({ position, id, canConnect }) => {
 
-  console.log("render TerminalComponent")
+  //console.log("render TerminalComponent")
   const color = canConnect ? "lime" : "red";
   return (
     <>

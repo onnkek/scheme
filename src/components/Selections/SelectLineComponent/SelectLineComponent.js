@@ -3,7 +3,7 @@ import Polyline from "../../Shapes/Polyline/Polyline";
 
 const SelectLineComponent = ({ box }) => {
 
-  console.log("render SelectLineComponent")
+  //console.log("render SelectLineComponent")
   return (
     <>
       <Polyline key={Math.random()} points={box.points} stroke="Violet" strokeWidth={1} />

@@ -20,7 +20,7 @@ export class Node extends Element {
     this.widthLeft = widthLeft;
     this.widthRight = widthRight;
     this.isShowTerminals = false;
-    this.terminals.push(new Terminal("Терминал " + Math.random(), this.position));
+    //this.terminals.push(new Terminal("Терминал " + Math.random(), this.position));
   }
 
   drawComponent() {
