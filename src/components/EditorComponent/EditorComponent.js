@@ -45,9 +45,15 @@ function EditorComponent(props) {
       if (editor.select instanceof Branch && e.shiftKey) {
 
         let indexOfPoint = editor.select.getIndexAddPoint(new Point(e.clientX, e.clientY)); // NEED FIX
-        
-        editor.select.points = [...editor.select.points.slice(0, indexOfPoint),
-        new Point(e.clientX, e.clientY), ...editor.select.points.slice(indexOfPoint)]
+        if (indexOfPoint === 1) {
+          editor.select.points = [new Point(e.clientX, e.clientY), ...editor.select.points.slice(indexOfPoint - 1)]
+        } else if (indexOfPoint === editor.select.getFrame().length - 1) {
+          editor.select.points = [...editor.select.points.slice(0, indexOfPoint - 1), new Point(e.clientX, e.clientY)]
+        } else {
+          editor.select.points = [...editor.select.points.slice(0, indexOfPoint - 1),
+          new Point(e.clientX, e.clientY), ...editor.select.points.slice(indexOfPoint - 1)]
+        }
+
 
       }
       let control = null;
@@ -105,8 +111,6 @@ function EditorComponent(props) {
         lastCursor: new Point(e.clientX, e.clientY)
       });
       selectLayer.select(editor.select);
-      console.log(editor.select.terminals[0])
-      console.log(scheme.elements[4].terminal1)
     }
     if (editor.mode === Editor.Modes.Edit) {
       let delta = new Point(e.clientX - editor.lastCursor.x, e.clientY - editor.lastCursor.y);
@@ -145,7 +149,6 @@ function EditorComponent(props) {
               new Point(elems[i].position.x - elems[i].widthLeft, elems[i].position.y),
               new Point(elems[i].position.x + elems[i].widthRight, elems[i].position.y),
               new Point(e.clientX, e.clientY), 20)) {
-              console.log("HITTEST NODE")
               editor.connectNode = elems[i];
 
             } else {
@@ -166,7 +169,6 @@ function EditorComponent(props) {
         let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
 
         let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
-        console.log(indexOfBranch)
         let newPoint = new Point(scheme.elements[indexOfBranch].getFrame()[indexOfPoint].x + delta.x, //points
           editor.connectNode.position.y);
 
@@ -218,7 +220,7 @@ function EditorComponent(props) {
             ...scheme.elements[nodeIndex].terminals.slice(0, terminalIndex),
             ...scheme.elements[nodeIndex].terminals.slice(terminalIndex + 1)
           ]
-          
+
           editor.select.emptyTerminal1 = new Terminal("Терминал " + Math.random(), editor.select.terminal1.position);
           editor.select.terminal1 = null;
         }
