@@ -3,7 +3,12 @@
 		"nodeHeight": 30,
 		"switchSize": 40,
 		"switchStrokeWidth": 4,
-		"branchStrokeWidth": 6
+		"branchStrokeWidth": 6,
+		"transformer": {
+			"radius": 30,
+			"offset": 18,
+			"strokeWidth": 4
+		}
 	},
 	"editor": {
 		"selectControlPadding": 8,

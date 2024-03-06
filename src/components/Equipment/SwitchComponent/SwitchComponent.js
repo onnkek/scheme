@@ -23,7 +23,7 @@ const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals })
 				<TerminalComponent
 					canConnect={terminal.canConnect}
 					position={terminal.position}
-					id={terminal.id}
+					key={terminal.id}
 				/>) : <></>}
 		</>
 

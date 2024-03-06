@@ -6,7 +6,7 @@ import Circle from "../Shapes/Circle/Circle";
 const TerminalComponent = ({ position, id, canConnect }) => {
 
   //console.log("render TerminalComponent")
-  const color = canConnect ? "lime" : "red";
+  const color = canConnect ? "white" : "red";
   return (
     <>
       <Circle
@@ -15,7 +15,8 @@ const TerminalComponent = ({ position, id, canConnect }) => {
         radius={5}
         fill={color}
         stroke="black"
-        strokeWidth={1} />
+        strokeWidth={1}
+      />
     </>
   );
 }

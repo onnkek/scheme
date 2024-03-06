@@ -9,7 +9,7 @@ export class Terminal extends Element {
   constructor (name, position) {
     super(name);
     this.position = position;
-    this.canConnect = false;
+    this.canConnect = true;
   }
   drawComponent() { }
 

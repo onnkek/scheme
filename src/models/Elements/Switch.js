@@ -32,11 +32,11 @@ export class Switch extends Element {
 			/>
 		);
 	}
-	copy() {
-		let newSwitch = new Switch(this.name, this.state, this.position);
-		newSwitch.id = this.getId();
-		return newSwitch;
-	}
+	// copy() {
+	// 	let newSwitch = new Switch(this.name, this.state, this.position);
+	// 	newSwitch.id = this.getId();
+	// 	return newSwitch;
+	// }
 	getFrame() {
 		return [
 			new Point(this.position.x - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2, this.position.y - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2),

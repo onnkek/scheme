@@ -3,6 +3,7 @@ import { Switch } from "./Elements/Switch";
 import { Node } from "./Elements/Node";
 import { Branch } from "./Elements/Branch";
 import { Terminal } from "./Elements/Terminal";
+import { Transformer } from "./Elements/Transformer";
 
 export class Scheme {
   elements = [];
@@ -72,6 +73,8 @@ export class Scheme {
 
     this.elements.push(new Switch("S1", true, new Point(300, 300),));
     this.elements.push(new Switch("S2", true, new Point(300, 500),));
+
+    this.elements.push(new Transformer("T1", new Point(1100, 400),));
   }
 
 
