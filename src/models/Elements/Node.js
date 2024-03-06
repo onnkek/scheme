@@ -3,7 +3,6 @@ import { Point } from "../Point";
 import config from "../../config.json";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
-import { TerminalNode } from "./TerminalNode";
 
 export class Node extends Element {
 
@@ -20,7 +19,12 @@ export class Node extends Element {
     this.widthLeft = widthLeft;
     this.widthRight = widthRight;
     this.isShowTerminals = false;
-    //this.terminals.push(new Terminal("Терминал " + Math.random(), this.position));
+  }
+
+  addTerminal(x) {
+    let terminal = new Terminal("Терминал " + Math.random(), new Point(x, this.position.y));
+    this.terminals.push(terminal);
+    return terminal;
   }
 
   drawComponent() {

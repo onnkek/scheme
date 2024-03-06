@@ -1,5 +1,7 @@
 import BranchComponent from "../../components/Equipment/BranchComponent/BranchComponent";
+import { Point } from "../Point";
 import { Element } from "./Element";
+import { Terminal } from "./Terminal";
 
 export class Branch extends Element {
 
@@ -8,11 +10,17 @@ export class Branch extends Element {
   points;
   terminal1;
   terminal2;
+  emptyTerminal1;
+  emptyTerminal2;
 
-  constructor(name, number1, number2, points) {
+  constructor (name, number1, number2, terminal1, terminal2, points) {
     super(name);
     this.number1 = number1;
     this.number2 = number2;
+    this.terminal1 = terminal1;
+    this.terminal2 = terminal2;
+    this.emptyTerminal1 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
+    this.emptyTerminal2 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
     this.points = points;
   }
 
@@ -20,22 +28,33 @@ export class Branch extends Element {
     return (<BranchComponent
       key={this.id}
       name={this.name}
-      points={this.points}
+      points={this.getFrame()}
       terminals={this.terminals}
     />);
   }
 
   getFrame() {
-    return this.points;
+    if (this.terminal1 && this.terminal2) {
+      return [this.terminal1.position, ...this.points, this.terminal2.position];
+    }
+    else if (!this.terminal1) {
+      return [this.emptyTerminal1.position, ...this.points, this.terminal2.position];
+    } else if (!this.terminal2) {
+      return [this.terminal1.position, ...this.points, this.emptyTerminal2.position];
+    } else {
+      return [this.emptyTerminal1.position, ...this.points, this.emptyTerminal2.position];
+    }
+
   }
 
   getIndexAddPoint(cursor) {
     let distance = [];
-    for (let i = 0; i < this.points.length - 1; i++) {
-      let x1 = this.points[i].x;
-      let y1 = this.points[i].y;
-      let x2 = this.points[i + 1].x;
-      let y2 = this.points[i + 1].y;
+    let points = this.getFrame();
+    for (let i = 0; i < points.length - 1; i++) {
+      let x1 = points[i].x;
+      let y1 = points[i].y;
+      let x2 = points[i + 1].x;
+      let y2 = points[i + 1].y;
 
       let len = Math.abs((y2 - y1) * cursor.x - (x2 - x1) * cursor.y + x2 * y1 - y2 * x1) / Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2));
 
