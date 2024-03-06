@@ -43,57 +43,48 @@ export const hitTestFrame = (points, cursor, radius) => {
   if ((points[1].x === points[2].x)) {
     if (points[1].x > cursor.x - radius) {
       check++;
-      // console.log("RES 1 |")
     }
   } else {
     let k = (points[2].y - points[1].y) / (points[2].x - points[1].x);
     let m = points[1].y - k * points[1].x;
     if (k * points[1].x + m > cursor.x - radius) {
       check++;
-      // console.log("RES 1")
     }
   }
   if ((points[0].x === points[3].x)) {
     if (points[0].x < cursor.x + radius) {
       check++;
-      // console.log("RES 2 |")
     }
   } else {
     let k = (points[0].y - points[3].y) / (points[0].x - points[3].x);
     let m = points[0].y - k * points[1].x;
     if (k * points[0].x + m < cursor.x + radius) {
       check++;
-      // console.log("RES 2")
     }
   }
 
   if ((points[0].y === points[1].y)) {
     if (points[0].y < cursor.y + radius) {
       check++;
-      // console.log("RES 3 |")
     }
   } else {
     let k = (points[0].y - points[1].y) / (points[0].x - points[1].x);
     let m = points[0].y - k * points[1].x;
     if (k * points[0].y + m < cursor.y + radius) {
       check++;
-      // console.log("RES 3")
     }
   }
   if ((points[2].y === points[3].y)) {
     if (points[2].y > cursor.y - radius) {
       check++;
-      // console.log("RES 4 |")
     }
   } else {
     let k = (points[2].y - points[3].y) / (points[2].x - points[3].x);
     let m = points[2].y - k * points[1].x;
     if (k * points[2].y + m > cursor.y - radius) {
       check++;
-      // console.log("RES 4")
     }
   }
-  // console.log(check)
   if (check === 4) {
     return true;
   }

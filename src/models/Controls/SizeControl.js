@@ -1,7 +1,7 @@
 import Polyline from "../../components/Shapes/Polyline/Polyline";
 import config from "../../config.json";
 import { getRotateTransform } from "../../tools/Transform";
-import { Point } from "../Point";
+import { Point } from "../../tools/Point";
 import { Control } from "./Control";
 
 export class SizeControl extends Control {

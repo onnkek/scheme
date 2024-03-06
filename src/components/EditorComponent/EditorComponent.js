@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
-import { hitTestElement, hitTestFrame, hitTestLine, hitTestLinePoint, hitTestPoint } from '../../tools/hitTest';
-import { Point } from '../../models/Point';
+import { hitTestElement, hitTestFrame, hitTestLine } from '../../tools/hitTest';
+import { Point } from '../../tools/Point';
 import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayerComponent';
 import { SelectLayer } from '../../models/SelectLayer';
 import SchemeComponent from '../SchemeComponent/SchemeComponent';
@@ -12,9 +12,7 @@ import { SizeControl } from '../../models/Controls/SizeControl';
 import { useContextMenu } from '../../hooks';
 import { Branch } from '../../models/Elements/Branch';
 import { Terminal } from '../../models/Elements/Terminal';
-import { TerminalNode } from '../../models/Elements/TerminalNode';
 import { Node } from '../../models/Elements/Node';
-import { PointControl } from '../../models/Controls/PointControl';
 import { SquareControl } from '../../models/Controls/SquareControl';
 
 // TODO:
@@ -44,7 +42,7 @@ function EditorComponent(props) {
     if (editor.mode === Editor.Modes.Select || editor.mode === Editor.Modes.ContextMenu) {
       if (editor.select instanceof Branch && e.shiftKey) {
 
-        let indexOfPoint = editor.select.getIndexAddPoint(new Point(e.clientX, e.clientY)); // NEED FIX
+        let indexOfPoint = editor.select.getIndexAddPoint(new Point(e.clientX, e.clientY));
         if (indexOfPoint === 1) {
           editor.select.points = [new Point(e.clientX, e.clientY), ...editor.select.points.slice(indexOfPoint - 1)]
         } else if (indexOfPoint === editor.select.getFrame().length - 1) {
@@ -333,7 +331,13 @@ function EditorComponent(props) {
 
   return (
     <>
-      <svg id='svg' onContextMenu={(e) => e.preventDefault()} onMouseDown={svgMouseDownHandler} onMouseMove={svgMouseMoveHandler} onMouseUp={svgMouseUpHandler} viewBox="0 0 1400 1000">
+      <svg id='svg'
+        onContextMenu={(e) => e.preventDefault()}
+        onMouseDown={svgMouseDownHandler}
+        onMouseMove={svgMouseMoveHandler}
+        onMouseUp={svgMouseUpHandler}
+        viewBox="0 0 1400 1000"
+      >
         <SchemeComponent scheme={scheme} />
         <SelectLayerComponent selectElement={editor.select} selectLayer={selectLayer} />
       </svg>

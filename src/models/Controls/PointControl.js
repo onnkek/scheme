@@ -1,6 +1,6 @@
 import config from "../../config.json";
 import Circle from "../../components/Shapes/Circle/Circle";
-import { Point } from "../Point";
+import { Point } from "../../tools/Point";
 import { Control } from "./Control";
 
 

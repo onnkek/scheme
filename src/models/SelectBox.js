@@ -1,4 +1,4 @@
-import { Point } from "./Point";
+import { Point } from "../tools/Point";
 import { SizeControl } from "./Controls/SizeControl";
 
 export class SelectBox {

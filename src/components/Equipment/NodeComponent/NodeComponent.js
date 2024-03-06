@@ -10,7 +10,6 @@ const NodeComponent = React.memo((props) => {
   let { x, y, widthRight, widthLeft, number, isShowTerminals, terminals, id, canConnect } = props;
 
   //console.log(`render node - ${number}`)
-  //console.log(terminals);
   return (
     <>
       <Line
@@ -21,6 +20,7 @@ const NodeComponent = React.memo((props) => {
       />
       {terminals.map((terminal) =>
         <Circle
+          key={terminal.id}
           center={terminal.position}
           radius={8}
           fill="white"

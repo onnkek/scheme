@@ -1,6 +1,6 @@
 import SwitchComponent from "../../components/Equipment/SwitchComponent/SwitchComponent";
 import { Element } from "./Element";
-import { Point } from "../Point";
+import { Point } from "../../tools/Point";
 import config from "../../config.json";
 import { Terminal } from "./Terminal";
 

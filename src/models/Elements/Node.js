@@ -1,5 +1,5 @@
 import NodeComponent from "../../components/Equipment/NodeComponent/NodeComponent";
-import { Point } from "../Point";
+import { Point } from "../../tools/Point";
 import config from "../../config.json";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";

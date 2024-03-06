@@ -1,4 +1,4 @@
-import { Point } from "../models/Point";
+import { Point } from "./Point";
 
 export const getLineTransform = (points, point) => {
     let result = [];
