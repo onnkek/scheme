@@ -1,4 +1,5 @@
 import BranchComponent from "../../components/Equipment/BranchComponent/BranchComponent";
+import { config } from "../../config";
 import { Point } from "../../tools/Point";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
@@ -12,8 +13,9 @@ export class Branch extends Element {
   terminal2;
   emptyTerminal1;
   emptyTerminal2;
+  voltage;
 
-  constructor (name, number1, number2, terminal1, terminal2, points) {
+  constructor (name, number1, number2, terminal1, terminal2, points, voltage) {
     super(name);
     this.number1 = number1;
     this.number2 = number2;
@@ -22,6 +24,7 @@ export class Branch extends Element {
     this.emptyTerminal1 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
     this.emptyTerminal2 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
     this.points = points;
+    this.voltage = voltage;
   }
 
   drawComponent() {
@@ -30,9 +33,21 @@ export class Branch extends Element {
       name={this.name}
       points={this.getFrame()}
       terminals={this.terminals}
+      voltageColor={this.getVoltageColor()}
     />);
   }
-
+  getVoltageColor() {
+    switch (this.voltage) {
+      case 500:
+        return config.colors.voltageLevel[500];
+      case 220:
+        return config.colors.voltageLevel[220];
+      case 110:
+        return config.colors.voltageLevel[110];
+      default:
+        return config.colors.voltageLevel.default
+    }
+  }
   getFrame() {
     if (this.terminal1 && this.terminal2) {
       return [this.terminal1.position, ...this.points, this.terminal2.position];

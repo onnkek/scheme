@@ -1,13 +1,13 @@
 import React from "react";
 import Rectangle from "../../Shapes/Rectangle/Rectangle";
-import config from "../../../config.json";
+import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
 
-const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals }) => {
+const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals, voltageColor }) => {
 
 
 	//console.log(`render switch`)
-	let fill = state ? "darkred" : "none";
+	let fill = state ? voltageColor : "none";
 	return (
 		<>
 			<Rectangle
@@ -15,7 +15,7 @@ const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals })
 				y={y}
 				width={config.elements.switchSize}
 				height={config.elements.switchSize}
-				stroke="darkred"
+				stroke={voltageColor}
 				strokeWidth={config.elements.switchStrokeWidth}
 				fill={fill}
 			/>

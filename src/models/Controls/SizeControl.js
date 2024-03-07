@@ -1,5 +1,5 @@
 import Polyline from "../../components/Shapes/Polyline/Polyline";
-import config from "../../config.json";
+import { config } from "../../config";
 import { getRotateTransform } from "../../tools/Transform";
 import { Point } from "../../tools/Point";
 import { Control } from "./Control";
@@ -14,7 +14,7 @@ export class SizeControl extends Control {
 	angle;
 	type;
 
-	constructor(angle, position, type) {
+	constructor (angle, position, type) {
 		super(position);
 		this.angle = angle;
 		this.type = type;

@@ -1,15 +1,16 @@
 import SwitchComponent from "../../components/Equipment/SwitchComponent/SwitchComponent";
 import { Element } from "./Element";
 import { Point } from "../../tools/Point";
-import config from "../../config.json";
 import { Terminal } from "./Terminal";
+import { config } from "../../config";
 
 export class Switch extends Element {
 
 	state;
 	isShowTerminals;
+	voltage;
 
-	constructor(name, state, position) {
+	constructor (name, state, position, voltage) {
 		super(name);
 		this.pole1 = null;
 		this.pole2 = null;
@@ -18,6 +19,7 @@ export class Switch extends Element {
 		this.isShowTerminals = false;
 		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2)));
 		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y + config.elements.switchSize / 2 + 2)));
+		this.voltage = voltage;
 	}
 
 	drawComponent() {
@@ -29,8 +31,21 @@ export class Switch extends Element {
 				y={this.position.y}
 				isShowTerminals={this.isShowTerminals}
 				terminals={this.terminals}
+				voltageColor={this.getVoltageColor()}
 			/>
 		);
+	}
+	getVoltageColor() {
+		switch (this.voltage) {
+			case 500:
+				return config.colors.voltageLevel[500];
+			case 220:
+				return config.colors.voltageLevel[220];
+			case 110:
+				return config.colors.voltageLevel[110];
+			default:
+				return config.colors.voltageLevel.default
+		}
 	}
 	// copy() {
 	// 	let newSwitch = new Switch(this.name, this.state, this.position);

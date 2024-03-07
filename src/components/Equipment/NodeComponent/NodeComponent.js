@@ -1,13 +1,12 @@
 import React from "react";
 import Line from "../../Shapes/Line/Line";
 import Text from "../../Shapes/Text/Text";
-import config from "../../../config.json";
-import TerminalNodeComponent from "../../TerminalNodeComponent/TerminalNodeComponent";
+import { config } from "../../../config";
 import Circle from "../../Shapes/Circle/Circle";
 
 const NodeComponent = React.memo((props) => {
 
-  let { x, y, widthRight, widthLeft, number, isShowTerminals, terminals, id, canConnect } = props;
+  let { x, y, widthRight, widthLeft, number, isShowTerminals, terminals, id, canConnect, voltageColor } = props;
 
   //console.log(`render node - ${number}`)
   return (
@@ -15,7 +14,7 @@ const NodeComponent = React.memo((props) => {
       <Line
         p1={{ x: x - widthLeft, y: y }}
         p2={{ x: x + widthRight, y: y }}
-        stroke="darkred"
+        stroke={voltageColor}
         strokeWidth={config.elements.nodeHeight}
       />
       {terminals.map((terminal) =>

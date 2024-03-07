@@ -1,4 +1,4 @@
-import config from "../../config.json";
+import { config } from "../../config";
 import Circle from "../../components/Shapes/Circle/Circle";
 import { Point } from "../../tools/Point";
 import { Control } from "./Control";

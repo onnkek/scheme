@@ -1,10 +1,10 @@
 import React from "react";
-import config from "../../../config.json";
+import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
 import Circle from "../../Shapes/Circle/Circle";
 import { Point } from "../../../tools/Point";
 
-const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals }) => {
+const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor1, voltageColor2 }) => {
 
 
   //console.log(`render transformer`)
@@ -14,14 +14,14 @@ const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals }) =
         center={new Point(x, y - config.elements.transformer.offset)}
         radius={config.elements.transformer.radius}
         fill="none"
-        stroke="yellow"
+        stroke={voltageColor1}
         strokeWidth={config.elements.transformer.strokeWidth}
       />
       <Circle
         center={new Point(x, y + config.elements.transformer.offset)}
         radius={config.elements.transformer.radius}
         fill="none"
-        stroke="red"
+        stroke={voltageColor2}
         strokeWidth={config.elements.transformer.strokeWidth}
       />
 

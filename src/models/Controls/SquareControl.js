@@ -1,5 +1,5 @@
 import SquareControlComponent from "../../components/Controls/SquareControlComponent/SquareControlComponent";
-import config from "../../config.json";
+import { config } from "../../config";
 import { Point } from "../../tools/Point";
 import { Control } from "./Control";
 

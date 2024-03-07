@@ -1,6 +1,4 @@
 import React from "react";
-import { Point } from "../../tools/Point";
-import Polyline from "../Shapes/Polyline/Polyline";
 import Circle from "../Shapes/Circle/Circle";
 
 const TerminalComponent = ({ position, id, canConnect }) => {
