@@ -93,7 +93,6 @@ export const hitTestFrame = (points, cursor, radius) => {
 
 export const hitTestElement = (elements, cursor, radius) => {
   for (let i = 0; i < elements.length; i++) {
-    console.log(elements[i] instanceof Branch);
     if (elements[i] instanceof Branch) {
       if (hitTestBranch(elements[i].getFrame(), cursor, radius)) {
         return elements[i];

@@ -3,6 +3,7 @@ import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
 import Circle from "../../Shapes/Circle/Circle";
 import { Point } from "../../../tools/Point";
+import Path from "../../Shapes/Path/Path";
 
 const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor }) => {
 
@@ -17,7 +18,13 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
         stroke={voltageColor}
         strokeWidth={config.elements.generation.strokeWidth}
       />
-      <path d={config.elements.generation.path} stroke={voltageColor} fill="none" />
+      <Path
+        point={new Point(x, y)}
+        path={config.elements.generation.path}
+        stroke={voltageColor}
+        fill="none"
+        strokeWidth={config.elements.generation.strokeWidth}
+      />
 
       {isShowTerminals ? terminals.map((terminal) =>
         <TerminalComponent

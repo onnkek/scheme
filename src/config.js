@@ -11,10 +11,46 @@ export const config = {
 		},
 		"generation": {
 			"radius": 35,
-			"strokeWidth": 5,
-			"path": "M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"
+			"strokeWidth": 4,
+			"path": [
+				{
+					"type": "M",
+					"x": "-22",
+					"y": "5"
+				},
+				{
+					"type": "C",
+					"x": "-15",
+					"y": "-15"
+				},
+				{
+					"type": "",
+					"x": "-2",
+					"y": "-2"
+				},
+				{
+					"type": "",
+					"x": "0",
+					"y": "0"
+				},
+				{
+					"type": "S",
+					"x": "15",
+					"y": "15"
+				},
+				{
+					"type": "",
+					"x": "22",
+					"y": "-5"
+				}
+			]
+		},
+		"load": {
+			"widthArrow": 40,
+			"heightArrow": 20,
+			"height": 50,
+			"strokeWidth": 4
 		}
-
 	},
 	"editor": {
 		"selectControlPadding": 8,

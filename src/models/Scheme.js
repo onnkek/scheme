@@ -5,6 +5,7 @@ import { Branch } from "./Elements/Branch";
 import { Terminal } from "./Elements/Terminal";
 import { Transformer } from "./Elements/Transformer";
 import { Generation } from "./Elements/Generation";
+import { Load } from "./Elements/Load";
 
 export class Scheme {
   elements = [];
@@ -89,6 +90,7 @@ export class Scheme {
     this.elements.push(new Switch("S2", true, new Point(300, 500), 500));
 
     this.elements.push(new Generation("G1", new Point(800, 800), 110));
+    this.elements.push(new Load("G1", new Point(600, 800), 110));
 
     let transformer = new Transformer("T1", new Point(810, 440), 500, 220);
     transformer.terminals[0] = terminal5_2;
