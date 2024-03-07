@@ -1,6 +1,6 @@
 import BranchComponent from "../../components/Equipment/BranchComponent/BranchComponent";
 import { config } from "../../config";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
 

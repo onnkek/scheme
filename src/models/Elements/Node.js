@@ -1,6 +1,6 @@
 import NodeComponent from "../../components/Equipment/NodeComponent/NodeComponent";
 import { config } from "../../config";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
 
@@ -12,8 +12,9 @@ export class Node extends Element {
   widthRight;
   isShowTerminals;
   voltage;
+  angle;
 
-  constructor (name, number, position, widthLeft, widthRight, voltage) {
+  constructor(name, number, position, widthLeft, widthRight, voltage) {
     super(name);
     this.number = number;
     this.position = position;
@@ -21,6 +22,7 @@ export class Node extends Element {
     this.widthRight = widthRight;
     this.isShowTerminals = false;
     this.voltage = voltage;
+    this.angle = 0;
   }
 
   addTerminal(x) {

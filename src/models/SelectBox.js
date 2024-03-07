@@ -1,4 +1,5 @@
-import { Point } from "../tools/Point";
+import { Point } from "../utils/Point";
+import { RotateControl } from "./Controls/RotateControl";
 import { SizeControl } from "./Controls/SizeControl";
 
 export class SelectBox {
@@ -7,11 +8,14 @@ export class SelectBox {
 	position;
 	width;
 	height;
+	angle;
 
-	constructor(frame) {
+	constructor(frame, angle) {
 		this.frame = frame;
+		this.angle = angle;
 		this.initSelectBox();
 		this.addControls();
+
 	}
 
 	initSelectBox() {
@@ -21,10 +25,11 @@ export class SelectBox {
 	}
 
 	addControls() {
-		this.controls.push(new SizeControl(0, this.frame[0], SizeControl.Types.Left));
-		this.controls.push(new SizeControl(90, this.frame[1], SizeControl.Types.Right));
-		this.controls.push(new SizeControl(180, this.frame[2], SizeControl.Types.Right));
-		this.controls.push(new SizeControl(270, this.frame[3], SizeControl.Types.Left));
+		this.controls.push(new SizeControl(0, this.angle, this.position, this.frame[0], SizeControl.Types.LeftTop));
+		this.controls.push(new SizeControl(90, this.angle, this.position, this.frame[1], SizeControl.Types.RightTop));
+		this.controls.push(new SizeControl(180, this.angle, this.position, this.frame[2], SizeControl.Types.RightBottom));
+		this.controls.push(new SizeControl(270, this.angle, this.position, this.frame[3], SizeControl.Types.LeftBottom));
+		this.controls.push(new RotateControl(this.position, this.angle));
 	}
 
 }

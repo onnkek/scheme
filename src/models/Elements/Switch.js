@@ -1,25 +1,31 @@
 import SwitchComponent from "../../components/Equipment/SwitchComponent/SwitchComponent";
 import { Element } from "./Element";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
+import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Switch extends Element {
 
 	state;
 	isShowTerminals;
 	voltage;
+	angle;
 
-	constructor (name, state, position, voltage) {
+	constructor(name, state, position, voltage) {
 		super(name);
 		this.pole1 = null;
 		this.pole2 = null;
 		this.position = position;
 		this.state = state;
 		this.isShowTerminals = false;
-		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2)));
-		this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y + config.elements.switchSize / 2 + 2)));
+		this.angle = 0;
+		this.terminals.push(new Terminal("Терминал " + Math.random(),
+			new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2), this.angle));
+		this.terminals.push(new Terminal("Терминал " + Math.random(),
+			new Point(this.position.x, this.position.y + config.elements.switchSize / 2 + 2), this.angle));
 		this.voltage = voltage;
+ 
 	}
 
 	drawComponent() {
@@ -32,6 +38,7 @@ export class Switch extends Element {
 				isShowTerminals={this.isShowTerminals}
 				terminals={this.terminals}
 				voltageColor={this.getVoltageColor()}
+				angle={this.angle}
 			/>
 		);
 	}

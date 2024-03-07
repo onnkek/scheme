@@ -1,21 +1,24 @@
 import { Element } from "./Element";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import GenerationComponent from "../../components/Equipment/GenerationComponent/GenerationComponent";
+import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Generation extends Element {
 
   isShowTerminals;
   voltage;
+  angle;
 
-  constructor (name, position, voltage) {
+  constructor(name, position, voltage) {
     super(name);
     this.pole1 = null;
     this.pole2 = null;
     this.position = position;
     this.isShowTerminals = false;
-    this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.generation.radius)));
+    this.angle = 0;
+    this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.generation.radius), this.angle));
     this.voltage = voltage;
   }
 
@@ -29,6 +32,7 @@ export class Generation extends Element {
         isShowTerminals={this.isShowTerminals}
         terminals={this.terminals}
         voltageColor={this.getVoltageColor()}
+        angle={this.angle}
       />
     );
   }

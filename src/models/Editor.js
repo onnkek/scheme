@@ -1,4 +1,4 @@
-import { Point } from "../tools/Point";
+import { Point } from "../utils/Point";
 
 export class Editor {
 	static Modes = { // enum

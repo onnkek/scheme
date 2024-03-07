@@ -1,36 +1,46 @@
 import Polyline from "../../components/Shapes/Polyline/Polyline";
 import { config } from "../../config";
-import { getRotateTransform } from "../../tools/Transform";
-import { Point } from "../../tools/Point";
+import { getRotateTransformPoints } from "../../utils/Transform";
+import { Point } from "../../utils/Point";
 import { Control } from "./Control";
 
 export class SizeControl extends Control {
 
 	static Types = { // enum
-		Right: "Right",
-		Left: "Left"
+		RightTop: "RightTop",
+		RightBottom: "RightBottom",
+		LeftTop: "LeftTop",
+		LeftBottom: "LeftBottom"
 	}
 
-	angle;
+	angleRelativePosition;
+	angleRelativePoint;
+	point;
 	type;
 
-	constructor (angle, position, type) {
+	constructor(angleRelativePosition, angleRelativePoint, point, position, type) {
+		//console.log(angleRelativePoint)
 		super(position);
-		this.angle = angle;
+		this.angleRelativePosition = angleRelativePosition;
+		this.angleRelativePoint = angleRelativePoint;
 		this.type = type;
+		this.point = point;
 	}
 
 	getPoints() {
-		return [
+		let startPoints = [
 			new Point(this.position.x - config.editor.selectControlPadding + config.editor.selectControlLength, this.position.y - config.editor.selectControlPadding),
 			new Point(this.position.x - config.editor.selectControlPadding, this.position.y - config.editor.selectControlPadding),
 			new Point(this.position.x - config.editor.selectControlPadding, this.position.y - config.editor.selectControlPadding + config.editor.selectControlLength)
-		]
+		];
+		let rotateRelativePosition = getRotateTransformPoints(startPoints, this.angleRelativePosition, this.position);
+		return getRotateTransformPoints(rotateRelativePosition, this.angleRelativePoint, this.point);
 	}
 
 	drawComponent() {
+		//console.log(this.angleRelativePoint)
 		return (
-			<Polyline key={this.id} points={getRotateTransform(this.getPoints(), this.angle, this.position)} stroke="DodgerBlue" strokeWidth={4} />
+			<Polyline key={this.id} points={this.getPoints()} stroke="DodgerBlue" strokeWidth={4} />
 		);
 	}
 

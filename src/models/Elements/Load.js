@@ -1,21 +1,25 @@
 import { Element } from "./Element";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import LoadComponent from "../../components/Equipment/LoadComponent/LoadComponent";
+import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Load extends Element {
 
   isShowTerminals;
   voltage;
+  angle;
 
-  constructor (name, position, voltage) {
+  constructor(name, position, voltage) {
     super(name);
     this.pole1 = null;
     this.pole2 = null;
     this.position = position;
     this.isShowTerminals = false;
-    this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.load.height)));
+    this.angle = 0;
+    this.terminals.push(new Terminal("Терминал " + Math.random(),
+      new Point(this.position.x, this.position.y - config.elements.load.height / 2), this.angle));
     this.voltage = voltage;
   }
 
@@ -29,6 +33,7 @@ export class Load extends Element {
         isShowTerminals={this.isShowTerminals}
         terminals={this.terminals}
         voltageColor={this.getVoltageColor()}
+        angle={this.angle}
       />
     );
   }
@@ -46,10 +51,10 @@ export class Load extends Element {
   }
   getFrame() {
     return [
-      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height),
-      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height),
-      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y),
-      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y)
+      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height / 2),
+      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height / 2),
+      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y + config.elements.load.height / 2),
+      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y + config.elements.load.height / 2)
     ]
   }
 }

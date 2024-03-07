@@ -1,6 +1,6 @@
 import { config } from "../../config";
 import Circle from "../../components/Shapes/Circle/Circle";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Control } from "./Control";
 
 
@@ -8,7 +8,14 @@ export class PointControl extends Control {
 
 	drawComponent() {
 		return (
-			<Circle key={this.id} center={this.position} radius={config.editor.controls.pointControl.radius} fill="red" stroke="black" strokeWidth={1} />
+			<Circle
+				key={this.id}
+				center={this.position}
+				radius={config.editor.controls.pointControl.radius}
+				fill="red"
+				stroke="black"
+				strokeWidth={1}
+			/>
 		);
 	}
 

@@ -2,10 +2,10 @@ import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
 import Circle from "../../Shapes/Circle/Circle";
-import { Point } from "../../../tools/Point";
+import { Point } from "../../../utils/Point";
 import Path from "../../Shapes/Path/Path";
 
-const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor }) => {
+const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle }) => {
 
 
   // console.log(`render generation`)
@@ -24,6 +24,8 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
         stroke={voltageColor}
         fill="none"
         strokeWidth={config.elements.generation.strokeWidth}
+        pos={new Point(x, y)}
+        angle={angle}
       />
 
       {isShowTerminals ? terminals.map((terminal) =>

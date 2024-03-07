@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
-import { hitTestElement, hitTestFrame, hitTestLine, hitTestPoint } from '../../tools/hitTest';
-import { Point } from '../../tools/Point';
+import { hitTestElement, hitTestFrame, hitTestLine, hitTestPoint } from '../../utils/hitTest';
+import { Point } from '../../utils/Point';
 import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayerComponent';
 import { SelectLayer } from '../../models/SelectLayer';
 import SchemeComponent from '../SchemeComponent/SchemeComponent';
@@ -14,6 +14,8 @@ import { Branch } from '../../models/Elements/Branch';
 import { Terminal } from '../../models/Elements/Terminal';
 import { Node } from '../../models/Elements/Node';
 import { SquareControl } from '../../models/Controls/SquareControl';
+import { RotateControl } from '../../models/Controls/RotateControl';
+import { getRotateTransformPoint } from '../../utils/Transform';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -118,6 +120,25 @@ function EditorComponent(props) {
 
       if (editor.selectControl.type === SizeControl.Types.Left) {
         editor.select.widthLeft -= delta.x;
+      }
+
+      if (editor.selectControl instanceof RotateControl) {
+        let angle = Math.atan2(cursor.y - editor.select.position.y, cursor.x - editor.select.position.x);
+        editor.select.angle = Math.round((angle * 180 / Math.PI + 90) / 90) * 90;
+
+        for (let i = 0; i < editor.select.terminals.length; i++) {
+          console.log(editor.select.angle);
+          console.log(editor.select.terminals[i].angle);
+          if (Math.abs(editor.select.angle) !== Math.abs(editor.select.terminals[i].angle)) {
+
+            editor.select.terminals[i].position = getRotateTransformPoint(editor.select.terminals[i].position,
+              editor.select.angle - editor.select.terminals[i].angle, editor.select.position);
+            editor.select.terminals[i].angle = editor.select.angle;
+          }
+
+        }
+        editor.select.terminals = [...editor.select.terminals]
+
       }
 
       if (editor.select.widthLeft < 50)

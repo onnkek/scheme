@@ -1,4 +1,4 @@
-import { Point } from "../tools/Point";
+import { Point } from "../utils/Point";
 import { Switch } from "./Elements/Switch";
 import { Node } from "./Elements/Node";
 import { Branch } from "./Elements/Branch";
@@ -10,7 +10,7 @@ import { Load } from "./Elements/Load";
 export class Scheme {
   elements = [];
 
-  constructor () {
+  constructor() {
     this.initScheme();
   }
 
@@ -21,29 +21,29 @@ export class Scheme {
     let node3 = new Node("3", 3, new Point(710, 210), 150, 150, 500);
     let node4 = new Node("4", 4, new Point(860, 660), 150, 150, 220);
 
-    let terminal1_1 = new Terminal("Терм " + Math.random(), new Point(400, 110));
-    let terminal1_2 = new Terminal("Терм " + Math.random(), new Point(400, 660));
+    let terminal1_1 = new Terminal("Терм " + Math.random(), new Point(400, 110), 0);
+    let terminal1_2 = new Terminal("Терм " + Math.random(), new Point(400, 660), 0);
 
     node1.terminals.push(terminal1_1);
     node2.terminals.push(terminal1_2);
-    let terminal2_1 = new Terminal("Терм " + Math.random(), new Point(450, 660));
-    let terminal2_2 = new Terminal("Терм " + Math.random(), new Point(660, 210));
+    let terminal2_1 = new Terminal("Терм " + Math.random(), new Point(450, 660), 0);
+    let terminal2_2 = new Terminal("Терм " + Math.random(), new Point(660, 210), 0);
 
     node2.terminals.push(terminal2_1);
     node3.terminals.push(terminal2_2);
-    let terminal3_1 = new Terminal("Терм " + Math.random(), new Point(810, 210));
-    let terminal3_2 = new Terminal("Терм " + Math.random(), new Point(810, 390));
+    let terminal3_1 = new Terminal("Терм " + Math.random(), new Point(810, 210), 0);
+    let terminal3_2 = new Terminal("Терм " + Math.random(), new Point(810, 390), 0);
 
     node3.terminals.push(terminal3_1);
     //node4.terminals.push(terminal3_2);
-    let terminal4_1 = new Terminal("Терм " + Math.random(), new Point(710, 210));
-    let terminal4_2 = new Terminal("Терм " + Math.random(), new Point(500, 660));
+    let terminal4_1 = new Terminal("Терм " + Math.random(), new Point(710, 210), 0);
+    let terminal4_2 = new Terminal("Терм " + Math.random(), new Point(500, 660), 0);
 
     node3.terminals.push(terminal4_1);
     node2.terminals.push(terminal4_2);
 
-    let terminal5_1 = new Terminal("Терм " + Math.random(), new Point(810, 660));
-    let terminal5_2 = new Terminal("Терм " + Math.random(), new Point(810, 490));
+    let terminal5_1 = new Terminal("Терм " + Math.random(), new Point(810, 660), 0);
+    let terminal5_2 = new Terminal("Терм " + Math.random(), new Point(810, 490), 0);
     node4.terminals.push(terminal5_1);
 
     this.elements.push(new Branch("12", 1, 2,
@@ -86,7 +86,7 @@ export class Scheme {
 
 
 
-    this.elements.push(new Switch("S1", true, new Point(300, 300), 500));
+    this.elements.push(new Switch("S1", false, new Point(300, 300), 500));
     this.elements.push(new Switch("S2", true, new Point(300, 500), 500));
 
     this.elements.push(new Generation("G1", new Point(800, 800), 110));

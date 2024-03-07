@@ -1,6 +1,6 @@
 import SquareControlComponent from "../../components/Controls/SquareControlComponent/SquareControlComponent";
 import { config } from "../../config";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Control } from "./Control";
 
 export class SquareControl extends Control {

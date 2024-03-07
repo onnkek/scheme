@@ -1,5 +1,5 @@
 import { Element } from "./Element";
-import { Point } from "../../tools/Point";
+import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import TransformerComponent from "../../components/Equipment/TransformerComponent/TransformerComponent";
 import { config } from "../../config";
@@ -9,17 +9,19 @@ export class Transformer extends Element {
   isShowTerminals;
   voltage1;
   voltage2;
+  angle;
 
-  constructor (name, position, voltage1, voltage2) {
+  constructor(name, position, voltage1, voltage2) {
     super(name);
     this.position = position;
     this.isShowTerminals = false;
     this.terminals.push(new Terminal("Терминал " + Math.random(),
-      new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset)));
+      new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset), this.angle));
     this.terminals.push(new Terminal("Терминал " + Math.random(),
-      new Point(this.position.x, this.position.y + config.elements.transformer.radius + config.elements.transformer.offset)));
+      new Point(this.position.x, this.position.y + config.elements.transformer.radius + config.elements.transformer.offset), this.angle));
     this.voltage1 = voltage1;
-    this.voltage2 = voltage2;
+    this.voltage2 = voltage2; 
+    this.angle = 0;
   }
 
   drawComponent() {
@@ -32,6 +34,7 @@ export class Transformer extends Element {
         terminals={this.terminals}
         voltageColor1={this.getVoltageColor(this.voltage1)}
         voltageColor2={this.getVoltageColor(this.voltage2)}
+        angle={this.angle}
       />
     );
   }

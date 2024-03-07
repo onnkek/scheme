@@ -1,15 +1,15 @@
 import { getPointsString } from "../../../utils/Point";
 
-function Polyline({ points, stroke, strokeWidth }) {
+function Polygon({ points, stroke, strokeWidth, fill = "none" }) {
 
   return (
-    <polyline
+    <polygon
       points={getPointsString(points)}
       stroke={stroke}
       strokeWidth={strokeWidth}
-      fill="none"
+      fill={fill}
     />
   );
 }
 
-export default Polyline;
+export default Polygon;
