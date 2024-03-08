@@ -69,10 +69,10 @@ export class Node extends Element {
 
   getFrame() {
     return [
-      new Point(this.position.x - this.widthLeft, this.position.y - config.elements.nodeHeight / 2),
-      new Point(this.position.x + this.widthRight, this.position.y - config.elements.nodeHeight / 2),
-      new Point(this.position.x + this.widthRight, this.position.y + config.elements.nodeHeight / 2),
-      new Point(this.position.x - this.widthLeft, this.position.y + config.elements.nodeHeight / 2)
+      new Point(this.position.x - this.widthLeft - config.editor.selectBoxPadding, this.position.y - config.elements.nodeHeight / 2 - config.editor.selectBoxPadding),
+      new Point(this.position.x + this.widthRight + config.editor.selectBoxPadding, this.position.y - config.elements.nodeHeight / 2 - config.editor.selectBoxPadding),
+      new Point(this.position.x + this.widthRight + config.editor.selectBoxPadding, this.position.y + config.elements.nodeHeight / 2 + config.editor.selectBoxPadding),
+      new Point(this.position.x - this.widthLeft - config.editor.selectBoxPadding, this.position.y + config.elements.nodeHeight / 2 + config.editor.selectBoxPadding)
     ]
   }
 }

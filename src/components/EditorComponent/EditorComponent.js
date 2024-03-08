@@ -58,9 +58,7 @@ function EditorComponent(props) {
       }
       let control = null;
       for (let i = 0; i < selectLayer.box.controls.length; i++) {
-        console.log(selectLayer.box.controls[i].getFrame());
-        console.log(new Point(e.clientX, e.clientY));
-        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 5)) {
+        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 10)) {
           control = selectLayer.box.controls[i];
         }
       }
@@ -117,11 +115,11 @@ function EditorComponent(props) {
       selectLayer.select(editor.select);
     }
     if (editor.mode === Editor.Modes.Edit) {
-      if (editor.selectControl.type === SizeControl.Types.RightUp || editor.selectControl.type === SizeControl.Types.RightBottom) {
+      if (editor.selectControl.type === SizeControl.Types.RightTop || editor.selectControl.type === SizeControl.Types.RightBottom) {
         editor.select.widthRight += delta.x;
       }
 
-      if (editor.selectControl.type === SizeControl.Types.LeftUp || editor.selectControl.type === SizeControl.Types.LeftBottom) {
+      if (editor.selectControl.type === SizeControl.Types.LeftTop || editor.selectControl.type === SizeControl.Types.LeftBottom) {
         editor.select.widthLeft -= delta.x;
       }
 
@@ -353,7 +351,7 @@ function EditorComponent(props) {
 
   const svgMouseUpHandler = (e) => {
 
-    const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 5);
+    const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 10);
 
     if (elem && (editor.mode === Editor.Modes.Default || editor.mode === Editor.Modes.Select)) {
       setEditor({

@@ -22,6 +22,7 @@ export const config = {
 		}
 	},
 	"editor": {
+		"selectBoxPadding": 4,
 		"selectControlPadding": 8,
 		"selectControlLength": 12,
 		"controls": {
