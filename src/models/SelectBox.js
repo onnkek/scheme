@@ -9,13 +9,14 @@ export class SelectBox {
 	width;
 	height;
 	angle;
+	canRotate;
 
-	constructor(frame, angle) {
+	constructor(frame, angle, canRotate) {
 		this.frame = frame;
 		this.angle = angle;
+		this.canRotate = canRotate;
 		this.initSelectBox();
 		this.addControls();
-
 	}
 
 	initSelectBox() {
@@ -29,7 +30,9 @@ export class SelectBox {
 		this.controls.push(new SizeControl(90, this.angle, this.position, this.frame[1], SizeControl.Types.RightTop));
 		this.controls.push(new SizeControl(180, this.angle, this.position, this.frame[2], SizeControl.Types.RightBottom));
 		this.controls.push(new SizeControl(270, this.angle, this.position, this.frame[3], SizeControl.Types.LeftBottom));
-		this.controls.push(new RotateControl(this.position, this.angle));
+		if (this.canRotate) {
+			this.controls.push(new RotateControl(this.position, this.frame[2].y - this.frame[1].y, this.angle));
+		}
 	}
 
 }

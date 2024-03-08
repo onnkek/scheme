@@ -10,6 +10,7 @@ export class Generation extends Element {
   isShowTerminals;
   voltage;
   angle;
+  canRotate;
 
   constructor(name, position, voltage) {
     super(name);
@@ -17,6 +18,7 @@ export class Generation extends Element {
     this.pole2 = null;
     this.position = position;
     this.isShowTerminals = false;
+    this.canRotate = true;
     this.angle = 0;
     this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.generation.radius), this.angle));
     this.voltage = voltage;

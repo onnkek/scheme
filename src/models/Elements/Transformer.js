@@ -10,11 +10,13 @@ export class Transformer extends Element {
   voltage1;
   voltage2;
   angle;
+  canRotate;
 
   constructor(name, position, voltage1, voltage2) {
     super(name);
     this.position = position;
     this.isShowTerminals = false;
+    this.canRotate = true;
     this.terminals.push(new Terminal("Терминал " + Math.random(),
       new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset), this.angle));
     this.terminals.push(new Terminal("Терминал " + Math.random(),

@@ -11,7 +11,7 @@ export class SelectLayer {
 		if (element instanceof Branch) {
 			this.box = new SelectLine(this.frame);
 		} else {
-			this.box = new SelectBox(this.frame, element.angle);
+			this.box = new SelectBox(this.frame, element.angle, element.canRotate);
 		}
 
 	}

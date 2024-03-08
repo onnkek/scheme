@@ -11,6 +11,7 @@ export class Switch extends Element {
 	isShowTerminals;
 	voltage;
 	angle;
+	canRotate;
 
 	constructor(name, state, position, voltage) {
 		super(name);
@@ -19,6 +20,7 @@ export class Switch extends Element {
 		this.position = position;
 		this.state = state;
 		this.isShowTerminals = false;
+		this.canRotate = true;
 		this.angle = 0;
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
 			new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2), this.angle));

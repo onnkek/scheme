@@ -1,36 +1,55 @@
 import { config } from "../../config";
-import Circle from "../../components/Shapes/Circle/Circle";
 import { Point } from "../../utils/Point";
 import { Control } from "./Control";
-import { getRotateTransformPoint, getRotateTransformPoints } from "../../utils/Transform";
-
+import { getRotateTransformPoint, getRotateTransformPoints, pathParse } from "../../utils/Transform";
+import Path from "../../components/Shapes/Path/Path";
+import Line from "../../components/Shapes/Line/Line";
 
 export class RotateControl extends Control {
 
-  constructor(position, angle) {
+  heightFrame;
+
+  constructor(position, heightFrame, angle) {
     super(position);
+    this.heightFrame = heightFrame;
     this.angle = angle;
   }
 
+
+
   drawComponent() {
+    const linePoint1 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset), this.angle, this.position);
+    const linePoint2 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2), this.angle, this.position);
     return (
-      <Circle
-        key={this.id}
-        center={getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position)}
-        radius={5}
-        fill="magenta"
-        stroke="magenta"
-        strokeWidth={1}
-      />
+      <>
+        <Path
+          point={this.position}
+          path={pathParse(config.editor.controls.rotateControl.path)}
+          stroke="#919191"
+          fill="white"
+          strokeWidth={1}
+          angle={this.angle}
+          offset={new Point(this.position.x, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8)}
+        />
+        <Line
+          p1={linePoint1}
+          p2={linePoint2}
+          stroke="magenta"
+          strokeWidth={1}
+        />
+      </>
     );
   }
 
   getFrame() {
-    return [
-      new Point(getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).x - 5, getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).y - 5),
-      new Point(getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).x + 5, getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).y - 5),
-      new Point(getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).x + 5, getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).y + 5),
-      new Point(getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).x - 5, getRotateTransformPoint(new Point(this.position.x, this.position.y - 60 - 5), this.angle, this.position).y + 5)
+    const points = [
+      new Point(this.position.x - 5, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8 - 5),
+      new Point(this.position.x + 5, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8 - 5),
+      new Point(this.position.x + 5, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8 + 5),
+      new Point(this.position.x - 5, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8 + 5)
     ]
+    const rotatePoints = getRotateTransformPoints(points, this.angle, this.position)
+    // console.log(rotatePoints)
+    return rotatePoints
   }
 }

@@ -13,6 +13,7 @@ export class Node extends Element {
   isShowTerminals;
   voltage;
   angle;
+  canRotate;
 
   constructor(name, number, position, widthLeft, widthRight, voltage) {
     super(name);
@@ -21,6 +22,7 @@ export class Node extends Element {
     this.widthLeft = widthLeft;
     this.widthRight = widthRight;
     this.isShowTerminals = false;
+    this.canRotate = false;
     this.voltage = voltage;
     this.angle = 0;
   }

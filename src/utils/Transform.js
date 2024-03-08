@@ -25,3 +25,23 @@ export const getRotateTransformPoints = (points, angle, startPoint) => {
 	}
 	return result;
 }
+export const pathParse = (path) => {
+	let pathArray = [];
+	let splitPath = path.split(" ");
+	for (let i = 0; i < splitPath.length; i++) {
+		let command = {};
+		if (splitPath[i].match(/[a-zA-Z]/)) {
+			command.type = splitPath[i];
+			command.x = splitPath[i + 1];
+			command.y = splitPath[i + 2];
+			i += 2;
+		} else {
+			command.type = "";
+			command.x = splitPath[i];
+			command.y = splitPath[i + 1];
+			i += 1;
+		}
+		pathArray.push(command);
+	}
+	return pathArray;
+}
