@@ -1,9 +1,30 @@
 #svg {
-  margin: 0 0 0 0;
+  margin: 0 0 0 10px;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
   width: 1400px;
   height: 1000px;
   border: 1px solid white;
+}
+
+.edit-panel {
+  height: 40px;
+  padding: 0px 10px;
+}
+.edit-panel__button {
+  background-color: #131313;
+  border: 1px solid white;
+}
+.edit-panel__button img {
+  padding: 4px;
+  height: 35px;
+  width: 35px;
+  fill: white;
+}
+.edit-panel__button_active {
+  background-color: #3c456e;
+}
+.edit-panel__button:hover {
+  background-color: #4c588c;
 }/*# sourceMappingURL=EditorComponent.css.map */

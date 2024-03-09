@@ -2,6 +2,7 @@ import React from "react";
 import Polyline from "../../Shapes/Polyline/Polyline";
 import Circle from "../../Shapes/Circle/Circle";
 import { config } from "../../../config";
+import "./BranchComponent.css"
 
 const BranchComponent = React.memo(({ points, name, terminals, voltageColor }) => {
 	//console.log(`render Branch - ${name}`)

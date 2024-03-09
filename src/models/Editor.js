@@ -16,6 +16,8 @@ export class Editor {
 	selectControl;
 	connectNode;
 	connectTerminal;
+	newElement;
+	button; // rework in future
 
 	constructor() {
 		this.mode = Editor.Modes.Default;

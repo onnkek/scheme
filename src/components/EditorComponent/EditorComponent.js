@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
 import { Scheme } from '../../models/Scheme';
@@ -16,11 +16,10 @@ import { Node } from '../../models/Elements/Node';
 import { SquareControl } from '../../models/Controls/SquareControl';
 import { RotateControl } from '../../models/Controls/RotateControl';
 import { getRotateTransformPoint } from '../../utils/Transform';
+import connectIcon from '../../assets/icons/connect.svg'
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
-// Вынести цвета элементов в поля класса, чтобы их было можно менять
-// Подключение линий к элементам
 // Перевод всего этого на TS
 
 function EditorComponent(props) {
@@ -323,17 +322,20 @@ function EditorComponent(props) {
 
       }
 
-      let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
-      let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
+      if (editor.select && editor.selectControl) {
+        let indexOfPoint = selectLayer.box.controls.findIndex(x => x === editor.selectControl);
+        let indexOfBranch = scheme.elements.findIndex(x => x === editor.select);
 
-      if (indexOfPoint === 0) {
-        scheme.elements[indexOfBranch].emptyTerminal1.position = cursor;
-      } else if (indexOfPoint === scheme.elements[indexOfBranch].getFrame().length - 1) {
-        scheme.elements[indexOfBranch].emptyTerminal2.position = cursor;
-      } else {
-        scheme.elements[indexOfBranch].points = [...scheme.elements[indexOfBranch].points.slice(0, indexOfPoint - 1),
-          cursor, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint)]
+        if (indexOfPoint === 0) {
+          scheme.elements[indexOfBranch].emptyTerminal1.position = cursor;
+        } else if (indexOfPoint === scheme.elements[indexOfBranch].getFrame().length - 1) {
+          scheme.elements[indexOfBranch].emptyTerminal2.position = cursor;
+        } else {
+          scheme.elements[indexOfBranch].points = [...scheme.elements[indexOfBranch].points.slice(0, indexOfPoint - 1),
+            cursor, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint)]
+        }
       }
+
 
 
       setEditor({
@@ -354,6 +356,14 @@ function EditorComponent(props) {
     const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 10);
 
     if (elem && (editor.mode === Editor.Modes.Default || editor.mode === Editor.Modes.Select)) {
+      if (e.button === 2) {
+        setEditor({
+          ...editor,
+          mode: Editor.Modes.ContextMenu
+        });
+        setContextMenu(contextMenuRemoveBranch, new Point(e.clientX, e.clientY));
+      }
+
       setEditor({
         ...editor,
         mode: Editor.Modes.Select,
@@ -363,20 +373,47 @@ function EditorComponent(props) {
       selectLayer.select(elem);
     }
     if (editor.mode === Editor.Modes.Move || editor.mode === Editor.Modes.Connect) {
-
       let elems = scheme.elements.filter(x => !(x instanceof Branch));
 
       for (let i = 0; i < elems.length; i++) {
         elems[i].isShowTerminals = false;
       }
 
-      setEditor({
-        ...editor,
-        mode: Editor.Modes.Select,
-        connectNode: null,
-        lastCursor: new Point(e.clientX, e.clientY)
-      });
-      selectLayer.select(editor.select);
+      if (editor.button) {
+        editor.newElement.emptyTerminal2.position = new Point(e.clientX, e.clientY);
+        editor.newElement.canDraw = true;
+
+        setEditor({
+          ...editor,
+          selectControl: selectLayer.box.controls[1]
+        });
+
+        if (selectLayer.box.controls[1] === editor.selectControl) {
+          const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500)
+          newBranch.emptyTerminal1 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+          newBranch.emptyTerminal2 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+          newBranch.canDraw = false;
+          scheme.elements.unshift(newBranch);
+          selectLayer.select(newBranch);
+          setEditor({
+            ...editor,
+            select: newBranch,
+            selectControl: selectLayer.box.controls[0],
+            newElement: newBranch,
+            mode: Editor.Modes.Connect,
+            button: true
+          });
+        }
+      } else {
+        setEditor({
+          ...editor,
+          mode: Editor.Modes.Select,
+          connectNode: null,
+          lastCursor: new Point(e.clientX, e.clientY)
+        });
+        selectLayer.select(editor.select);
+      }
+
     }
     if (!elem && editor.mode === Editor.Modes.Select) {
       setEditor({
@@ -394,6 +431,53 @@ function EditorComponent(props) {
     }
   }
 
+  const connectModeClickHandler = useCallback((e) => {
+    console.log(scheme.elements);
+    if (editor.button) {
+      // remove newBranch and node terminals
+      if (!editor.newElement.terminal2) {
+        if (editor.newElement.terminal1) {
+          let elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.newElement.terminal1.id));
+
+          let terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.newElement.terminal1.id);
+          if (scheme.elements[elementIndex] instanceof Node) {
+            scheme.elements[elementIndex].terminals = [
+              ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
+              ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
+            ]
+          } else {
+            scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
+          }
+
+        }
+
+        const index = scheme.elements.findIndex(x => x.id === editor.newElement.id);
+        scheme.elements = [...scheme.elements.slice(0, index), ...scheme.elements.slice(index + 1)]
+      }
+      setEditor({
+        ...editor,
+        selectControl: null,
+        mode: Editor.Modes.Default,
+        button: false
+      });
+    } else {
+      const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500)
+      newBranch.emptyTerminal1 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+      newBranch.emptyTerminal2 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+      newBranch.canDraw = false;
+      scheme.elements.unshift(newBranch);
+      selectLayer.select(newBranch);
+      setEditor({
+        ...editor,
+        select: newBranch,
+        selectControl: selectLayer.box.controls[0],
+        newElement: newBranch,
+        mode: Editor.Modes.Connect,
+        button: true
+      });
+    } console.log(scheme.elements);
+
+  }, [editor, selectLayer, scheme])
 
   const removeBranchPointHandler = useCallback(() => {
     let indexOfPoint = selectLayer.box.controls.filter(x => x instanceof SquareControl).findIndex(x => x === editor.selectControl);
@@ -406,21 +490,82 @@ function EditorComponent(props) {
     selectLayer.select(editor.select);
   }, [selectLayer, editor])
 
+  const removeBranchHandler = useCallback(() => {
+
+    let elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
+    let terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
+    if (scheme.elements[elementIndex] instanceof Node) {
+      scheme.elements[elementIndex].terminals = [
+        ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
+        ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
+      ]
+    } else {
+      scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
+    }
+    elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
+    terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
+    if (scheme.elements[elementIndex] instanceof Node) {
+      scheme.elements[elementIndex].terminals = [
+        ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
+        ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
+      ]
+    } else {
+      scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
+    }
+    const index = scheme.elements.findIndex(x => x.id === editor.select.id);
+    scheme.elements = [...scheme.elements.slice(0, index), ...scheme.elements.slice(index + 1)]
+
+    setEditor({
+      ...editor,
+      mode: Editor.Modes.Default,
+      select: null
+    });
+    setSelectLayer(new SelectLayer());
+
+  }, [scheme, editor])
+
+
+  const svgKeyUpHandler = useCallback((e) => {
+    if (e.key === "Escape") {
+      connectModeClickHandler();
+    }
+  }, [connectModeClickHandler])
+
+
+
+
+  useEffect(() => {
+    window.addEventListener("keyup", svgKeyUpHandler);
+    return () => {
+      window.removeEventListener("keyup", svgKeyUpHandler);
+    };
+  }, [svgKeyUpHandler]);
+
+
+
   const contextMenuBranchPoint = useMemo(() => [
     { text: "Remove point", onClick: () => removeBranchPointHandler() }
   ], [removeBranchPointHandler])
 
+  const contextMenuRemoveBranch = useMemo(() => [
+    { text: "Remove branch", onClick: () => removeBranchHandler() }
+  ], [removeBranchHandler])
 
   //console.log("render EditorComponent")
 
   return (
     <>
+      <div className='edit-panel'>
+        <button className={`edit-panel__button ${editor.button ? "edit-panel__button_active" : ""}`} onClick={connectModeClickHandler}>
+          <img src={connectIcon} alt="Connect"></img>
+        </button>
+      </div>
       <svg id='svg'
         onContextMenu={(e) => e.preventDefault()}
         onMouseDown={svgMouseDownHandler}
         onMouseMove={svgMouseMoveHandler}
         onMouseUp={svgMouseUpHandler}
-        viewBox="0 0 1400 1000"
+        viewBox="10 40 1400 1000"
       >
         <SchemeComponent scheme={scheme} />
         <SelectLayerComponent selectElement={editor.select} selectLayer={selectLayer} />

@@ -14,8 +14,9 @@ export class Branch extends Element {
   emptyTerminal1;
   emptyTerminal2;
   voltage;
+  canDraw;
 
-  constructor (name, number1, number2, terminal1, terminal2, points, voltage) {
+  constructor(name, number1, number2, terminal1, terminal2, points, voltage) {
     super(name);
     this.number1 = number1;
     this.number2 = number2;
@@ -25,16 +26,17 @@ export class Branch extends Element {
     this.emptyTerminal2 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
     this.points = points;
     this.voltage = voltage;
+    this.canDraw = true;
   }
 
   drawComponent() {
-    return (<BranchComponent
+    return (this.canDraw ? <BranchComponent
       key={this.id}
       name={this.name}
       points={this.getFrame()}
       terminals={this.terminals}
       voltageColor={this.getVoltageColor()}
-    />);
+    /> : <></>);
   }
   getVoltageColor() {
     switch (this.voltage) {
@@ -52,9 +54,9 @@ export class Branch extends Element {
     if (this.terminal1 && this.terminal2) {
       return [this.terminal1.position, ...this.points, this.terminal2.position];
     }
-    else if (!this.terminal1) {
+    else if (!this.terminal1 && this.terminal2) {
       return [this.emptyTerminal1.position, ...this.points, this.terminal2.position];
-    } else if (!this.terminal2) {
+    } else if (!this.terminal2 && this.terminal1) {
       return [this.terminal1.position, ...this.points, this.emptyTerminal2.position];
     } else {
       return [this.emptyTerminal1.position, ...this.points, this.emptyTerminal2.position];

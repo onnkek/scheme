@@ -3,6 +3,7 @@ import Line from "../../Shapes/Line/Line";
 import Text from "../../Shapes/Text/Text";
 import { config } from "../../../config";
 import Circle from "../../Shapes/Circle/Circle";
+import "./NodeComponent.css"
 
 const NodeComponent = React.memo((props) => {
 
