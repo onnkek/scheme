@@ -24,7 +24,6 @@ export class SelectLine {
 			this.controls.push(new SquareControl(this.points[i]));
 		}
 		this.controls.push(new PointControl(this.points[this.points.length - 1]));
-		console.log(this.controls)
 	}
 
 }

@@ -57,14 +57,14 @@ function EditorComponent(props) {
       }
       let control = null;
       for (let i = 0; i < selectLayer.box.controls.length; i++) {
-        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 10)) {
+        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 1)) {
           control = selectLayer.box.controls[i];
         }
       }
       console.log(control)
       if (control) {
         if (editor.select instanceof Branch) {
-          if (e.button === 2) {
+          if (e.button === 2 && control instanceof SquareControl) {
             setEditor({
               ...editor,
               selectControl: control,
@@ -353,7 +353,7 @@ function EditorComponent(props) {
 
   const svgMouseUpHandler = (e) => {
 
-    const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 10);
+    const elem = hitTestElement(scheme.elements, new Point(e.clientX, e.clientY), 5);
 
     if (elem && (editor.mode === Editor.Modes.Default || editor.mode === Editor.Modes.Select)) {
       if (e.button === 2) {
@@ -491,28 +491,34 @@ function EditorComponent(props) {
   }, [selectLayer, editor])
 
   const removeBranchHandler = useCallback(() => {
+    console.log("REMOVE")
+    if (editor.select.terminal1) {
+      const elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
+      const terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
+      if (scheme.elements[elementIndex] instanceof Node) {
+        scheme.elements[elementIndex].terminals = [
+          ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
+          ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
+        ]
+      } else {
+        scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
+      }
+    }
+    if (editor.select.terminal2) {
+      const elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
+      const terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
+      if (scheme.elements[elementIndex] instanceof Node) {
+        scheme.elements[elementIndex].terminals = [
+          ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
+          ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
+        ]
+      } else {
+        scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
+      }
+    }
 
-    let elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
-    let terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
-    if (scheme.elements[elementIndex] instanceof Node) {
-      scheme.elements[elementIndex].terminals = [
-        ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
-        ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
-      ]
-    } else {
-      scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
-    }
-    elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
-    terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
-    if (scheme.elements[elementIndex] instanceof Node) {
-      scheme.elements[elementIndex].terminals = [
-        ...scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
-        ...scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
-      ]
-    } else {
-      scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
-    }
     const index = scheme.elements.findIndex(x => x.id === editor.select.id);
+    console.log(index)
     scheme.elements = [...scheme.elements.slice(0, index), ...scheme.elements.slice(index + 1)]
 
     setEditor({
