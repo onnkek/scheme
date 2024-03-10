@@ -4,7 +4,6 @@ import { Control } from "./Control";
 import { getRotateTransformPoint, getRotateTransformPoints, pathParse } from "../../utils/Transform";
 import Path from "../../components/Shapes/Path/Path";
 import Line from "../../components/Shapes/Line/Line";
-import Polygon from "../../components/Shapes/Polygon/Polygon";
 
 export class RotateControl extends Control {
 
@@ -22,7 +21,7 @@ export class RotateControl extends Control {
     const linePoint1 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset), this.angle, this.position);
     const linePoint2 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2), this.angle, this.position);
     return (
-      <>
+      <g key={this.id}>
         <Path
           point={this.position}
           path={pathParse(config.editor.controls.rotateControl.path)}
@@ -38,12 +37,7 @@ export class RotateControl extends Control {
           stroke="magenta"
           strokeWidth={1}
         />
-        {/* <Polygon
-          points={this.getFrame()}
-          stroke="magenta"
-          strokeWidth={1}
-        /> */}
-      </>
+      </g>
     );
   }
 
@@ -55,7 +49,6 @@ export class RotateControl extends Control {
       new Point(this.position.x - 10, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset - 8 + 10)
     ]
     const rotatePoints = getRotateTransformPoints(points, this.angle, this.position)
-    // console.log(rotatePoints)
     return rotatePoints
   }
 }

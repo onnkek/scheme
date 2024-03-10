@@ -7,7 +7,7 @@ import "./NodeComponent.css"
 
 const NodeComponent = React.memo((props) => {
 
-  let { x, y, widthRight, widthLeft, number, isShowTerminals, terminals, id, canConnect, voltageColor } = props;
+  let { x, y, widthRight, widthLeft, number, terminals, voltageColor } = props;
 
   //console.log(`render node - ${number}`)
   return (
@@ -16,30 +16,22 @@ const NodeComponent = React.memo((props) => {
         p1={{ x: x - widthLeft, y: y }}
         p2={{ x: x + widthRight, y: y }}
         stroke={voltageColor}
-        strokeWidth={config.elements.nodeHeight}
+        strokeWidth={config.elements.node.height}
       />
       {terminals.map((terminal) =>
         <Circle
           key={terminal.id}
           center={terminal.position}
-          radius={8}
+          radius={config.elements.terminalNode.radius}
           fill="white"
           stroke="black"
-          strokeWidth={1}
+          strokeWidth={config.elements.terminalNode.strokeWidth}
         />)}
       <Text
         point={{ x: x - widthLeft - 20, y: y + 7 }}
         fill="white"
         fontSize={20}
       >{number}</Text>
-      {/* {isShowTerminals ?
-        <TerminalNodeComponent
-          position={terminals[0].position}
-          id={id}
-          widthLeft={widthLeft}
-          widthRight={widthRight}
-          canConnect={terminals[0].canConnect}
-        /> : <></>} */}
     </>
   );
 })

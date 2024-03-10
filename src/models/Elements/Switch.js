@@ -3,7 +3,6 @@ import { Element } from "./Element";
 import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
-import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Switch extends Element {
 
@@ -23,11 +22,11 @@ export class Switch extends Element {
 		this.canRotate = true;
 		this.angle = 0;
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
-			new Point(this.position.x, this.position.y - config.elements.switchSize / 2 - 2), this.angle));
+			new Point(this.position.x, this.position.y - config.elements.switch.size / 2), this.angle));
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
-			new Point(this.position.x, this.position.y + config.elements.switchSize / 2 + 2), this.angle));
+			new Point(this.position.x, this.position.y + config.elements.switch.size / 2), this.angle));
 		this.voltage = voltage;
- 
+
 	}
 
 	drawComponent() {
@@ -56,17 +55,12 @@ export class Switch extends Element {
 				return config.colors.voltageLevel.default
 		}
 	}
-	// copy() {
-	// 	let newSwitch = new Switch(this.name, this.state, this.position);
-	// 	newSwitch.id = this.getId();
-	// 	return newSwitch;
-	// }
 	getFrame() {
 		return [
-			new Point(this.position.x - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2, this.position.y - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2),
-			new Point(this.position.x + config.elements.switchSize / 2 + config.elements.switchStrokeWidth / 2, this.position.y - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2),
-			new Point(this.position.x + config.elements.switchSize / 2 + config.elements.switchStrokeWidth / 2, this.position.y + config.elements.switchSize / 2 + config.elements.switchStrokeWidth / 2),
-			new Point(this.position.x - config.elements.switchSize / 2 - config.elements.switchStrokeWidth / 2, this.position.y + config.elements.switchSize / 2 + config.elements.switchStrokeWidth / 2)
+			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2, this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2),
+			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2, this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2),
+			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2, this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2),
+			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2, this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2)
 		]
 	}
 }

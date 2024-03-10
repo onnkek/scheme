@@ -1,9 +1,15 @@
 export const config = {
 	"elements": {
-		"nodeHeight": 30,
-		"switchSize": 40,
-		"switchStrokeWidth": 4,
-		"branchStrokeWidth": 5,
+		"node": {
+			"height": 15,
+		},
+		"branch": {
+			"strokeWidth": 5
+		},
+		"switch": {
+			"size": 40,
+			"strokeWidth": 4,
+		},
 		"transformer": {
 			"radius": 30,
 			"offset": 18,
@@ -19,6 +25,14 @@ export const config = {
 			"heightArrow": 20,
 			"height": 50,
 			"strokeWidth": 4
+		},
+		"terminal": {
+			"radius": 5,
+			"strokeWidth": 1
+		},
+		"terminalNode": {
+			"radius": 5,
+			"strokeWidth": 1
 		}
 	},
 	"editor": {
@@ -27,7 +41,8 @@ export const config = {
 		"selectControlLength": 12,
 		"controls": {
 			"pointControl": {
-				"radius": 4
+				"radius": 5,
+				"strokeWidth": 1
 			},
 			"squareControl": {
 				"size1": 6,

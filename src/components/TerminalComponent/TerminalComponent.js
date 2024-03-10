@@ -1,8 +1,8 @@
 import React from "react";
 import Circle from "../Shapes/Circle/Circle";
-import { getRotateTransformPoint } from "../../utils/Transform";
+import { config } from "../../config";
 
-const TerminalComponent = ({ position, id, canConnect, angle, point }) => {
+const TerminalComponent = ({ position, id, canConnect }) => {
 
   //console.log("render TerminalComponent")
   const color = canConnect ? "white" : "red";
@@ -11,10 +11,10 @@ const TerminalComponent = ({ position, id, canConnect, angle, point }) => {
       <Circle
         key={id}
         center={position}
-        radius={5}
+        radius={config.elements.terminal.radius}
         fill={color}
         stroke="black"
-        strokeWidth={1}
+        strokeWidth={config.elements.terminal.strokeWidth}
       />
     </>
   );

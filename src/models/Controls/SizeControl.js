@@ -3,7 +3,6 @@ import { config } from "../../config";
 import { getRotateTransformPoints } from "../../utils/Transform";
 import { Point } from "../../utils/Point";
 import { Control } from "./Control";
-import Polygon from "../../components/Shapes/Polygon/Polygon";
 
 export class SizeControl extends Control {
 
@@ -20,7 +19,6 @@ export class SizeControl extends Control {
 	type;
 
 	constructor(angleRelativePosition, angleRelativePoint, point, position, type) {
-		//console.log(angleRelativePoint)
 		super(position);
 		this.angleRelativePosition = angleRelativePosition;
 		this.angleRelativePoint = angleRelativePoint;
@@ -40,15 +38,12 @@ export class SizeControl extends Control {
 
 	drawComponent() {
 		return (
-			<>
-				<Polyline
-					key={this.id}
-					points={this.getPoints()}
-					stroke="DodgerBlue"
-					strokeWidth={4}
-				/>
-				{/* <Polygon key={this.id} points={this.getFrame()} stroke="magenta" strokeWidth={1} /> */}
-			</>
+			<Polyline
+				key={this.id}
+				points={this.getPoints()}
+				stroke="DodgerBlue"
+				strokeWidth={4}
+			/>
 
 		);
 	}

@@ -2,7 +2,6 @@ import React from "react";
 import Polyline from "../../Shapes/Polyline/Polyline";
 
 const SelectLineComponent = ({ box }) => {
-
   return (
     <>
       <Polyline

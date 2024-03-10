@@ -14,7 +14,7 @@ export class PointControl extends Control {
 				radius={config.editor.controls.pointControl.radius}
 				fill="red"
 				stroke="black"
-				strokeWidth={1}
+				strokeWidth={config.editor.controls.pointControl.strokeWidth}
 			/>
 		);
 	}

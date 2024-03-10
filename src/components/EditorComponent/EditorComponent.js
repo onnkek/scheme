@@ -57,7 +57,7 @@ function EditorComponent(props) {
       }
       let control = null;
       for (let i = 0; i < selectLayer.box.controls.length; i++) {
-        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 1)) {
+        if (hitTestFrame(selectLayer.box.controls[i].getFrame(), new Point(e.clientX, e.clientY), 5)) {
           control = selectLayer.box.controls[i];
         }
       }
@@ -127,8 +127,6 @@ function EditorComponent(props) {
         editor.select.angle = Math.round((angle * 180 / Math.PI + 90) / 90) * 90;
 
         for (let i = 0; i < editor.select.terminals.length; i++) {
-          console.log(editor.select.angle);
-          console.log(editor.select.terminals[i].angle);
           if (Math.abs(editor.select.angle) !== Math.abs(editor.select.terminals[i].angle)) {
 
             editor.select.terminals[i].position = getRotateTransformPoint(editor.select.terminals[i].position,
@@ -335,6 +333,11 @@ function EditorComponent(props) {
             cursor, ...scheme.elements[indexOfBranch].points.slice(indexOfPoint)]
         }
       }
+      if (!editor.button || selectLayer.box.controls[1] === editor.selectControl) {
+        selectLayer.box.frame = editor.select.getFrame();
+        selectLayer.box.initSelectLine();
+        selectLayer.box.updateControls();
+      }
 
 
 
@@ -432,7 +435,6 @@ function EditorComponent(props) {
   }
 
   const connectModeClickHandler = useCallback((e) => {
-    console.log(scheme.elements);
     if (editor.button) {
       // remove newBranch and node terminals
       if (!editor.newElement.terminal2) {
@@ -475,7 +477,7 @@ function EditorComponent(props) {
         mode: Editor.Modes.Connect,
         button: true
       });
-    } console.log(scheme.elements);
+    };
 
   }, [editor, selectLayer, scheme])
 
@@ -491,7 +493,6 @@ function EditorComponent(props) {
   }, [selectLayer, editor])
 
   const removeBranchHandler = useCallback(() => {
-    console.log("REMOVE")
     if (editor.select.terminal1) {
       const elementIndex = scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
       const terminalIndex = scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
@@ -518,7 +519,6 @@ function EditorComponent(props) {
     }
 
     const index = scheme.elements.findIndex(x => x.id === editor.select.id);
-    console.log(index)
     scheme.elements = [...scheme.elements.slice(0, index), ...scheme.elements.slice(index + 1)]
 
     setEditor({

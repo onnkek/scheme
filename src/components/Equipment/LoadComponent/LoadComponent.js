@@ -41,12 +41,12 @@ const LoadComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageCol
       <Polyline
         points={getRotateTransformPoints(polyline1, angle, new Point(x, y))}
         stroke={voltageColor}
-        strokeWidth={config.elements.branchStrokeWidth}
+        strokeWidth={config.elements.load.strokeWidth}
       />
       <Polyline
         points={getRotateTransformPoints(polyline2, angle, new Point(x, y))}
         stroke={voltageColor}
-        strokeWidth={config.elements.branchStrokeWidth}
+        strokeWidth={config.elements.load.strokeWidth}
       />
 
       {isShowTerminals ? terminals.map((terminal) =>
