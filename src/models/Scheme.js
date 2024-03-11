@@ -10,8 +10,49 @@ import { Load } from "./Elements/Load";
 export class Scheme {
   elements = [];
 
-  constructor() {
+  constructor () {
     this.initScheme();
+  }
+
+  createBranch() {
+    const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500)
+    newBranch.emptyTerminal1 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+    newBranch.emptyTerminal2 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+    newBranch.canDraw = false;
+    this.elements.unshift(newBranch);
+    return newBranch;
+  }
+
+  changeTerminalPosition(selectElementTerminal, position) {
+    let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElementTerminal.id));
+    let terminalIndex = this.elements[nodeIndex].terminals.findIndex(x => x.id === selectElementTerminal.id);
+
+    // Change massive, not change terminal
+    this.elements[nodeIndex].terminals[terminalIndex].position = position;
+    this.elements[nodeIndex].terminals = [
+      ...this.elements[nodeIndex].terminals.slice(0, terminalIndex),
+      this.elements[nodeIndex].terminals[terminalIndex],
+      ...this.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+    ]
+  }
+  disconnectBranch(selectElement, type, cursor) {
+    if (type === 1) {
+      let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElement.terminal1.id));
+      this.elements[nodeIndex].removeTerminal(selectElement.terminal1);
+
+      const branchIndex = this.elements.findIndex(x => x.id === selectElement.id);
+      this.elements[branchIndex].emptyTerminal1 = new Terminal("Терминал " + Math.random(), cursor);
+      this.elements[branchIndex].terminal1 = null;
+    } else {
+      let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElement.terminal2.id));
+      this.elements[nodeIndex].removeTerminal(selectElement.terminal2);
+
+      const branchIndex = this.elements.findIndex(x => x.id === selectElement.id);
+      this.elements[branchIndex].emptyTerminal2 = new Terminal("Терминал " + Math.random(), cursor);
+      this.elements[branchIndex].terminal2 = null;
+    }
+
+    // console.log(this)
   }
 
   initScheme() {

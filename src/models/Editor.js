@@ -19,10 +19,12 @@ export class Editor {
 	newElement;
 	button; // rework in future
 
-	constructor() {
+	constructor () {
 		this.mode = Editor.Modes.Default;
 		this.lastCursor = new Point(0, 0);
 	}
 
-
+	test() {
+		console.log("test")
+	}
 }
