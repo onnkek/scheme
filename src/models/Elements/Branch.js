@@ -9,24 +9,17 @@ export class Branch extends Element {
   number1;
   number2;
   points;
-  terminal1;
-  terminal2;
-  emptyTerminal1;
-  emptyTerminal2;
+  junctions;
   voltage;
   canDraw;
 
-  constructor(name, number1, number2, terminal1, terminal2, points, voltage) {
+  constructor(name, points, voltage) {
     super(name);
-    this.number1 = number1;
-    this.number2 = number2;
-    this.terminal1 = terminal1;
-    this.terminal2 = terminal2;
-    this.emptyTerminal1 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
-    this.emptyTerminal2 = new Terminal("Пустой терминал " + Math.random(), new Point(0, 0));
     this.points = points;
     this.voltage = voltage;
     this.canDraw = true;
+    this.junctions = [new Terminal("Пустой терминал " + Math.random(), new Point(0, 0)),
+    new Terminal("Пустой терминал " + Math.random(), new Point(0, 0))]
   }
 
   drawComponent() {
@@ -51,15 +44,15 @@ export class Branch extends Element {
     }
   }
   getFrame() {
-    if (this.terminal1 && this.terminal2) {
-      return [this.terminal1.position, ...this.points, this.terminal2.position];
+    if (this.terminals[0] && this.terminals[1]) {
+      return [this.terminals[0].position, ...this.points, this.terminals[1].position];
     }
-    else if (!this.terminal1 && this.terminal2) {
-      return [this.emptyTerminal1.position, ...this.points, this.terminal2.position];
-    } else if (!this.terminal2 && this.terminal1) {
-      return [this.terminal1.position, ...this.points, this.emptyTerminal2.position];
+    else if (!this.terminals[0] && this.terminals[1]) {
+      return [this.junctions[0].position, ...this.points, this.terminals[1].position];
+    } else if (!this.terminals[1] && this.terminals[0]) {
+      return [this.terminals[0].position, ...this.points, this.junctions[1].position];
     } else {
-      return [this.emptyTerminal1.position, ...this.points, this.emptyTerminal2.position];
+      return [this.junctions[0].position, ...this.points, this.junctions[1].position];
     }
 
   }
@@ -94,5 +87,17 @@ export class Branch extends Element {
     distance = distance.sort((x1, x2) => x1["d"] - x2["d"]);
 
     return distance[0].index + 1;
+  }
+
+  addPoint(cursor) {
+    let indexOfPoint = this.getIndexAddPoint(cursor);
+    if (indexOfPoint === 1) {
+      this.points = [cursor, ...this.points.slice(indexOfPoint - 1)]
+    } else if (indexOfPoint === this.getFrame().length - 1) {
+      this.points = [...this.points.slice(0, indexOfPoint - 1), cursor]
+    } else {
+      this.points = [...this.points.slice(0, indexOfPoint - 1),
+        cursor, ...this.points.slice(indexOfPoint - 1)]
+    }
   }
 }

@@ -10,50 +10,32 @@ import { Load } from "./Elements/Load";
 export class Scheme {
   elements = [];
 
-  constructor () {
+  constructor() {
     this.initScheme();
   }
 
   createBranch() {
-    const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500)
-    newBranch.emptyTerminal1 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
-    newBranch.emptyTerminal2 = new Terminal("New terminal " + Math.random(), new Point(0, 0), 0);
+    const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500);
     newBranch.canDraw = false;
     this.elements.unshift(newBranch);
     return newBranch;
   }
 
-  changeTerminalPosition(selectElementTerminal, position) {
-    let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElementTerminal.id));
-    let terminalIndex = this.elements[nodeIndex].terminals.findIndex(x => x.id === selectElementTerminal.id);
+
+  changeTerminalPosition(selectTerminal, position) {
+    const nodes = this.elements.filter(x => x instanceof Node);
+    let nodeIndex = nodes.findIndex(x => x.terminals.find(x => x.id === selectTerminal.id));
+    let terminalIndex = nodes[nodeIndex].terminals.findIndex(x => x.id === selectTerminal.id);
 
     // Change massive, not change terminal
-    this.elements[nodeIndex].terminals[terminalIndex].position = position;
-    this.elements[nodeIndex].terminals = [
-      ...this.elements[nodeIndex].terminals.slice(0, terminalIndex),
-      this.elements[nodeIndex].terminals[terminalIndex],
-      ...this.elements[nodeIndex].terminals.slice(terminalIndex + 1)
+    nodes[nodeIndex].terminals[terminalIndex].position = position;
+    nodes[nodeIndex].terminals = [
+      ...nodes[nodeIndex].terminals.slice(0, terminalIndex),
+      nodes[nodeIndex].terminals[terminalIndex],
+      ...nodes[nodeIndex].terminals.slice(terminalIndex + 1)
     ]
   }
-  disconnectBranch(selectElement, type, cursor) {
-    if (type === 1) {
-      let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElement.terminal1.id));
-      this.elements[nodeIndex].removeTerminal(selectElement.terminal1);
 
-      const branchIndex = this.elements.findIndex(x => x.id === selectElement.id);
-      this.elements[branchIndex].emptyTerminal1 = new Terminal("Терминал " + Math.random(), cursor);
-      this.elements[branchIndex].terminal1 = null;
-    } else {
-      let nodeIndex = this.elements.findIndex(x => x.terminals.find(x => x.id === selectElement.terminal2.id));
-      this.elements[nodeIndex].removeTerminal(selectElement.terminal2);
-
-      const branchIndex = this.elements.findIndex(x => x.id === selectElement.id);
-      this.elements[branchIndex].emptyTerminal2 = new Terminal("Терминал " + Math.random(), cursor);
-      this.elements[branchIndex].terminal2 = null;
-    }
-
-    // console.log(this)
-  }
 
   initScheme() {
 
@@ -87,37 +69,48 @@ export class Scheme {
     let terminal5_2 = new Terminal("Терм " + Math.random(), new Point(810, 490), 0);
     node4.terminals.push(terminal5_1);
 
-    this.elements.push(new Branch("12", 1, 2,
-      terminal1_1,
-      terminal1_2,
-      [], 500
-    ));
-    this.elements.push(new Branch("23", 2, 3,
-      terminal2_1,
-      terminal2_2,
-      [
-        new Point(450, 380),
-        new Point(660, 380)
-      ], 500
-    ));
-    this.elements.push(new Branch("34", 3, 4,
-      terminal3_1,
-      terminal3_2,
-      [], 500
-    ));
-    this.elements.push(new Branch("23_2", 2, 3,
-      terminal4_1,
-      terminal4_2,
-      [
-        new Point(710, 430),
-        new Point(500, 430)
-      ], 500
-    ));
-    this.elements.push(new Branch("42", 4, 2,
-      terminal5_1,
-      terminal5_2,
-      [], 220
-    ));
+    let newBranch = new Branch("12", [
+
+    ], 500);
+    newBranch.terminals.push(terminal1_1);
+    newBranch.terminals.push(terminal1_2);
+    this.elements.push(newBranch);
+
+    newBranch = new Branch("23", [
+      new Point(450, 380),
+      new Point(660, 380)
+    ], 500
+    )
+    newBranch.terminals.push(terminal2_1);
+    newBranch.terminals.push(terminal2_2);
+    this.elements.push(newBranch);
+
+    newBranch = new Branch("34", [
+
+    ], 500
+    );
+    newBranch.terminals.push(terminal3_1);
+    newBranch.terminals.push(terminal3_2);
+    this.elements.push(newBranch);
+
+    newBranch = new Branch("23_2", [
+      new Point(710, 430),
+      new Point(500, 430)
+    ], 500
+    );
+    newBranch.terminals.push(terminal4_1);
+    newBranch.terminals.push(terminal4_2);
+    this.elements.push(newBranch);
+
+    newBranch = new Branch("42", [
+
+    ], 220
+    );
+    newBranch.terminals.push(terminal5_1);
+    newBranch.terminals.push(terminal5_2);
+    this.elements.push(newBranch);
+
+
     this.elements.push(node1);
     this.elements.push(node2);
     this.elements.push(node3);

@@ -16,7 +16,7 @@ export class SelectLine {
 
 	initSelectLine() {
 		this.points = this.frame;
-		console.log(this.points)
+		// console.log(this.points)
 	}
 
 	addControls() {
