@@ -12,7 +12,7 @@ export class Switch extends Element {
 	angle;
 	canRotate;
 
-	constructor(name, state, position, voltage) {
+	constructor (name, state, position, voltage) {
 		super(name);
 		this.pole1 = null;
 		this.pole2 = null;
@@ -56,11 +56,16 @@ export class Switch extends Element {
 		}
 	}
 	getFrame() {
+		const offset = 3;
 		return [
-			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2, this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2),
-			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2, this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2),
-			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2, this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2),
-			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2, this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2)
+			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset,
+				this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset),
+			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2 + offset,
+				this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset),
+			new Point(this.position.x + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2 + offset,
+				this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2 + offset),
+			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset,
+				this.position.y + config.elements.switch.size / 2 + config.elements.switch.strokeWidth / 2 + offset)
 		]
 	}
 }

@@ -11,10 +11,13 @@
 .edit-panel {
   height: 40px;
   padding: 0px 10px;
+  display: flex;
+  align-items: center;
 }
 .edit-panel__button {
   background-color: #131313;
   border: 1px solid white;
+  height: 100%;
 }
 .edit-panel__button img {
   padding: 4px;
@@ -23,8 +26,11 @@
   fill: white;
 }
 .edit-panel__button_active {
-  background-color: #3c456e;
+  background-color: #525f97;
 }
 .edit-panel__button:hover {
-  background-color: #4c588c;
+  background-color: #7385d3;
+}
+.edit-panel__button:focus-visible {
+  outline: none;
 }/*# sourceMappingURL=EditorComponent.css.map */

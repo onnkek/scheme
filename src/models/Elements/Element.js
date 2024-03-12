@@ -6,11 +6,13 @@ export class Element {
   id;
   name;
   terminals;
+  canResize;
 
   constructor (name) {
     this.name = name;
     this.id = Math.random();
     this.terminals = [];
+    this.canResize = false;
   }
 
   drawComponent() { }

@@ -12,7 +12,7 @@ export class Generation extends Element {
   angle;
   canRotate;
 
-  constructor(name, position, voltage) {
+  constructor (name, position, voltage) {
     super(name);
     this.pole1 = null;
     this.pole2 = null;
@@ -51,11 +51,12 @@ export class Generation extends Element {
     }
   }
   getFrame() {
+    const offset = 4;
     return [
-      new Point(this.position.x - config.elements.generation.radius, this.position.y - config.elements.generation.radius),
-      new Point(this.position.x + config.elements.generation.radius, this.position.y - config.elements.generation.radius),
-      new Point(this.position.x + config.elements.generation.radius, this.position.y + config.elements.generation.radius),
-      new Point(this.position.x - config.elements.generation.radius, this.position.y + config.elements.generation.radius)
+      new Point(this.position.x - config.elements.generation.radius - offset, this.position.y - config.elements.generation.radius - offset),
+      new Point(this.position.x + config.elements.generation.radius + offset, this.position.y - config.elements.generation.radius - offset),
+      new Point(this.position.x + config.elements.generation.radius + offset, this.position.y + config.elements.generation.radius + offset),
+      new Point(this.position.x - config.elements.generation.radius - offset, this.position.y + config.elements.generation.radius + offset)
     ]
   }
 }

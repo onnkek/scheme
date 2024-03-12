@@ -12,7 +12,7 @@ export class Transformer extends Element {
   angle;
   canRotate;
 
-  constructor(name, position, voltage1, voltage2) {
+  constructor (name, position, voltage1, voltage2) {
     super(name);
     this.position = position;
     this.isShowTerminals = false;
@@ -22,7 +22,7 @@ export class Transformer extends Element {
     this.terminals.push(new Terminal("Терминал " + Math.random(),
       new Point(this.position.x, this.position.y + config.elements.transformer.radius + config.elements.transformer.offset), this.angle));
     this.voltage1 = voltage1;
-    this.voltage2 = voltage2; 
+    this.voltage2 = voltage2;
     this.angle = 0;
   }
 
@@ -53,11 +53,16 @@ export class Transformer extends Element {
     }
   }
   getFrame() {
+    const offset = 5;
     return [
-      new Point(this.position.x - config.elements.transformer.radius, this.position.y - config.elements.transformer.offset - config.elements.transformer.radius),
-      new Point(this.position.x + config.elements.transformer.radius, this.position.y - config.elements.transformer.offset - config.elements.transformer.radius),
-      new Point(this.position.x + config.elements.transformer.radius, this.position.y + config.elements.transformer.offset + config.elements.transformer.radius),
-      new Point(this.position.x - config.elements.transformer.radius, this.position.y + config.elements.transformer.offset + config.elements.transformer.radius)
+      new Point(this.position.x - config.elements.transformer.radius - offset,
+        this.position.y - config.elements.transformer.offset - config.elements.transformer.radius - offset),
+      new Point(this.position.x + config.elements.transformer.radius + offset,
+        this.position.y - config.elements.transformer.offset - config.elements.transformer.radius - offset),
+      new Point(this.position.x + config.elements.transformer.radius + offset,
+        this.position.y + config.elements.transformer.offset + config.elements.transformer.radius + offset),
+      new Point(this.position.x - config.elements.transformer.radius - offset,
+        this.position.y + config.elements.transformer.offset + config.elements.transformer.radius + offset)
     ]
   }
 }

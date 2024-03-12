@@ -12,7 +12,7 @@ export class Load extends Element {
   angle;
   canRotate;
 
-  constructor(name, position, voltage) {
+  constructor (name, position, voltage) {
     super(name);
     this.pole1 = null;
     this.pole2 = null;
@@ -52,11 +52,12 @@ export class Load extends Element {
     }
   }
   getFrame() {
+    const offset = 5;
     return [
-      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height / 2),
-      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y - config.elements.load.height / 2),
-      new Point(this.position.x + config.elements.load.widthArrow / 2, this.position.y + config.elements.load.height / 2),
-      new Point(this.position.x - config.elements.load.widthArrow / 2, this.position.y + config.elements.load.height / 2)
+      new Point(this.position.x - config.elements.load.widthArrow / 2 - offset, this.position.y - config.elements.load.height / 2 - offset),
+      new Point(this.position.x + config.elements.load.widthArrow / 2 + offset, this.position.y - config.elements.load.height / 2 - offset),
+      new Point(this.position.x + config.elements.load.widthArrow / 2 + offset, this.position.y + config.elements.load.height / 2 + offset),
+      new Point(this.position.x - config.elements.load.widthArrow / 2 - offset, this.position.y + config.elements.load.height / 2 + offset)
     ]
   }
 }

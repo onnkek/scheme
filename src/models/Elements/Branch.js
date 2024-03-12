@@ -23,13 +23,14 @@ export class Branch extends Element {
   }
 
   drawComponent() {
-    return (this.canDraw ? <BranchComponent
+    return (
+      this.canDraw ? <BranchComponent
       key={this.id}
       name={this.name}
       points={this.getFrame()}
       terminals={this.terminals}
       voltageColor={this.getVoltageColor()}
-    /> : <></>);
+    /> : "");
   }
   getVoltageColor() {
     switch (this.voltage) {

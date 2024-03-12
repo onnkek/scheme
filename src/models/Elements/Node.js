@@ -26,6 +26,7 @@ export class Node extends Element {
     this.canRotate = false;
     this.voltage = voltage;
     this.angle = 0;
+    this.canResize = true;
   }
 
   addTerminal(x) {
@@ -35,12 +36,12 @@ export class Node extends Element {
   }
   removeTerminal(terminal) {
     const index = this.terminals.findIndex(x => x.id === terminal.id);
-    console.log(index)
     this.terminals = [
       ...this.terminals.slice(0, index),
       ...this.terminals.slice(index + 1)
     ]
   }
+
   drawComponent() {
     return (
       <NodeComponent

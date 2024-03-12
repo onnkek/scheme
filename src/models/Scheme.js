@@ -10,13 +10,15 @@ import { Load } from "./Elements/Load";
 export class Scheme {
   elements = [];
 
-  constructor() {
+  constructor () {
     this.initScheme();
   }
 
   createBranch() {
-    const newBranch = new Branch("New branch " + Math.random(), 1, 2, null, null, [], 500);
+    const newBranch = new Branch("New branch " + Math.random(), [], 500);
     newBranch.canDraw = false;
+    newBranch.terminals.push(null);
+    newBranch.terminals.push(null);
     this.elements.unshift(newBranch);
     return newBranch;
   }
@@ -35,7 +37,7 @@ export class Scheme {
       ...nodes[nodeIndex].terminals.slice(terminalIndex + 1)
     ]
   }
-
+  
 
   initScheme() {
 

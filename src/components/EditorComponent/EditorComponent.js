@@ -32,14 +32,14 @@ function EditorComponent(props) {
 
       case Editor.Modes.Select:
       case Editor.Modes.ContextMenu:
-        if (elem && editor.select === elem && !(elem instanceof Branch)) {
+        if (elem && editor.select === elem && !(elem instanceof Branch) && e.button === 0) {
           editor.mode = Editor.Modes.Move;
         }
         if (editor.select instanceof Branch && e.shiftKey) {
           editor.select.addPoint(cursor);
         }
         let control = editor.selectLayer.getSelectControl(cursor);
-        console.log(control)
+        // console.log(control)
         if (control) {
           if (editor.select instanceof Branch) {
             if (e.button === 2 && control instanceof SquareControl) {
@@ -74,7 +74,10 @@ function EditorComponent(props) {
         editor.select.move(delta);
         editor.selectLayer.select(editor.select);
         break;
-
+      case Editor.Modes.AddElement:
+        editor.select.move(delta);
+        editor.selectLayer.select(editor.select);
+        break;
       case Editor.Modes.Edit:
         if (editor.select instanceof Node) {
           editor.select.changeSize(editor.selectControl.type, delta);
@@ -85,6 +88,7 @@ function EditorComponent(props) {
         editor.selectLayer.select(editor.select);
         break;
 
+      case Editor.Modes.AddBranch:
       case Editor.Modes.Connect:
         editor.connect(cursor, delta);
         break;
@@ -99,11 +103,14 @@ function EditorComponent(props) {
   const svgMouseUpHandler = (e) => {
     const cursor = new Point(e.clientX, e.clientY);
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
-
+    console.log("UP")
+    console.log(editor.mode);
     switch (editor.mode) {
 
       case Editor.Modes.Default:
       case Editor.Modes.Select:
+        console.log("SELECT OR DEFAULT")
+        console.log(elem)
         if (elem) {
           if (e.button === 2) {
             editor.mode = Editor.Modes.ContextMenu;
@@ -119,32 +126,36 @@ function EditorComponent(props) {
         }
         break;
 
-      case Editor.Modes.Move:
-      case Editor.Modes.Connect:
-        let elems = editor.scheme.elements.filter(x => !(x instanceof Branch));
-        for (let i = 0; i < elems.length; i++) {
-          elems[i].isShowTerminals = false;
-        }
-        if (editor.button) {
-          editor.newElement.emptyTerminal2.position = cursor;
-          editor.newElement.canDraw = true;
+      case Editor.Modes.AddElement:
+        editor.mode = Editor.Modes.Select;
+        editor.addMode = null;
+        break;
+      case Editor.Modes.AddBranch:
+        if (!editor.select.terminals[1]) {
 
-          editor.selectControl = editor.selectLayer.box.controls[1];
-
-          if (editor.selectLayer.box.controls[1] === editor.selectControl) {
-            const newBranch = editor.scheme.createBranch();
-            editor.selectLayer.select(newBranch);
-            editor.select = newBranch;
-            editor.selectControl = editor.selectLayer.box.controls[0];
-            editor.newElement = newBranch;
-            editor.mode = Editor.Modes.Connect;
-            editor.button = true;
+          if (editor.selectControl === editor.selectLayer.box.controls[1]) {
+            editor.select.junctions[1].position = cursor;
+            editor.hideTerminals();
+            editor.onAddBranchMode();
+          }
+          else if (editor.selectControl === editor.selectLayer.box.controls[0]) {
+            editor.select.junctions[1].position = cursor;
+            editor.select.canDraw = true;
+            editor.selectControl = editor.selectLayer.box.controls[1];
           }
         } else {
-          editor.mode = Editor.Modes.Select;
-          editor.connectNode = null;
-          editor.selectLayer.select(editor.select);
+          editor.hideTerminals();
+          editor.onAddBranchMode();
         }
+
+
+        break;
+      case Editor.Modes.Move:
+      case Editor.Modes.Connect:
+        editor.mode = Editor.Modes.Select;
+        editor.connectNode = null;
+        editor.hideTerminals();
+        editor.selectLayer.select(editor.select);
         break;
 
       case Editor.Modes.Edit:
@@ -158,93 +169,60 @@ function EditorComponent(props) {
   }
 
   const connectModeClickHandler = useCallback((e) => {
-    if (editor.button) {
-      // remove newBranch and node terminals
-      if (!editor.newElement.terminal2) {
-        if (editor.newElement.terminal1) {
-          let elementIndex = editor.scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.newElement.terminal1.id));
-
-          let terminalIndex = editor.scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.newElement.terminal1.id);
-          if (editor.scheme.elements[elementIndex] instanceof Node) {
-            editor.scheme.elements[elementIndex].terminals = [
-              ...editor.scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
-              ...editor.scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
-            ]
-          } else {
-            editor.scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
-          }
-
-        }
-
-        const index = editor.scheme.elements.findIndex(x => x.id === editor.newElement.id);
-        editor.scheme.elements = [...editor.scheme.elements.slice(0, index), ...editor.scheme.elements.slice(index + 1)]
-      }
-      editor.selectControl = null;
+    if (editor.mode === Editor.Modes.AddElement) {
       editor.mode = Editor.Modes.Default;
-      editor.button = false;
+      editor.removeElement();
+      editor.hideTerminals();
+      editor.addMode = null;
+      editor.onAddBranchMode();
+    }
+    else if (editor.mode === Editor.Modes.AddBranch) {
+      editor.mode = Editor.Modes.Default;
+      editor.removeElement();
+      editor.hideTerminals();
     } else {
-      const newBranch = editor.scheme.createBranch();
-      editor.selectLayer.select(newBranch);
-      editor.select = newBranch;
-      editor.selectControl = editor.selectLayer.box.controls[0];
-      editor.newElement = newBranch;
-      editor.mode = Editor.Modes.Connect;
-      editor.button = true;
-    };
-
+      editor.onAddBranchMode();
+    }
   }, [editor])
 
   const removeBranchPointHandler = useCallback(() => {
-    let indexOfPoint = editor.selectLayer.box.controls.filter(x => x instanceof SquareControl).findIndex(x => x === editor.selectControl);
-    editor.select.points = [...editor.select.points.slice(0, indexOfPoint),
-    ...editor.select.points.slice(indexOfPoint + 1)]
-    editor.mode = Editor.Modes.Select;
-    editor.selectLayer.select(editor.select);
+    editor.removeBranchPoint();
   }, [editor])
 
   const removeBranchHandler = useCallback(() => {
-    if (editor.select.terminal1) {
-      const elementIndex = editor.scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal1.id));
-      const terminalIndex = editor.scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal1.id);
-      if (editor.scheme.elements[elementIndex] instanceof Node) {
-        editor.scheme.elements[elementIndex].terminals = [
-          ...editor.scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
-          ...editor.scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
-        ]
-      } else {
-        editor.scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
-      }
-    }
-    if (editor.select.terminal2) {
-      const elementIndex = editor.scheme.elements.findIndex(x => x.terminals.find(x => x.id === editor.select.terminal2.id));
-      const terminalIndex = editor.scheme.elements[elementIndex].terminals.findIndex(x => x.id === editor.select.terminal2.id);
-      if (editor.scheme.elements[elementIndex] instanceof Node) {
-        editor.scheme.elements[elementIndex].terminals = [
-          ...editor.scheme.elements[elementIndex].terminals.slice(0, terminalIndex),
-          ...editor.scheme.elements[elementIndex].terminals.slice(terminalIndex + 1)
-        ]
-      } else {
-        editor.scheme.elements[elementIndex].terminals[terminalIndex].canConnect = true;
-      }
-    }
-
-    const index = editor.scheme.elements.findIndex(x => x.id === editor.select.id);
-    editor.scheme.elements = [...editor.scheme.elements.slice(0, index), ...editor.scheme.elements.slice(index + 1)]
-
-    editor.mode = Editor.Modes.Default;
-    editor.select = null;
-    editor.selectLayer = new SelectLayer();
-
+    editor.removeElement();
   }, [editor])
 
 
   const svgKeyUpHandler = useCallback((e) => {
     if (e.key === "Escape") {
-      connectModeClickHandler();
+      if (editor.mode === Editor.Modes.AddBranch) {
+        connectModeClickHandler();
+
+      }
+      if (editor.mode === Editor.Modes.AddElement) {
+        editor.mode = Editor.Modes.Default;
+        editor.removeElement();
+        editor.addMode = null;
+
+      }
+      if (editor.mode === Editor.Modes.Select) {
+        editor.mode = Editor.Modes.Default;
+        editor.select = null;
+        editor.selectLayer = new SelectLayer();
+      }
+      setLastCursor(new Point(e.clientX, e.clientY))
     }
-  }, [connectModeClickHandler])
+  }, [connectModeClickHandler, editor])
 
-
+  const addElement = useCallback((e, addMode) => {
+    if (editor.mode === Editor.Modes.AddBranch || editor.mode === Editor.Modes.AddElement) {
+      editor.mode = Editor.Modes.Default;
+      editor.removeElement();
+      editor.hideTerminals();
+    }
+    editor.addElement(addMode, new Point(e.clientX, e.clientY));
+  }, [editor])
 
 
   useEffect(() => {
@@ -261,7 +239,7 @@ function EditorComponent(props) {
   ], [removeBranchPointHandler])
 
   const contextMenuRemoveBranch = useMemo(() => [
-    { text: "Remove branch", onClick: () => removeBranchHandler() }
+    { text: "Remove element", onClick: () => removeBranchHandler() }
   ], [removeBranchHandler])
 
   //console.log("render EditorComponent")
@@ -269,8 +247,46 @@ function EditorComponent(props) {
   return (
     <>
       <div className='edit-panel'>
-        <button className={`edit-panel__button ${editor.button ? "edit-panel__button_active" : ""}`} onClick={connectModeClickHandler}>
+        <button
+          className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
+          onClick={connectModeClickHandler}
+        >
           <img src={connectIcon} alt="Connect"></img>
+        </button>
+        <button
+          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
+          onClick={(e) => addElement(e, Editor.AddModes.Node)}
+        >
+          <div style={{ width: 35, fontSize: 35, color: "white" }}>N</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
+          onClick={(e) => addElement(e, Editor.AddModes.Switch)}
+        >
+          <div style={{ width: 35, fontSize: 35, color: "white" }}>S</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
+          onClick={(e) => addElement(e, Editor.AddModes.Transformer)}
+        >
+          <div style={{ width: 35, fontSize: 35, color: "white" }}>T</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
+          onClick={(e) => addElement(e, Editor.AddModes.Load)}
+        >
+          <div style={{ width: 35, fontSize: 35, color: "white" }}>L</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+          onClick={(e) => addElement(e, Editor.AddModes.Generation)}
+        >
+          <div style={{ width: 35, fontSize: 35, color: "white" }}>G</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
         </button>
       </div>
       <svg id='svg'

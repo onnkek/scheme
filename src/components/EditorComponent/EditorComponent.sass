@@ -8,9 +8,12 @@
 .edit-panel
   height: 40px
   padding: 0px 10px
+  display: flex
+  align-items: center
   &__button
     background-color: #131313
     border: 1px solid white
+    height: 100%
     // border-radius: 4px
     img
       padding: 4px
@@ -18,7 +21,9 @@
       width: 35px
       fill: white
     &_active
-      background-color: #3c456e
+      background-color: #525f97
       &:hover
     &:hover
-      background-color: #4c588c
+      background-color: #7385d3
+    &:focus-visible
+      outline: none
