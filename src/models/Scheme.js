@@ -10,9 +10,9 @@ import { Load } from "./Elements/Load";
 export class Scheme {
   elements = [];
 
-  constructor () {
-    this.initScheme();
-  }
+  // constructor () {
+  //   this.initScheme();
+  // }
 
   createBranch() {
     const newBranch = new Branch("New branch " + Math.random(), [], 500);

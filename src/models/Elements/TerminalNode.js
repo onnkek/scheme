@@ -10,6 +10,7 @@ export class TerminalNode extends Element {
 
   constructor(name, position, widthLeft, widthRight) {
     super(name);
+    this.type = "terminalNode"
     this.position = position;
     this.widthLeft = widthLeft;
     this.widthRight = widthRight;

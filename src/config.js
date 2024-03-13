@@ -36,9 +36,9 @@ export const config = {
 		}
 	},
 	"editor": {
-		"selectBoxPadding": 4,
-		"selectControlPadding": 8,
-		"selectControlLength": 12,
+		"selectBoxPadding": 2,
+		"selectControlPadding": 5,
+		"selectControlLength": 10,
 		"controls": {
 			"pointControl": {
 				"radius": 5,

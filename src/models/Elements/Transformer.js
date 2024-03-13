@@ -14,6 +14,7 @@ export class Transformer extends Element {
 
   constructor (name, position, voltage1, voltage2) {
     super(name);
+    this.type = "transformer"
     this.position = position;
     this.isShowTerminals = false;
     this.canRotate = true;
@@ -53,7 +54,7 @@ export class Transformer extends Element {
     }
   }
   getFrame() {
-    const offset = 5;
+    const offset = 3;
     return [
       new Point(this.position.x - config.elements.transformer.radius - offset,
         this.position.y - config.elements.transformer.offset - config.elements.transformer.radius - offset),

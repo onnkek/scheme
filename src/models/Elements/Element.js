@@ -2,13 +2,15 @@ import { Point } from "../../utils/Point";
 import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Element {
-
+  type;
   id;
   name;
   terminals;
   canResize;
 
+
   constructor (name) {
+    this.type = "";
     this.name = name;
     this.id = Math.random();
     this.terminals = [];
@@ -32,7 +34,7 @@ export class Element {
 
   move(delta) {
     this.position = new Point(this.position.x + delta.x, this.position.y + delta.y);
-    
+
     for (let i = 0; i < this.terminals.length; i++) {
       this.terminals[i].position = new Point(this.terminals[i].position.x + delta.x, this.terminals[i].position.y + delta.y);
     }
@@ -41,6 +43,5 @@ export class Element {
     let angle = Math.atan2(cursor.y - this.position.y, cursor.x - this.position.x);
     this.angle = Math.round((angle * 180 / Math.PI + 90) / 90) * 90;
     this.setTerminalsPosition();
-    //editor.select.terminals = [...editor.select.terminals]
   }
 }

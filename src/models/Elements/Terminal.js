@@ -10,6 +10,7 @@ export class Terminal extends Element {
 
   constructor(name, position, angle) {
     super(name);
+    this.type = "terminal"
     this.position = position;
     this.canConnect = true;
     this.angle = angle;

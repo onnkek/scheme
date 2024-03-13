@@ -14,6 +14,7 @@ export class Switch extends Element {
 
 	constructor (name, state, position, voltage) {
 		super(name);
+		this.type = "switch"
 		this.pole1 = null;
 		this.pole2 = null;
 		this.position = position;
@@ -28,7 +29,6 @@ export class Switch extends Element {
 		this.voltage = voltage;
 
 	}
-
 	drawComponent() {
 		return (
 			<SwitchComponent
@@ -56,7 +56,7 @@ export class Switch extends Element {
 		}
 	}
 	getFrame() {
-		const offset = 3;
+		const offset = 2;
 		return [
 			new Point(this.position.x - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset,
 				this.position.y - config.elements.switch.size / 2 - config.elements.switch.strokeWidth / 2 - offset),

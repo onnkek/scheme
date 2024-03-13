@@ -1,0 +1,2507 @@
+{
+  "elements": [
+    {
+      "type": "branch",
+      "name": "New branch 0.984331897147702",
+      "id": 0.8183252823485998,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8540639629837348",
+          "id": 0.19217879032921825,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7824710080534785",
+          "id": 0.7925869601166222,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 558
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.390483715528394",
+          "id": 0.907365393857996,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9309582753969046",
+          "id": 0.09085958838759911,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 560
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.698178956774576",
+      "id": 0.1869839856950044,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.13847002842453993",
+          "id": 0.939507477255028,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 558
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.4163806590429959",
+          "id": 0.3296531704568657,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9298759408585568",
+          "id": 0.8434639694207493,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 560
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7046278648859488",
+          "id": 0.9851582510513952,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.005663357977223615",
+      "id": 0.6019009664512407,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.24052950947930585",
+          "id": 0.7934543023326994,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.1894990376512593",
+          "id": 0.6487309575716562,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8704029868220493",
+          "id": 0.6473076854445827,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 360
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.36317005184130324",
+          "id": 0.49751667361593666,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.20825381307370217",
+      "id": 0.26432876282356155,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9868110872389573",
+          "id": 0.7675168511950139,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.5266723103875177",
+          "id": 0.9591208368475057,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9398398638907448",
+          "id": 0.754727094343765,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 360
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3023009601417912",
+          "id": 0.7738773963842587,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.31301328089347047",
+      "id": 0.9841154440682012,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7676665971325314",
+          "id": 0.18972787516533463,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 462
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.31466059778513267",
+          "id": 0.3305995167829874,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7147857049986184",
+          "id": 0.7785283899782578,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 460
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.30602165060797115",
+          "id": 0.14744109809791595,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 400
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.3712997862636156",
+      "id": 0.2571572682113614,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7883363400218824",
+          "id": 0.13826712485608517,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 462
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.023682587134211674",
+          "id": 0.5871547885480899,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7211955696336314",
+          "id": 0.854438576205506,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 460
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.16280678343816724",
+          "id": 0.5899567597350688,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 400
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.3060850466231846",
+      "id": 0.6183845646363628,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6069203154541734",
+          "id": 0.9360787186376285,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 910,
+            "y": 160
+          },
+          "canConnect": true,
+          "angle": 90
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.008911682796682419",
+          "id": 0.793590411623804,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 960,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [
+        {
+          "x": 960,
+          "y": 160
+        }
+      ],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.2854403313534246",
+          "id": 0.010993873007915989,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 160
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.5105463083270678",
+          "id": 0.4359896620259487,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 960,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.17084224476993315",
+      "id": 0.26511022441130305,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6136516229699143",
+          "id": 0.7316272007034135,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 870,
+            "y": 160
+          },
+          "canConnect": true,
+          "angle": 90
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.4369780776306713",
+          "id": 0.0671793039065891,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 820,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [
+        {
+          "x": 820,
+          "y": 160
+        }
+      ],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7183086766645279",
+          "id": 0.11025867804260736,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 890,
+            "y": 160
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.2749598618679032",
+          "id": 0.07020967122981525,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 820,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.2809531888241712",
+      "id": 0.13298333682083463,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.27192131797737895",
+          "id": 0.2703822669415943,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7680807354542147",
+          "id": 0.29153711048905806,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8531807619150165",
+          "id": 0.2972486329278752,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 360
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8786870609685336",
+          "id": 0.7184185400078043,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.511319851795168",
+      "id": 0.29336548733264056,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8310357375005524",
+          "id": 0.17226671738827193,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 450,
+            "y": 110
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.05994825301346496",
+          "id": 0.3540798993516159,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 610,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [
+        {
+          "x": 450,
+          "y": 330
+        },
+        {
+          "x": 610,
+          "y": 330
+        }
+      ],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.935524377302219",
+          "id": 0.09907123501893778,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 450,
+            "y": 120
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9848361729079729",
+          "id": 0.14783864130390767,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 610,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.6579274090801621",
+      "id": 0.101960793805701,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.46074646242097694",
+          "id": 0.8495767694148506,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8549718220461724",
+          "id": 0.4404430530553354,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9396069494287569",
+          "id": 0.8502497056063989,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 730
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.07553003595291541",
+          "id": 0.3974375272283084,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.32465516100098246",
+      "id": 0.855229611041876,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3211026486110806",
+          "id": 0.02195405085091573,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3350456680499896",
+          "id": 0.41850191335620623,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 110
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.07893414695270318",
+          "id": 0.9083866059249173,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.4739575673967473",
+          "id": 0.013396672157992784,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 110
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.29895278880001586",
+      "id": 0.4005981278510753,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.16252671763976778",
+          "id": 0.15915019614912307,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9313413132284236",
+          "id": 0.33229257668588374,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.2105999546724029",
+          "id": 0.6869201157163436,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 780,
+            "y": 730
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.2208575382108282",
+          "id": 0.6345602206819112,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 650
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.8482709907683545",
+      "id": 0.9064231580686477,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9340488615060194",
+          "id": 0.8445444707030068,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6998421918445517",
+          "id": 0.9447337865930856,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7354457079078724",
+          "id": 0.5347480484913556,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 730
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.162251983412234",
+          "id": 0.48973918210098,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.3921547861466401",
+      "id": 0.2643118115743126,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.037798907752260025",
+          "id": 0.4754460517992256,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.5793093405226919",
+          "id": 0.4391406946369092,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.35650385053682543",
+          "id": 0.293555658218531,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 740
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.18062610731116902",
+          "id": 0.2371915113534948,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.1761879075775148",
+      "id": 0.30144411320941167,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8698874490447517",
+          "id": 0.9063869793210242,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.12557325917507467",
+          "id": 0.2115443053972057,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.026182153758903093",
+          "id": 0.4714959848775704,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 740
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.26566505808177987",
+          "id": 0.8570174253748757,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.0344983158700225",
+      "id": 0.8377441879629659,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.21313631816895584",
+          "id": 0.27110926423330306,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 280
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.924502156491162",
+          "id": 0.6000610009743981,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 110
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9589817458943057",
+          "id": 0.6945195130111501,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 280
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3079238173680048",
+          "id": 0.41824642661093825,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 110
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.7368345520660504",
+      "id": 0.0015241036375883699,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7908741717087406",
+          "id": 0.374337552766675,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 480
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.15412227274606405",
+          "id": 0.1659456828651824,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 320
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3125541057923171",
+          "id": 0.5931392694463042,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 310,
+            "y": 490
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.16402079559549265",
+          "id": 0.1656255425027673,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 320
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "New branch 0.5581820102869997",
+      "id": 0.5316470534514768,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8538266789219577",
+          "id": 0.37132023009759685,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 520
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7955965179319102",
+          "id": 0.07236690271970003,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8011287098859601",
+          "id": 0.5240501592721398,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 520
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.31945292415886706",
+          "id": 0.9742495500153914,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "12",
+      "id": 0.1368487491837378,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.13920717385572168",
+          "id": 0.036268880857202035,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 110
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.786579476536067",
+          "id": 0.17924820536969555,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.769871932245723",
+          "id": 0.5856440607210616,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.6205522781933479",
+          "id": 0.1604651371680781,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "23",
+      "id": 0.5262439481430925,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.6313954913587221",
+          "id": 0.145415861846516,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 450,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.1346364798611206",
+          "id": 0.21592082829901793,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 660,
+            "y": 210
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [
+        {
+          "x": 450,
+          "y": 380
+        },
+        {
+          "x": 660,
+          "y": 380
+        }
+      ],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.20120973704978629",
+          "id": 0.16682846821010555,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.7566343362086281",
+          "id": 0.7182710603363311,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "34",
+      "id": 0.4184055464844376,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.18571402837110185",
+          "id": 0.25525643485429517,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.07610967050461981",
+          "id": 0.41712420048348675,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 460
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9194358905099655",
+          "id": 0.5857527012687958,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 340
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.7480110209095396",
+          "id": 0.6920744220511867,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "23_2",
+      "id": 0.14412750802126473,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.3784039138925148",
+          "id": 0.26870552397728487,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 710,
+            "y": 210
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.3970834322711183",
+          "id": 0.9306149256053058,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 500,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [
+        {
+          "x": 710,
+          "y": 430
+        },
+        {
+          "x": 500,
+          "y": 430
+        }
+      ],
+      "voltage": 500,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.08343321112246582",
+          "id": 0.42579881695443467,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.3436891062428473",
+          "id": 0.002169993915344781,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "branch",
+      "name": "42",
+      "id": 0.7412612338982019,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.49511646718783453",
+          "id": 0.9497116076003131,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.6231119717044604",
+          "id": 0.24834624827713148,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 560
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "points": [],
+      "voltage": 220,
+      "canDraw": true,
+      "junctions": [
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.2802445865003793",
+          "id": 0.43880850549780415,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Пустой терминал 0.7883863440809971",
+          "id": 0.08087559658896204,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "canConnect": true
+        }
+      ],
+      "isShowTerminals": false
+    },
+    {
+      "type": "node",
+      "name": "1",
+      "id": 0.31183166258887174,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.13920717385572168",
+          "id": 0.036268880857202035,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 110
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.924502156491162",
+          "id": 0.6000610009743981,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 110
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3350456680499896",
+          "id": 0.41850191335620623,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 110
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8310357375005524",
+          "id": 0.17226671738827193,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 450,
+            "y": 110
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": true,
+      "number": 1,
+      "position": {
+        "x": 350,
+        "y": 110
+      },
+      "widthLeft": 150,
+      "widthRight": 150,
+      "isShowTerminals": false,
+      "canRotate": false,
+      "voltage": 500,
+      "angle": 0
+    },
+    {
+      "type": "node",
+      "name": "2",
+      "id": 0.61446431982599,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.786579476536067",
+          "id": 0.17924820536969555,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.6313954913587221",
+          "id": 0.145415861846516,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 450,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.3970834322711183",
+          "id": 0.9306149256053058,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 500,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7955965179319102",
+          "id": 0.07236690271970003,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.12557325917507467",
+          "id": 0.2115443053972057,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.5793093405226919",
+          "id": 0.4391406946369092,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6998421918445517",
+          "id": 0.9447337865930856,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.3211026486110806",
+          "id": 0.02195405085091573,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": true,
+      "number": 2,
+      "position": {
+        "x": 400,
+        "y": 660
+      },
+      "widthLeft": 150,
+      "widthRight": 150,
+      "isShowTerminals": false,
+      "canRotate": false,
+      "voltage": 500,
+      "angle": 0
+    },
+    {
+      "type": "node",
+      "name": "3",
+      "id": 0.04810438993674904,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.1346364798611206",
+          "id": 0.21592082829901793,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 660,
+            "y": 210
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.3784039138925148",
+          "id": 0.26870552397728487,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 710,
+            "y": 210
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.05994825301346496",
+          "id": 0.3540798993516159,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 610,
+            "y": 210
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7680807354542147",
+          "id": 0.29153711048905806,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 210
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.4369780776306713",
+          "id": 0.0671793039065891,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 820,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": true,
+      "number": 3,
+      "position": {
+        "x": 710,
+        "y": 210
+      },
+      "widthLeft": 150,
+      "widthRight": 150,
+      "isShowTerminals": false,
+      "canRotate": false,
+      "voltage": 500,
+      "angle": 0
+    },
+    {
+      "type": "node",
+      "name": "4",
+      "id": 0.27529488103192534,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.49511646718783453",
+          "id": 0.9497116076003131,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 660
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9313413132284236",
+          "id": 0.33229257668588374,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8549718220461724",
+          "id": 0.4404430530553354,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.4163806590429959",
+          "id": 0.3296531704568657,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 660
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8540639629837348",
+          "id": 0.19217879032921825,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 660
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": true,
+      "number": 4,
+      "position": {
+        "x": 860,
+        "y": 660
+      },
+      "widthLeft": 150,
+      "widthRight": 280,
+      "isShowTerminals": false,
+      "canRotate": false,
+      "voltage": 220,
+      "angle": 0
+    },
+    {
+      "type": "switch",
+      "name": "S1",
+      "id": 0.14142334150497415,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.21313631816895584",
+          "id": 0.27110926423330306,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 280
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.15412227274606405",
+          "id": 0.1659456828651824,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 320
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 300,
+        "y": 300
+      },
+      "state": false,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 500
+    },
+    {
+      "type": "switch",
+      "name": "S2",
+      "id": 0.32198493154004404,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7908741717087406",
+          "id": 0.374337552766675,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 480
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8538266789219577",
+          "id": 0.37132023009759685,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 520
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 300,
+        "y": 500
+      },
+      "state": true,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 500
+    },
+    {
+      "type": "generation",
+      "name": "G1",
+      "id": 0.6051552442104635,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.16252671763976778",
+          "id": 0.15915019614912307,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 830,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 830,
+        "y": 770
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 110
+    },
+    {
+      "type": "load",
+      "name": "G1",
+      "id": 0.14993919771065278,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.8698874490447517",
+          "id": 0.9063869793210242,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 300,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 300,
+        "y": 760
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 110
+    },
+    {
+      "type": "transformer",
+      "name": "T1",
+      "id": 0.11068191143151784,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терм 0.6231119717044604",
+          "id": 0.24834624827713148,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 560
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терм 0.07610967050461981",
+          "id": 0.41712420048348675,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 460
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "position": {
+        "x": 770,
+        "y": 510
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "voltage1": 500,
+      "voltage2": 220,
+      "angle": 0
+    },
+    {
+      "type": "load",
+      "name": "G1",
+      "id": 0.99080129704407,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.037798907752260025",
+          "id": 0.4754460517992256,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 350,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 350,
+        "y": 760
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 110
+    },
+    {
+      "type": "load",
+      "name": "G1",
+      "id": 0.7187213815785207,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9340488615060194",
+          "id": 0.8445444707030068,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 400,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 400,
+        "y": 760
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 110
+    },
+    {
+      "type": "node",
+      "name": "1",
+      "id": 0.07980072715450959,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.008911682796682419",
+          "id": 0.793590411623804,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 960,
+            "y": 210
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.5266723103875177",
+          "id": 0.9591208368475057,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 210
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.1894990376512593",
+          "id": 0.6487309575716562,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 210
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": true,
+      "number": 1,
+      "position": {
+        "x": 1030,
+        "y": 210
+      },
+      "widthLeft": 100,
+      "widthRight": 100,
+      "isShowTerminals": false,
+      "canRotate": false,
+      "voltage": 500,
+      "angle": 0
+    },
+    {
+      "type": "generation",
+      "name": "G1",
+      "id": 0.8145605954737403,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.46074646242097694",
+          "id": 0.8495767694148506,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 930,
+            "y": 735
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 930,
+        "y": 770
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 110
+    },
+    {
+      "type": "switch",
+      "name": "S1",
+      "id": 0.8451606179650171,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.27192131797737895",
+          "id": 0.2703822669415943,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.18571402837110185",
+          "id": 0.25525643485429517,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 770,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 770,
+        "y": 380
+      },
+      "state": false,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 500
+    },
+    {
+      "type": "switch",
+      "name": "S1",
+      "id": 0.09958501479151805,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6069203154541734",
+          "id": 0.9360787186376285,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 910,
+            "y": 160
+          },
+          "canConnect": true,
+          "angle": 90
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.6136516229699143",
+          "id": 0.7316272007034135,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 870,
+            "y": 160
+          },
+          "canConnect": true,
+          "angle": 90
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 890,
+        "y": 160
+      },
+      "state": false,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 90,
+      "voltage": 500
+    },
+    {
+      "type": "transformer",
+      "name": "T1",
+      "id": 0.37149708223781985,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7883363400218824",
+          "id": 0.13826712485608517,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 462
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.13847002842453993",
+          "id": 0.939507477255028,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 558
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "position": {
+        "x": 1000,
+        "y": 510
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "voltage1": 500,
+      "voltage2": 220,
+      "angle": 0
+    },
+    {
+      "type": "transformer",
+      "name": "T1",
+      "id": 0.19304594128876373,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7676665971325314",
+          "id": 0.18972787516533463,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 462
+          },
+          "canConnect": true
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.7824710080534785",
+          "id": 0.7925869601166222,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 558
+          },
+          "canConnect": true
+        }
+      ],
+      "canResize": false,
+      "position": {
+        "x": 1080,
+        "y": 510
+      },
+      "isShowTerminals": false,
+      "canRotate": true,
+      "voltage1": 500,
+      "voltage2": 220,
+      "angle": 0
+    },
+    {
+      "type": "switch",
+      "name": "S1",
+      "id": 0.9267151858026821,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.24052950947930585",
+          "id": 0.7934543023326994,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.023682587134211674",
+          "id": 0.5871547885480899,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1000,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 1000,
+        "y": 380
+      },
+      "state": false,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 500
+    },
+    {
+      "type": "switch",
+      "name": "S1",
+      "id": 0.7788882671141053,
+      "terminals": [
+        {
+          "type": "terminal",
+          "name": "Терминал 0.9868110872389573",
+          "id": 0.7675168511950139,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 360
+          },
+          "canConnect": true,
+          "angle": 0
+        },
+        {
+          "type": "terminal",
+          "name": "Терминал 0.31466059778513267",
+          "id": 0.3305995167829874,
+          "terminals": [],
+          "canResize": false,
+          "position": {
+            "x": 1080,
+            "y": 400
+          },
+          "canConnect": true,
+          "angle": 0
+        }
+      ],
+      "canResize": false,
+      "pole1": null,
+      "pole2": null,
+      "position": {
+        "x": 1080,
+        "y": 380
+      },
+      "state": false,
+      "isShowTerminals": false,
+      "canRotate": true,
+      "angle": 0,
+      "voltage": 500
+    }
+  ]
+}

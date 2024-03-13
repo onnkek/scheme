@@ -14,6 +14,13 @@ import { SquareControl } from '../../models/Controls/SquareControl';
 import { RotateControl } from '../../models/Controls/RotateControl';
 import connectIcon from '../../assets/icons/connect.svg'
 import { getGridDelta } from '../../utils/grid';
+import testScheme from '../../testScheme.json';
+import { Scheme } from '../../models/Scheme';
+import { Switch } from '../../models/Elements/Switch';
+import { Transformer } from '../../models/Elements/Transformer';
+import { Load } from '../../models/Elements/Load';
+import { Generation } from '../../models/Elements/Generation';
+import { Terminal } from '../../models/Elements/Terminal';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -226,6 +233,88 @@ function EditorComponent(props) {
   }, [editor])
 
 
+  const save = useCallback((e) => {
+    console.log(JSON.stringify(editor.scheme));
+    testScheme = JSON.stringify(editor.scheme);
+  }, [editor])
+
+  const load = useCallback((e) => {
+    let scheme = testScheme;
+    editor.scheme = new Scheme();
+    for (let i = 0; i < scheme.elements.length; i++) {
+      //console.log(scheme.elements[i])
+      switch (scheme.elements[i].type) {
+        case "node":
+          let newNode = new Node();
+          for (let key in scheme.elements[i]) {
+            newNode[key] = scheme.elements[i][key];
+          }
+          //newNode.terminals = [];
+          editor.scheme.elements.push(newNode)
+          break;
+        case "switch":
+          let newSwitch = new Switch("123", false, new Point(0, 0), 100);
+          for (let key in scheme.elements[i]) {
+            newSwitch[key] = scheme.elements[i][key];
+          }
+          //newSwitch.terminals = [null, null];
+          editor.scheme.elements.push(newSwitch)
+          break;
+        case "branch":
+          let newBranch = new Branch("34", [], 500);
+          for (let key in scheme.elements[i]) {
+            newBranch[key] = scheme.elements[i][key];
+          }
+          //newBranch.terminals = [null, null];
+          editor.scheme.elements.push(newBranch)
+          break;
+        case "transformer":
+          let newTransformer = new Transformer("T1", new Point(810, 440), 500, 220);
+          for (let key in scheme.elements[i]) {
+            newTransformer[key] = scheme.elements[i][key];
+          }
+          //newTransformer.terminals = [null, null];
+          editor.scheme.elements.push(newTransformer)
+          break;
+        case "load":
+          let newLoad = new Load("G1", new Point(600, 800), 110)
+          for (let key in scheme.elements[i]) {
+            newLoad[key] = scheme.elements[i][key];
+          }
+          //newLoad.terminals = [null];
+          editor.scheme.elements.push(newLoad)
+          break;
+        case "generation":
+          let newGeneration = new Generation("G1", new Point(800, 800), 110)
+          for (let key in scheme.elements[i]) {
+            newGeneration[key] = scheme.elements[i][key];
+          }
+          //newGeneration.terminals = [null];
+          editor.scheme.elements.push(newGeneration)
+          break;
+        default:
+          break;
+      }
+    }
+    let terminals = [];
+    for (let i = 0; i < editor.scheme.elements.length; i++) {
+      for (let j = 0; j < editor.scheme.elements[i].terminals.length; j++) {
+        let index = terminals.findIndex(x => x.id === editor.scheme.elements[i].terminals[j].id)
+        if (index !== -1) {
+          editor.scheme.elements[i].terminals[j] = terminals[index];
+        } else {
+          let newTerminal = new Terminal("Терм " + Math.random(), new Point(710, 210), 0);
+          for (let key in editor.scheme.elements[i].terminals[j]) {
+            newTerminal[key] = editor.scheme.elements[i].terminals[j][key];
+          }
+          editor.scheme.elements[i].terminals[j] = newTerminal;
+          terminals.push(newTerminal);
+        }
+      }
+    }
+    setLastCursor(new Point(e.clientX, e.clientY))
+  }, [editor])
+
   useEffect(() => {
     window.addEventListener("keyup", svgKeyUpHandler);
     return () => {
@@ -287,6 +376,20 @@ function EditorComponent(props) {
           onClick={(e) => addElement(e, Editor.AddModes.Generation)}
         >
           <div style={{ width: 35, fontSize: 35, color: "white" }}>G</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className="edit-panel__button"
+          onClick={save}
+        >
+          <div style={{ width: 100, fontSize: 35, color: "white" }}>SAVE</div>
+          {/* <img src={connectIcon} alt="Connect"></img> */}
+        </button>
+        <button
+          className="edit-panel__button"
+          onClick={load}
+        >
+          <div style={{ width: 100, fontSize: 35, color: "white" }}>LOAD</div>
           {/* <img src={connectIcon} alt="Connect"></img> */}
         </button>
       </div>

@@ -3,7 +3,6 @@ import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import LoadComponent from "../../components/Equipment/LoadComponent/LoadComponent";
-import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Load extends Element {
 
@@ -14,6 +13,7 @@ export class Load extends Element {
 
   constructor (name, position, voltage) {
     super(name);
+    this.type = "load"
     this.pole1 = null;
     this.pole2 = null;
     this.position = position;
@@ -52,7 +52,7 @@ export class Load extends Element {
     }
   }
   getFrame() {
-    const offset = 5;
+    const offset = 2;
     return [
       new Point(this.position.x - config.elements.load.widthArrow / 2 - offset, this.position.y - config.elements.load.height / 2 - offset),
       new Point(this.position.x + config.elements.load.widthArrow / 2 + offset, this.position.y - config.elements.load.height / 2 - offset),

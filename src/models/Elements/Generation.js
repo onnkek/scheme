@@ -3,7 +3,6 @@ import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import GenerationComponent from "../../components/Equipment/GenerationComponent/GenerationComponent";
-import { getRotateTransformPoint } from "../../utils/Transform";
 
 export class Generation extends Element {
 
@@ -14,6 +13,7 @@ export class Generation extends Element {
 
   constructor (name, position, voltage) {
     super(name);
+    this.type = "generation"
     this.pole1 = null;
     this.pole2 = null;
     this.position = position;
@@ -51,7 +51,7 @@ export class Generation extends Element {
     }
   }
   getFrame() {
-    const offset = 4;
+    const offset = 2;
     return [
       new Point(this.position.x - config.elements.generation.radius - offset, this.position.y - config.elements.generation.radius - offset),
       new Point(this.position.x + config.elements.generation.radius + offset, this.position.y - config.elements.generation.radius - offset),

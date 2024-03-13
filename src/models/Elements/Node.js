@@ -18,6 +18,7 @@ export class Node extends Element {
 
   constructor (name, number, position, widthLeft, widthRight, voltage) {
     super(name);
+    this.type = "node"
     this.number = number;
     this.position = position;
     this.widthLeft = widthLeft;

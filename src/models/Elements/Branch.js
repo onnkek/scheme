@@ -15,6 +15,7 @@ export class Branch extends Element {
 
   constructor (name, points, voltage) {
     super(name);
+    this.type = "branch"
     this.points = points;
     this.voltage = voltage;
     this.canDraw = true;

@@ -49,6 +49,7 @@ export class Editor {
 		this.lastCursor = new Point(0, 0);
 		this.selectLayer = new SelectLayer();
 		this.scheme = new Scheme();
+		this.scheme.initScheme();
 	}
 
 	addElement(addMode, cursor) {
