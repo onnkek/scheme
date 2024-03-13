@@ -32,7 +32,7 @@ export class Element {
 
   move(delta) {
     this.position = new Point(this.position.x + delta.x, this.position.y + delta.y);
-
+    
     for (let i = 0; i < this.terminals.length; i++) {
       this.terminals[i].position = new Point(this.terminals[i].position.x + delta.x, this.terminals[i].position.y + delta.y);
     }

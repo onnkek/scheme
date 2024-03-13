@@ -27,17 +27,20 @@ export class Scheme {
   changeTerminalPosition(selectTerminal, position) {
     const nodes = this.elements.filter(x => x instanceof Node);
     let nodeIndex = nodes.findIndex(x => x.terminals.find(x => x.id === selectTerminal.id));
-    let terminalIndex = nodes[nodeIndex].terminals.findIndex(x => x.id === selectTerminal.id);
+    if (nodeIndex !== -1) {
+      let terminalIndex = nodes[nodeIndex].terminals.findIndex(x => x.id === selectTerminal.id);
 
-    // Change massive, not change terminal
-    nodes[nodeIndex].terminals[terminalIndex].position = position;
-    nodes[nodeIndex].terminals = [
-      ...nodes[nodeIndex].terminals.slice(0, terminalIndex),
-      nodes[nodeIndex].terminals[terminalIndex],
-      ...nodes[nodeIndex].terminals.slice(terminalIndex + 1)
-    ]
+      // Change massive, not change terminal
+      nodes[nodeIndex].terminals[terminalIndex].position = position;
+      nodes[nodeIndex].terminals = [
+        ...nodes[nodeIndex].terminals.slice(0, terminalIndex),
+        nodes[nodeIndex].terminals[terminalIndex],
+        ...nodes[nodeIndex].terminals.slice(terminalIndex + 1)
+      ]
+    }
+
   }
-  
+
 
   initScheme() {
 

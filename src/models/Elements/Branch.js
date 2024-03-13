@@ -13,7 +13,7 @@ export class Branch extends Element {
   voltage;
   canDraw;
 
-  constructor(name, points, voltage) {
+  constructor (name, points, voltage) {
     super(name);
     this.points = points;
     this.voltage = voltage;
@@ -25,12 +25,12 @@ export class Branch extends Element {
   drawComponent() {
     return (
       this.canDraw ? <BranchComponent
-      key={this.id}
-      name={this.name}
-      points={this.getFrame()}
-      terminals={this.terminals}
-      voltageColor={this.getVoltageColor()}
-    /> : "");
+        key={this.id}
+        name={this.name}
+        points={this.getFrame()}
+        terminals={this.terminals}
+        voltageColor={this.getVoltageColor()}
+      /> : "");
   }
   getVoltageColor() {
     switch (this.voltage) {
@@ -91,14 +91,15 @@ export class Branch extends Element {
   }
 
   addPoint(cursor) {
-    let indexOfPoint = this.getIndexAddPoint(cursor);
+    let cursorGrid = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10);
+    let indexOfPoint = this.getIndexAddPoint(cursorGrid);
     if (indexOfPoint === 1) {
-      this.points = [cursor, ...this.points.slice(indexOfPoint - 1)]
+      this.points = [cursorGrid, ...this.points.slice(indexOfPoint - 1)]
     } else if (indexOfPoint === this.getFrame().length - 1) {
-      this.points = [...this.points.slice(0, indexOfPoint - 1), cursor]
+      this.points = [...this.points.slice(0, indexOfPoint - 1), cursorGrid]
     } else {
       this.points = [...this.points.slice(0, indexOfPoint - 1),
-        cursor, ...this.points.slice(indexOfPoint - 1)]
+        cursorGrid, ...this.points.slice(indexOfPoint - 1)]
     }
   }
 }

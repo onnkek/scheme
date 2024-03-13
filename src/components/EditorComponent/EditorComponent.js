@@ -13,6 +13,7 @@ import { Node } from '../../models/Elements/Node';
 import { SquareControl } from '../../models/Controls/SquareControl';
 import { RotateControl } from '../../models/Controls/RotateControl';
 import connectIcon from '../../assets/icons/connect.svg'
+import { getGridDelta } from '../../utils/grid';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -66,7 +67,7 @@ function EditorComponent(props) {
   const svgMouseMoveHandler = useThrottle((e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
-    const delta = new Point(cursor.x - lastCursor.x, cursor.y - lastCursor.y);
+    const delta = getGridDelta(cursor, lastCursor);
 
     switch (editor.mode) {
 

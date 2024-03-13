@@ -38,6 +38,7 @@ export class Editor {
 	selectControl;
 	connectNode;
 	connectTerminal;
+	connectElement;
 	newElement;
 	button; // rework in future
 	scheme;
@@ -52,21 +53,22 @@ export class Editor {
 
 	addElement(addMode, cursor) {
 		let newElement = null;
+		let cursorGrid = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10);
 		switch (addMode) {
 			case Editor.AddModes.Node:
-				newElement = new Node("1", 1, cursor, 100, 100, 500);
+				newElement = new Node("1", 1, cursorGrid, 100, 100, 500);
 				break;
 			case Editor.AddModes.Switch:
-				newElement = new Switch("S1", false, cursor, 500);
+				newElement = new Switch("S1", false, cursorGrid, 500);
 				break;
 			case Editor.AddModes.Transformer:
-				newElement = new Transformer("T1", cursor, 500, 220);
+				newElement = new Transformer("T1", cursorGrid, 500, 220);
 				break;
 			case Editor.AddModes.Load:
-				newElement = new Load("G1", cursor, 110);
+				newElement = new Load("G1", cursorGrid, 110);
 				break;
 			case Editor.AddModes.Generation:
-				newElement = new Generation("G1", cursor, 110);
+				newElement = new Generation("G1", cursorGrid, 110);
 				break;
 			default:
 
@@ -86,65 +88,88 @@ export class Editor {
 
 	connect(cursor, delta) {
 		let elems = this.scheme.elements.filter(x => !(x instanceof Branch));
+
 		for (let i = 0; i < elems.length; i++) {
 			if (hitTestFrame(elems[i].getFrame(), cursor, 50)) {
 				elems[i].isShowTerminals = true;
-
-				if (elems[i] instanceof Node) {
-					if (hitTestLine(
-						new Point(elems[i].position.x - elems[i].widthLeft, elems[i].position.y),
-						new Point(elems[i].position.x + elems[i].widthRight, elems[i].position.y),
-						cursor, 20)) {
-						this.connectNode = elems[i];
-
-					} else {
-						this.connectNode = null;
-					}
-					this.connectToNode(cursor, delta);
-				} else { // not node element
-
-					let terminal = null;
-					for (let j = 0; j < elems[i].terminals.length; j++) {
-						let findTerminal = hitTestPoint(elems[i].terminals[j].position, cursor, 10);
-						if (findTerminal) {
-							terminal = elems[i].terminals[j];
-						}
-					}
-
-					const controlIndex = this.selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x === this.selectControl);
-
-					if (terminal) {
-						if (terminal.canConnect) {
-							this.select.terminals[controlIndex] = terminal;
-							terminal.canConnect = false;
-						}
-
-					} else {
-
-						if (this.select.terminals[controlIndex]) {
-							let element = this.scheme.elements.find(x => x.terminals.find(x => x === this.select.terminals[controlIndex]));
-							if (element) {
-								let terminal = element.terminals.find(x => x === this.select.terminals[controlIndex]);
-								terminal.canConnect = true;
-							}
-							this.select.junctions[controlIndex] = new Terminal("Терминал " + Math.random(), cursor);
-							this.select.terminals[controlIndex] = null;
-						}
-					}
-					elems[i].terminals = [...elems[i].terminals]
-				}
+			} else {
+				elems[i].isShowTerminals = false;
 			}
 		}
+
+		for (let i = 0; i < elems.length; i++) {
+			if (elems[i] instanceof Node) {
+				if (hitTestLine(
+					new Point(elems[i].position.x - elems[i].widthLeft, elems[i].position.y),
+					new Point(elems[i].position.x + elems[i].widthRight, elems[i].position.y),
+					cursor, 10)) {
+					this.connectNode = elems[i];
+					break;
+
+				} else {
+					this.connectNode = null;
+				}
+			} else {
+
+			}
+		}
+		this.connectToNode(cursor, delta);
+
+		if (!this.connectNode) {
+			let elements = elems.filter(x => !(x instanceof Node));
+			let newTerminal = null;
+			let newElement = null;
+			for (let i = 0; i < elements.length; i++) {
+				let isBreak = 0;
+				for (let j = 0; j < elements[i].terminals.length; j++) {
+					if (hitTestPoint(elements[i].terminals[j].position, cursor, 10)) {
+						newElement = elements[i];
+						newTerminal = elements[i].terminals[j];
+						isBreak = 1;
+						break;
+					} else {
+						newElement = null;
+						newTerminal = null;
+					}
+				}
+				if (isBreak) {
+					break;
+				}
+			}
+			const controlIndex = this.selectLayer.box.controls.filter(x => x instanceof PointControl).findIndex(x => x === this.selectControl);
+			if (this.connectTerminal) {
+				if (this.connectTerminal.canConnect) {
+					this.select.terminals[controlIndex] = this.connectTerminal;
+					this.connectTerminal.canConnect = false;
+				}
+				this.connectElement.terminals = [...this.connectElement.terminals];
+			}
+			if (this.connectTerminal !== newTerminal || this.connectElement !== newElement) {
+				let element = elems.find(x => x.terminals.find(x => x === this.connectTerminal));
+				if (element) {
+					let terminal = element.terminals.find(x => x === this.connectTerminal);
+					terminal.canConnect = true;
+				}
+				this.select.junctions[controlIndex] = new Terminal("Терминал " + Math.random(), cursor);
+				this.select.terminals[controlIndex] = null;
+				this.connectTerminal = newTerminal;
+				this.connectElement = newElement;
+			}
+		}
+
+
+
+
 		if (this.select && this.selectControl) {
 			let indexOfPoint = this.selectLayer.box.controls.findIndex(x => x === this.selectControl);
 
 			if (indexOfPoint === 0) {
-				this.select.junctions[0].position = cursor;
+				this.select.junctions[0].position = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10)
 			} else if (indexOfPoint === this.selectLayer.box.controls.length - 1) {
-				this.select.junctions[1].position = cursor;
+				this.select.junctions[1].position = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10)
 			} else {
 				this.select.points = [...this.select.points.slice(0, indexOfPoint - 1),
-					cursor, ...this.select.points.slice(indexOfPoint)]
+				new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10), ...this.select.points.slice(indexOfPoint)]
 			}
 		}
 		if (this.mode === Editor.Modes.Connect) {
@@ -154,6 +179,7 @@ export class Editor {
 		}
 
 	}
+
 
 	connectToNode(cursor, delta) {
 		const pointControls = this.selectLayer.box.controls.filter(x => x instanceof PointControl);
@@ -169,7 +195,7 @@ export class Editor {
 					if (this.select.terminals[i]) {
 						this.scheme.changeTerminalPosition(this.select.terminals[i], newPoint)
 					} else {
-						let terminal = this.connectNode.addTerminal(cursor.x);
+						let terminal = this.connectNode.addTerminal(Math.round(cursor.x / 10) * 10);
 						this.select.terminals[i] = terminal;
 					}
 				}
@@ -180,14 +206,16 @@ export class Editor {
 				if (this.select.terminals[i] && this.selectControl === pointControls[i]) {
 					const nodes = this.scheme.elements.filter(x => x instanceof Node);
 					let nodeIndex = nodes.findIndex(x => x.terminals.find(x => x.id === this.select.terminals[i].id));
+					if (nodeIndex !== -1) {
+						const index = nodes[nodeIndex].terminals.findIndex(x => x.id === this.select.terminals[i].id);
+						nodes[nodeIndex].terminals = [
+							...nodes[nodeIndex].terminals.slice(0, index),
+							...nodes[nodeIndex].terminals.slice(index + 1)
+						]
+						this.select.junctions[i] = new Terminal("Терминал " + Math.random(), cursor);
+						this.select.terminals[i] = null;
+					}
 
-					const index = nodes[nodeIndex].terminals.findIndex(x => x.id === this.select.terminals[i].id);
-					nodes[nodeIndex].terminals = [
-						...nodes[nodeIndex].terminals.slice(0, index),
-						...nodes[nodeIndex].terminals.slice(index + 1)
-					]
-					this.select.junctions[i] = new Terminal("Терминал " + Math.random(), cursor);
-					this.select.terminals[i] = null;
 				}
 			}
 		}
