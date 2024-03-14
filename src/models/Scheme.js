@@ -124,20 +124,26 @@ export class Scheme {
 
 
 
+    let elem = new Switch("S1", false, new Point(300, 300), 500);
+    elem.addTerminals();
+    this.elements.push(elem);
 
-    this.elements.push(new Switch("S1", false, new Point(300, 300), 500));
-    this.elements.push(new Switch("S2", true, new Point(300, 500), 500));
+    elem = new Switch("S2", true, new Point(300, 500), 500);
+    elem.addTerminals();
+    this.elements.push(elem);
 
-    this.elements.push(new Generation("G1", new Point(800, 800), 110));
-    this.elements.push(new Load("G1", new Point(600, 800), 110));
+    elem = new Generation("G1", new Point(800, 800), 110);
+    elem.addTerminals();
+    this.elements.push(elem);
+
+    elem = new Load("G1", new Point(600, 800), 110);
+    elem.addTerminals();
+    this.elements.push(elem);
 
     let transformer = new Transformer("T1", new Point(810, 440), 500, 220);
     transformer.terminals[0] = terminal5_2;
     transformer.terminals[1] = terminal3_2;
     this.elements.push(transformer);
-
-
-
 
   }
 

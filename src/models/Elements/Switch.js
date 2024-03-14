@@ -22,12 +22,14 @@ export class Switch extends Element {
 		this.isShowTerminals = false;
 		this.canRotate = true;
 		this.angle = 0;
+		this.voltage = voltage;
+
+	}
+	addTerminals() {
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
 			new Point(this.position.x, this.position.y - config.elements.switch.size / 2), this.angle));
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
 			new Point(this.position.x, this.position.y + config.elements.switch.size / 2), this.angle));
-		this.voltage = voltage;
-
 	}
 	drawComponent() {
 		return (

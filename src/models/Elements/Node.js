@@ -29,7 +29,7 @@ export class Node extends Element {
     this.angle = 0;
     this.canResize = true;
   }
-
+  addTerminals() {}
   addTerminal(x) {
     let terminal = new Terminal("Терминал " + Math.random(), new Point(x, this.position.y));
     this.terminals.push(terminal);

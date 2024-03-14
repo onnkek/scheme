@@ -21,6 +21,7 @@ import { Transformer } from '../../models/Elements/Transformer';
 import { Load } from '../../models/Elements/Load';
 import { Generation } from '../../models/Elements/Generation';
 import { Terminal } from '../../models/Elements/Terminal';
+import { Serializer } from '../../utils/Serializer';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -47,7 +48,6 @@ function EditorComponent(props) {
           editor.select.addPoint(cursor);
         }
         let control = editor.selectLayer.getSelectControl(cursor);
-        // console.log(control)
         if (control) {
           if (editor.select instanceof Branch) {
             if (e.button === 2 && control instanceof SquareControl) {
@@ -111,14 +111,10 @@ function EditorComponent(props) {
   const svgMouseUpHandler = (e) => {
     const cursor = new Point(e.clientX, e.clientY);
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
-    console.log("UP")
-    console.log(editor.mode);
     switch (editor.mode) {
 
       case Editor.Modes.Default:
       case Editor.Modes.Select:
-        console.log("SELECT OR DEFAULT")
-        console.log(elem)
         if (elem) {
           if (e.button === 2) {
             editor.mode = Editor.Modes.ContextMenu;
@@ -233,71 +229,28 @@ function EditorComponent(props) {
   }, [editor])
 
 
+  //let test = "";
   const save = useCallback((e) => {
-    console.log(JSON.stringify(editor.scheme));
-    testScheme = JSON.stringify(editor.scheme);
+    // let a = document.createElement("a");
+    // let file = new Blob([JSON.stringify(editor.scheme)], { type: 'application/json' });
+    // a.href = URL.createObjectURL(file);
+    // a.download = "scheme.json";
+    // a.click();
+
+    const serializer = new Serializer([Scheme, Node, Branch, Switch, Transformer, Load, Generation, Terminal, Array, Point]);
+    editor.test = serializer.serialize(editor.scheme);
+    console.log(editor.test)
+
   }, [editor])
 
   const load = useCallback((e) => {
-    let scheme = testScheme;
-    editor.scheme = new Scheme();
-    for (let i = 0; i < scheme.elements.length; i++) {
-      //console.log(scheme.elements[i])
-      switch (scheme.elements[i].type) {
-        case "node":
-          let newNode = new Node();
-          for (let key in scheme.elements[i]) {
-            newNode[key] = scheme.elements[i][key];
-          }
-          //newNode.terminals = [];
-          editor.scheme.elements.push(newNode)
-          break;
-        case "switch":
-          let newSwitch = new Switch("123", false, new Point(0, 0), 100);
-          for (let key in scheme.elements[i]) {
-            newSwitch[key] = scheme.elements[i][key];
-          }
-          //newSwitch.terminals = [null, null];
-          editor.scheme.elements.push(newSwitch)
-          break;
-        case "branch":
-          let newBranch = new Branch("34", [], 500);
-          for (let key in scheme.elements[i]) {
-            newBranch[key] = scheme.elements[i][key];
-          }
-          //newBranch.terminals = [null, null];
-          editor.scheme.elements.push(newBranch)
-          break;
-        case "transformer":
-          let newTransformer = new Transformer("T1", new Point(810, 440), 500, 220);
-          for (let key in scheme.elements[i]) {
-            newTransformer[key] = scheme.elements[i][key];
-          }
-          //newTransformer.terminals = [null, null];
-          editor.scheme.elements.push(newTransformer)
-          break;
-        case "load":
-          let newLoad = new Load("G1", new Point(600, 800), 110)
-          for (let key in scheme.elements[i]) {
-            newLoad[key] = scheme.elements[i][key];
-          }
-          //newLoad.terminals = [null];
-          editor.scheme.elements.push(newLoad)
-          break;
-        case "generation":
-          let newGeneration = new Generation("G1", new Point(800, 800), 110)
-          for (let key in scheme.elements[i]) {
-            newGeneration[key] = scheme.elements[i][key];
-          }
-          //newGeneration.terminals = [null];
-          editor.scheme.elements.push(newGeneration)
-          break;
-        default:
-          break;
-      }
-    }
+    const serializer = new Serializer([Scheme, Node, Branch, Switch, Transformer, Load, Generation, Terminal, Array, Point]);
+    let des = serializer.deserialize(JSON.stringify(testScheme));
+    //console.log(des)
+    editor.scheme = des;
     let terminals = [];
     for (let i = 0; i < editor.scheme.elements.length; i++) {
+      editor.scheme.elements[i].addTerminals();
       for (let j = 0; j < editor.scheme.elements[i].terminals.length; j++) {
         let index = terminals.findIndex(x => x.id === editor.scheme.elements[i].terminals[j].id)
         if (index !== -1) {

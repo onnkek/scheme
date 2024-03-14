@@ -18,15 +18,16 @@ export class Transformer extends Element {
     this.position = position;
     this.isShowTerminals = false;
     this.canRotate = true;
-    this.terminals.push(new Terminal("Терминал " + Math.random(),
-      new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset), this.angle));
-    this.terminals.push(new Terminal("Терминал " + Math.random(),
-      new Point(this.position.x, this.position.y + config.elements.transformer.radius + config.elements.transformer.offset), this.angle));
     this.voltage1 = voltage1;
     this.voltage2 = voltage2;
     this.angle = 0;
   }
-
+  addTerminals() {
+    this.terminals.push(new Terminal("Терминал " + Math.random(),
+      new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset), this.angle));
+    this.terminals.push(new Terminal("Терминал " + Math.random(),
+      new Point(this.position.x, this.position.y + config.elements.transformer.radius + config.elements.transformer.offset), this.angle));
+  }
   drawComponent() {
     return (
       <TransformerComponent

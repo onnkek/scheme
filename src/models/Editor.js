@@ -75,6 +75,7 @@ export class Editor {
 
 				break;
 		}
+		newElement.addTerminals();
 		this.scheme.elements.push(newElement);
 		this.select = newElement;
 		this.mode = Editor.Modes.AddElement;

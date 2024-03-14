@@ -22,7 +22,7 @@ export class Branch extends Element {
     this.junctions = [new Terminal("Пустой терминал " + Math.random(), new Point(0, 0)),
     new Terminal("Пустой терминал " + Math.random(), new Point(0, 0))]
   }
-
+  addTerminals() { }
   drawComponent() {
     return (
       this.canDraw ? <BranchComponent

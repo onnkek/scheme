@@ -20,11 +20,12 @@ export class Load extends Element {
     this.isShowTerminals = false;
     this.canRotate = true;
     this.angle = 0;
-    this.terminals.push(new Terminal("Терминал " + Math.random(),
-      new Point(this.position.x, this.position.y - config.elements.load.height / 2), this.angle));
     this.voltage = voltage;
   }
-
+  addTerminals() {
+    this.terminals.push(new Terminal("Терминал " + Math.random(),
+      new Point(this.position.x, this.position.y - config.elements.load.height / 2), this.angle));
+  }
   drawComponent() {
     return (
       <LoadComponent
