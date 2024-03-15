@@ -1,8 +1,10 @@
+import SelectBoxComponent from "../components/Selections/SelectBoxComponent/SelectBoxComponent";
 import { Point } from "../utils/Point";
 import { RotateControl } from "./Controls/RotateControl";
 import { SizeControl } from "./Controls/SizeControl";
 
 export class SelectBox {
+	id;
 	controls = [];
 	frame;
 	position;
@@ -13,12 +15,19 @@ export class SelectBox {
 	canResize;
 
 	constructor (frame, angle, canRotate, canResize) {
+		this.id = Math.random();
 		this.frame = frame;
 		this.angle = angle;
 		this.canRotate = canRotate;
 		this.canResize = canResize;
 		this.initSelectBox();
 		this.addControls();
+	}
+
+	draw() {
+		return (
+			<SelectBoxComponent key={this.id} box={this} />
+		)
 	}
 
 	initSelectBox() {

@@ -16,6 +16,7 @@ export class Editor {
 	static Modes = { // enum
 		Default: "Default",
 		Select: "Select",
+		SelectMany: "SelectMany",
 		Move: "Move",
 		Edit: "Edit",
 		EditBranch: "EditBranch",
@@ -43,9 +44,11 @@ export class Editor {
 	button; // rework in future
 	scheme;
 	selectLayer;
+	selected;
 
 	constructor () {
 		this.mode = Editor.Modes.Default;
+		this.selected = [];
 		this.lastCursor = new Point(0, 0);
 		this.selectLayer = new SelectLayer();
 		this.scheme = new Scheme();

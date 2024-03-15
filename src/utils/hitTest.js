@@ -1,4 +1,5 @@
 import { Branch } from "../models/Elements/Branch";
+import { Point } from "./Point";
 
 export const hitTestLine = function (point1, point2, cursor, r) {
   let x1 = point1.x - cursor.x;
@@ -73,4 +74,123 @@ export const hitTestElement = (elements, cursor, radius) => {
       }
     }
   }
+}
+
+// POLYGON/POLYGON
+export const polyPoly = (vertices1, vertices2) => {
+
+  // go through each of the vertices, plus the next
+  // vertex in the list
+  let next = 0;
+  for (let current = 0; current < vertices1.length; current++) {
+
+    // get next vertex in list
+    // if we've hit the end, wrap around to 0
+    next = current + 1;
+    if (next === vertices1.length) next = 0;
+
+    // get the PVectors at our current position
+    // this makes our if statement a little cleaner
+    let vc = vertices1[current];    // c for "current"
+    let vn = vertices1[next];       // n for "next"
+
+    // now we can use these two points (a line) to compare
+    // to the other polygon's vertices using polyLine()
+    let collision = polyLine(vertices2, vc, vn);
+    if (collision) return true;
+
+    // optional: check if the 2nd polygon is INSIDE the first
+    collision = polyPoint(vertices1, vertices2[0]);
+    if (collision) return true;
+  }
+
+  return false;
+}
+
+// POLYGON/POLYGON
+export const polyPolyContain = (vertices, targetVertices) => {
+
+  for (let i = 0; i < targetVertices.length; i++) {
+    let contain = polyPoint(vertices, targetVertices[i]);
+    if (!contain) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// POLYGON/LINE
+export const polyLine = (vertices, point1, point2) => {
+
+  // go through each of the vertices, plus the next
+  // vertex in the list
+  let next = 0;
+  for (let current = 0; current < vertices.length; current++) {
+
+    // get next vertex in list
+    // if we've hit the end, wrap around to 0
+    next = current + 1;
+    if (next === vertices.length) next = 0;
+
+    // get the PVectors at our current position
+    // extract X/Y coordinates from each
+    let point3 = new Point(vertices[current].x, vertices[current].y);
+    let point4 = new Point(vertices[next].x, vertices[next].y);
+
+    // do a Line/Line comparison
+    // if true, return 'true' immediately and
+    // stop testing (faster)
+    let hit = lineLine(point1, point2, point3, point4);
+    if (hit) {
+      return true;
+    }
+  }
+
+  // never got a hit
+  return false;
+}
+
+// LINE/LINE
+export const lineLine = (point1, point2, point3, point4) => {
+
+  // calculate the direction of the lines
+  let uA = ((point4.x - point3.x) * (point1.y - point3.y) - (point4.y - point3.y) * (point1.x - point3.x)) / ((point4.y - point3.y) * (point2.x - point1.x) - (point4.x - point3.x) * (point2.y - point1.y));
+  let uB = ((point2.x - point1.x) * (point1.y - point3.y) - (point2.y - point1.y) * (point1.x - point3.x)) / ((point4.y - point3.y) * (point2.x - point1.x) - (point4.x - point3.x) * (point2.y - point1.y));
+
+  // if uA and uB are between 0-1, lines are colliding
+  if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+    return true;
+  }
+  return false;
+}
+
+// POLYGON/POINT
+// used only to check if the second polygon is
+// INSIDE the first
+export const polyPoint = (vertices, point) => {
+  let collision = false;
+
+  // go through each of the vertices, plus the next
+  // vertex in the list
+  let next = 0;
+  for (let current = 0; current < vertices.length; current++) {
+
+    // get next vertex in list
+    // if we've hit the end, wrap around to 0
+    next = current + 1;
+    if (next === vertices.length) next = 0;
+
+    // get the PVectors at our current position
+    // this makes our if statement a little cleaner
+    let vc = vertices[current];    // c for "current"
+    let vn = vertices[next];       // n for "next"
+
+    // compare position, flip 'collision' variable
+    // back and forth
+    if (((vc.y > point.y && vn.y < point.y) || (vc.y < point.y && vn.y > point.y)) &&
+      (point.x < (vn.x - vc.x) * (point.y - vc.y) / (vn.y - vc.y) + vc.x)) {
+      collision = !collision;
+    }
+  }
+  return collision;
 }

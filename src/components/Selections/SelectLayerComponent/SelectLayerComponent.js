@@ -2,6 +2,7 @@ import React from "react";
 import SelectBoxComponent from "../SelectBoxComponent/SelectBoxComponent";
 import SelectLineComponent from "../SelectLineComponent/SelectLineComponent";
 import { Branch } from "../../../models/Elements/Branch";
+import SelectionFrameComponent from "../SelectionFrameComponent/SelectionFrameComponent";
 
 const SelectLayerComponent = ({ selectElement, selectLayer }) => {
 
@@ -9,8 +10,11 @@ const SelectLayerComponent = ({ selectElement, selectLayer }) => {
 
   return (
     <>
-      {selectElement instanceof Branch ? (<SelectLineComponent box={selectLayer.box} />) : <></>}
-      {!(selectElement instanceof Branch) && selectLayer.box ? <SelectBoxComponent box={selectLayer.box} /> : <></>}
+      {selectLayer.selectionFrame ? <SelectionFrameComponent selectionFrame={selectLayer.selectionFrame} /> : <></>}
+      {selectLayer.box.map(b => b.draw())}
+
+      {/* {selectElement instanceof Branch ? (<SelectLineComponent box={selectLayer.box[0]} />) : <></>}
+      {!(selectElement instanceof Branch) && selectLayer.box[0] ? <SelectBoxComponent box={selectLayer.box[0]} /> : <></>} */}
     </>
   );
 }

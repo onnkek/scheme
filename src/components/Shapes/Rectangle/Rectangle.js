@@ -4,8 +4,8 @@ function Rectangle(props) {
 
   return (
     <rect
-      x={x - width / 2}
-      y={y - height / 2}
+      x={x}
+      y={y}
       width={width}
       height={height}
       stroke={stroke}

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './EditorComponent.css';
 import { useThrottle } from '../../hooks/useThrottle';
-import { hitTestElement } from '../../utils/hitTest';
+import { hitTestElement, polyPoly, polyPolyContain } from '../../utils/hitTest';
 import { Point } from '../../utils/Point';
 import SelectLayerComponent from '../Selections/SelectLayerComponent/SelectLayerComponent';
 import { SelectLayer } from '../../models/SelectLayer';
@@ -22,6 +22,7 @@ import { Load } from '../../models/Elements/Load';
 import { Generation } from '../../models/Elements/Generation';
 import { Terminal } from '../../models/Elements/Terminal';
 import { Serializer } from '../../utils/Serializer';
+import { SelectionFrame } from '../../models/SelectionFrame';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -39,6 +40,14 @@ function EditorComponent(props) {
 
     switch (editor.mode) {
 
+      case Editor.Modes.Default:
+        if (!elem) {
+          editor.mode = Editor.Modes.SelectMany;
+          editor.selectLayer.selectionFrame = new SelectionFrame(cursor, cursor);
+          editor.selected = [];
+        }
+
+        break;
       case Editor.Modes.Select:
       case Editor.Modes.ContextMenu:
         if (elem && editor.select === elem && !(elem instanceof Branch) && e.button === 0) {
@@ -78,6 +87,24 @@ function EditorComponent(props) {
 
     switch (editor.mode) {
 
+      case Editor.Modes.SelectMany:
+
+        if (cursor.y - editor.selectLayer.selectionFrame.startPoint.y > 0) {
+          editor.selectLayer.selectionFrame.mode = SelectionFrame.Modes.Contain;
+          editor.selectLayer.selectionFrame.height = cursor.y - editor.selectLayer.selectionFrame.startPoint.y;
+        } else {
+          editor.selectLayer.selectionFrame.mode = SelectionFrame.Modes.Intersect;
+          editor.selectLayer.selectionFrame.height = editor.selectLayer.selectionFrame.startPoint.y - cursor.y;
+          editor.selectLayer.selectionFrame.position.y = cursor.y;
+        }
+        if (cursor.x - editor.selectLayer.selectionFrame.startPoint.x > 0) {
+          editor.selectLayer.selectionFrame.width = cursor.x - editor.selectLayer.selectionFrame.startPoint.x;
+        } else {
+          editor.selectLayer.selectionFrame.width = editor.selectLayer.selectionFrame.startPoint.x - cursor.x;
+          editor.selectLayer.selectionFrame.position.x = cursor.x;
+        }
+
+        break;
       case Editor.Modes.Move:
         editor.select.move(delta);
         editor.selectLayer.select(editor.select);
@@ -113,6 +140,41 @@ function EditorComponent(props) {
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
     switch (editor.mode) {
 
+      case Editor.Modes.SelectMany:
+        let elements = editor.scheme.elements;
+        let selectionVertices = [
+          editor.selectLayer.selectionFrame.position,
+          new Point(editor.selectLayer.selectionFrame.position.x + editor.selectLayer.selectionFrame.width, editor.selectLayer.selectionFrame.position.y),
+          new Point(editor.selectLayer.selectionFrame.position.x + editor.selectLayer.selectionFrame.width, editor.selectLayer.selectionFrame.position.y + editor.selectLayer.selectionFrame.height),
+          new Point(editor.selectLayer.selectionFrame.position.x, editor.selectLayer.selectionFrame.position.y + editor.selectLayer.selectionFrame.height),
+        ];
+        console.log(selectionVertices)
+
+        for (let i = 0; i < elements.length; i++) {
+          if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Contain) {
+            let containElement = polyPolyContain(selectionVertices, elements[i].getFrame());
+            if (containElement) {
+              //console.log(elements[i])
+              editor.selected.push(elements[i]);
+            }
+          }
+          if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Intersect) {
+            let containElement = polyPoly(selectionVertices, elements[i].getFrame());
+            if (containElement) {
+              console.log(elements[i])
+              editor.selected.push(elements[i]);
+            }
+          }
+
+        }
+        console.log(editor.selected)
+        editor.selectLayer.selectMany(editor.selected);
+
+
+
+        editor.selectLayer.selectionFrame = null;
+        editor.mode = Editor.Modes.Default;
+        break;
       case Editor.Modes.Default:
       case Editor.Modes.Select:
         if (elem) {
