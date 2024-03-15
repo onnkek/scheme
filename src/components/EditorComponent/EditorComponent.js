@@ -37,6 +37,7 @@ function EditorComponent(props) {
   const svgMouseDownHandler = (e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
+    editor.cursor = cursor;
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
     console.log(elem)
 
@@ -76,7 +77,7 @@ function EditorComponent(props) {
         let control = editor.selectLayer.getSelectControl(cursor);
         console.log(control)
         if (control) {
-          if (editor.select instanceof Branch) {
+          if (editor.selectLayer.selected.length === 1 && editor.selectLayer.selected[0] instanceof Branch) {
             if (e.button === 2 && control instanceof SquareControl) {
               editor.mode = Editor.Modes.ContextMenu;
               setContextMenu(contextMenuBranchPoint, cursor);
@@ -104,6 +105,7 @@ function EditorComponent(props) {
   const svgMouseMoveHandler = useThrottle((e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
+    editor.cursor = cursor;
     const delta = getGridDelta(cursor, lastCursor);
 
     switch (editor.mode) {
@@ -129,12 +131,12 @@ function EditorComponent(props) {
       case Editor.Modes.Move:
         for (let i = 0; i < editor.selectLayer.selected.length; i++) {
           editor.selectLayer.selected[i].move(delta);
-          editor.selectLayer.select(editor.selectLayer.selected[i]);
+          editor.selectLayer.select();
         }
         break;
       case Editor.Modes.AddElement:
-        editor.select.move(delta);
-        editor.selectLayer.select(editor.select);
+        editor.selectLayer.selected[0].move(delta);
+        editor.selectLayer.select();
         break;
       case Editor.Modes.Edit:
 
@@ -143,9 +145,12 @@ function EditorComponent(props) {
         }
 
         if (editor.selectControl instanceof RotateControl) {
-          editor.select.rotate(cursor);
+          if (editor.selectLayer.selected.length === 1) {
+            editor.selectLayer.selected[0].rotate(cursor);
+          }
+
         }
-        editor.selectLayer.select(editor.select);
+        editor.selectLayer.select();
         break;
 
       case Editor.Modes.AddBranch:
@@ -163,6 +168,7 @@ function EditorComponent(props) {
   const svgMouseUpHandler = (e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
+    editor.cursor = cursor;
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
 
 
@@ -220,17 +226,17 @@ function EditorComponent(props) {
         editor.addMode = null;
         break;
       case Editor.Modes.AddBranch:
-        if (!editor.select.terminals[1]) {
+        if (editor.selectLayer.selected.length === 1 && !editor.selectLayer.selected[0].terminals[1]) {
 
-          if (editor.selectControl === editor.selectLayer.box.controls[1]) {
-            editor.select.junctions[1].position = cursor;
+          if (editor.selectControl === editor.selectLayer.box[0].controls[1]) {
+            editor.selectLayer.selected[0].junctions[1].position = cursor;
             editor.hideTerminals();
             editor.onAddBranchMode();
           }
-          else if (editor.selectControl === editor.selectLayer.box.controls[0]) {
-            editor.select.junctions[1].position = cursor;
-            editor.select.canDraw = true;
-            editor.selectControl = editor.selectLayer.box.controls[1];
+          else if (editor.selectControl === editor.selectLayer.box[0].controls[0]) {
+            editor.selectLayer.selected[0].junctions[1].position = cursor;
+            editor.selectLayer.selected[0].canDraw = true;
+            editor.selectControl = editor.selectLayer.box[0].controls[1];
           }
         } else {
           editor.hideTerminals();
@@ -244,7 +250,7 @@ function EditorComponent(props) {
         editor.mode = Editor.Modes.Selected;
         editor.connectNode = null;
         editor.hideTerminals();
-        editor.selectLayer.select(editor.select);
+        editor.selectLayer.select();
         break;
 
       case Editor.Modes.Edit:
@@ -254,7 +260,7 @@ function EditorComponent(props) {
       default:
         break;
     }
-    console.log(editor.selectLayer.selected)
+    //console.log(editor.selectLayer.selected)
     setLastCursor(cursor);
   }
 
@@ -285,6 +291,9 @@ function EditorComponent(props) {
 
 
   const svgKeyUpHandler = useCallback((e) => {
+    if (e.keyCode === 17) {
+      editor.modKey = null;
+    }
     if (e.key === "Escape") {
       if (editor.mode === Editor.Modes.AddBranch) {
         connectModeClickHandler();
@@ -301,9 +310,187 @@ function EditorComponent(props) {
         editor.select = null;
         editor.selectLayer = new SelectLayer();
       }
-      setLastCursor(new Point(e.clientX, e.clientY))
     }
+    // C 67
+    // V 86
+    // CTRL 17
+    // SHIFT 16
+
+    if (editor.modKey === Editor.ModKeys.Ctrl && e.keyCode === 67) {
+
+      const serializer = new Serializer([Node, Branch, Switch, Transformer, Load, Generation, Terminal, Array, Point]);
+
+      editor.buffer = serializer.serialize(editor.selectLayer.selected);
+
+
+      let points = [];
+
+      for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+        if (!(editor.selectLayer.selected[i] instanceof Branch)) {
+          points.push(editor.selectLayer.selected[i].position);
+        }
+        if (editor.selectLayer.selected[i] instanceof Branch) {
+          for (let j = 0; j < editor.selectLayer.selected[i].points.length; j++) {
+            points.push(editor.selectLayer.selected[i].points[j]);
+          }
+
+        }
+
+        for (let j = 0; j < editor.selectLayer.selected[i].terminals.length; j++) {
+          if (editor.selectLayer.selected[i].terminals[j]) {
+            points.push(editor.selectLayer.selected[i].terminals[j].position);
+          } else {
+            points.push(editor.selectLayer.selected[i].junctions[j].position);
+          }
+        }
+
+      }
+      const minX = Math.min(...points.map(x => x.x))
+      const maxX = Math.max(...points.map(x => x.x))
+      const minY = Math.min(...points.map(x => x.y))
+      const maxY = Math.max(...points.map(x => x.y))
+      let x = 0;
+      let y = 0;
+      if (maxX === minX) {
+        x = maxX;
+        y = (maxY + minY) / 2;
+      }
+      if (maxY === minY) {
+        x = (maxX + minX) / 2;
+        y = minY;
+      }
+      if (maxX === minX && maxY === minY) {
+        x = minX;
+        y = minY;
+      }
+      if (maxX !== minX && maxY !== minY) {
+        x = (maxX + minX) / 2;
+        y = (maxY + minY) / 2;
+      }
+      const newPoint = new Point(x, y);
+
+      editor.bufferPoint = newPoint;
+
+    }
+    if (editor.modKey === Editor.ModKeys.Ctrl && e.keyCode === 86) {
+
+      const serializer = new Serializer([Node, Branch, Switch, Transformer, Load, Generation, Terminal, Array, Point]);
+      const delta = new Point(editor.cursor.x - editor.bufferPoint.x, editor.cursor.y - editor.bufferPoint.y);
+
+      let des = serializer.deserialize(editor.buffer);
+      for (let i = 0; i < des.length; i++) {
+        des[i].id = Math.random();
+      }
+
+
+      let terminals = [];
+      const elements = des.filter(x => !(x instanceof Branch));
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].position.x += delta.x;
+        elements[i].position.y += delta.y;
+        for (let j = 0; j < elements[i].terminals.length; j++) {
+          let index = terminals.findIndex(x => x.id === elements[i].terminals[j].id)
+          if (index === -1) {
+            terminals.push(elements[i].terminals[j]);
+          }
+        }
+      }
+
+      const branches = des.filter(x => x instanceof Branch);
+
+      for (let i = 0; i < branches.length; i++) {
+        for (let j = 0; j < branches[i].terminals.length; j++) {
+          let index = terminals.findIndex(x => x.id === branches[i].terminals[j].id)
+          if (index !== -1) {
+            branches[i].terminals[j] = terminals[index];
+          } 
+        }
+      }
+
+
+
+      for (let i = 0; i < branches.length; i++) {
+        for (let j = 0; j < branches[i].points.length; j++) {
+          branches[i].points[j].x += delta.x;
+          branches[i].points[j].y += delta.y;
+        }
+        for (let j = 0; j < branches[i].terminals.length; j++) {
+          if (!terminals.find(x => x === branches[i].terminals[j])) {
+            if (branches[i].terminals[j]) {
+              branches[i].junctions[j] = new Terminal("Терминал " + Math.random(), branches[i].terminals[j].position);
+            } else {
+              branches[i].junctions[j] = new Terminal("Терминал " + Math.random(), branches[i].junctions[j].position);
+            }
+
+            
+            branches[i].junctions[j].position.x += delta.x;
+            branches[i].junctions[j].position.y += delta.y;
+            branches[i].terminals[j] = null;
+          }
+        }
+      }
+
+
+      for (let i = 0; i < elements.length; i++) {
+        for (let j = 0; j < elements[i].terminals.length; j++) {
+          elements[i].terminals[j].id = Math.random();
+          elements[i].terminals[j].position.x += delta.x;
+          elements[i].terminals[j].position.y += delta.y;
+        }
+      }
+
+
+
+
+
+
+      for (let i = 0; i < des.length; i++) {
+        if (des[i] instanceof Node) {
+          des[i].number = "N" + des[i].number;
+        }
+        editor.scheme.elements.push(des[i]);
+      }
+
+
+
+    }
+    setLastCursor(new Point(e.clientX, e.clientY))
   }, [connectModeClickHandler, editor])
+
+  const svgKeyDownHandler = useCallback((e) => {
+    if (e.keyCode === 17) {
+      editor.modKey = Editor.ModKeys.Ctrl;
+    }
+    if (editor.mode === Editor.Modes.Selected) {
+      if (e.key === "ArrowLeft") {
+        for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+          editor.selectLayer.selected[i].move(new Point(-5, 0));
+          editor.selectLayer.select();
+        }
+      }
+      if (e.key === "ArrowUp") {
+        for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+          editor.selectLayer.selected[i].move(new Point(0, -5));
+          editor.selectLayer.select();
+        }
+      }
+      if (e.key === "ArrowRight") {
+        for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+          editor.selectLayer.selected[i].move(new Point(5, 0));
+          editor.selectLayer.select();
+        }
+      }
+      if (e.key === "ArrowDown") {
+        for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+          editor.selectLayer.selected[i].move(new Point(0, 5));
+          editor.selectLayer.select();
+        }
+      }
+    }
+
+
+    setLastCursor(new Point(e.clientX, e.clientY))
+  }, [editor])
 
   const addElement = useCallback((e, addMode) => {
     if (editor.mode === Editor.Modes.AddBranch || editor.mode === Editor.Modes.AddElement) {
@@ -356,8 +543,10 @@ function EditorComponent(props) {
 
   useEffect(() => {
     window.addEventListener("keyup", svgKeyUpHandler);
+    window.addEventListener("keydown", svgKeyDownHandler);
     return () => {
       window.removeEventListener("keyup", svgKeyUpHandler);
+      window.removeEventListener("keydown", svgKeyDownHandler);
     };
   }, [svgKeyUpHandler]);
 

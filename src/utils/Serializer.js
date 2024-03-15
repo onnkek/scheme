@@ -1,11 +1,13 @@
 export class Serializer {
-  constructor (types) {
+  constructor(types) {
     this.types = types;
   }
 
   markRecursive(object) {
     let idx = this.types.findIndex(t => {
-      return t.name === object.constructor.name;
+      if (object) {
+        return t.name === object.constructor.name;
+      }
     });
     if (object instanceof Array) {
       for (let i = 0; i < object.length; i++) {
@@ -42,20 +44,27 @@ export class Serializer {
       }
       return array;
     }
-    if (object.hasOwnProperty('typeIndex')) {
+    // console.log(object)
+    if (object) {
 
-      let type = this.types[object.typeIndex];
-      let obj = new type();
+      if (object.hasOwnProperty('typeIndex')) {
 
-      for (let key in object) {
-        if (object.hasOwnProperty(key) && object[key] != null) {
-          obj[key] = this.reconstructRecursive(object[key]);
+        let type = this.types[object.typeIndex];
+        let obj = new type();
+
+        for (let key in object) {
+          if (object.hasOwnProperty(key) && object[key] != null) {
+            obj[key] = this.reconstructRecursive(object[key]);
+          }
         }
+        delete obj.typeIndex;
+        return obj;
       }
-      delete obj.typeIndex;
-      return obj;
+      return object;
+    } else {
+      return null;
     }
-    return object;
+
   }
 
   clone(object) {

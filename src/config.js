@@ -36,6 +36,16 @@ export const config = {
 		}
 	},
 	"editor": {
+		"selection": {
+			"contain": {
+				"stroke": "DodgerBlue",
+				"fill": "#62b8ff23"
+			},
+			"intersect": {
+				"stroke": "lightgreen",
+				"fill": "#62ff6f11"
+			}
+		},
 		"selectBoxPadding": 2,
 		"selectControlPadding": 5,
 		"selectControlLength": 10,
