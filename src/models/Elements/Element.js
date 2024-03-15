@@ -32,6 +32,8 @@ export class Element {
     }
   }
 
+
+  
   move(delta) {
     this.position = new Point(this.position.x + delta.x, this.position.y + delta.y);
 
@@ -39,6 +41,9 @@ export class Element {
       this.terminals[i].position = new Point(this.terminals[i].position.x + delta.x, this.terminals[i].position.y + delta.y);
     }
   }
+
+
+
   rotate(cursor) {
     let angle = Math.atan2(cursor.y - this.position.y, cursor.x - this.position.x);
     this.angle = Math.round((angle * 180 / Math.PI + 90) / 90) * 90;

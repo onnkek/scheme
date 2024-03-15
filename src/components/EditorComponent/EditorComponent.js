@@ -38,6 +38,7 @@ function EditorComponent(props) {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
+    console.log(elem)
 
     switch (editor.mode) {
 
@@ -50,16 +51,30 @@ function EditorComponent(props) {
       case Editor.Modes.Selected:
       case Editor.Modes.ContextMenu:
         if (!elem) {
+          console.log(elem)
           editor.mode = Editor.Modes.Selection;
           editor.selectLayer.selectionFrame = new SelectionFrame(cursor, cursor);
         }
-        if (elem && editor.select === elem && !(elem instanceof Branch) && e.button === 0) {
-          editor.mode = Editor.Modes.Move;
+
+        // MOVE
+        if (editor.selectLayer.selected.length === 1) {
+          if (elem && editor.selectLayer.selected[0] === elem && e.button === 0) {
+            editor.mode = Editor.Modes.Move;
+          }
+        } else {
+          if (elem && e.button === 0) {
+            editor.mode = Editor.Modes.Move;
+          }
         }
-        if (editor.select instanceof Branch && e.shiftKey) {
-          editor.select.addPoint(cursor);
+
+        //
+        if (editor.selectLayer.selected.length === 1 && editor.selectLayer.selected[0] instanceof Branch && e.shiftKey) {
+          editor.selectLayer.selected[0].addPoint(cursor);
+          editor.mode = Editor.Modes.Selected;
         }
+
         let control = editor.selectLayer.getSelectControl(cursor);
+        console.log(control)
         if (control) {
           if (editor.select instanceof Branch) {
             if (e.button === 2 && control instanceof SquareControl) {
@@ -112,17 +127,21 @@ function EditorComponent(props) {
 
         break;
       case Editor.Modes.Move:
-        editor.select.move(delta);
-        editor.selectLayer.select(editor.select);
+        for (let i = 0; i < editor.selectLayer.selected.length; i++) {
+          editor.selectLayer.selected[i].move(delta);
+          editor.selectLayer.select(editor.selectLayer.selected[i]);
+        }
         break;
       case Editor.Modes.AddElement:
         editor.select.move(delta);
         editor.selectLayer.select(editor.select);
         break;
       case Editor.Modes.Edit:
-        if (editor.select instanceof Node) {
-          editor.select.changeSize(editor.selectControl.type, delta);
+
+        if (editor.selectLayer.selected.length === 1 && editor.selectLayer.selected[0] instanceof Node) {
+          editor.selectLayer.selected[0].changeSize(editor.selectControl.type, delta);
         }
+
         if (editor.selectControl instanceof RotateControl) {
           editor.select.rotate(cursor);
         }
@@ -222,14 +241,14 @@ function EditorComponent(props) {
         break;
       case Editor.Modes.Move:
       case Editor.Modes.Connect:
-        editor.mode = Editor.Modes.Select;
+        editor.mode = Editor.Modes.Selected;
         editor.connectNode = null;
         editor.hideTerminals();
         editor.selectLayer.select(editor.select);
         break;
 
       case Editor.Modes.Edit:
-        editor.mode = Editor.Modes.Select;
+        editor.mode = Editor.Modes.Selected;
         break;
 
       default:

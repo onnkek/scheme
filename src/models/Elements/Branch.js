@@ -13,7 +13,7 @@ export class Branch extends Element {
   voltage;
   canDraw;
 
-  constructor (name, points, voltage) {
+  constructor(name, points, voltage) {
     super(name);
     this.type = "branch"
     this.points = points;
@@ -57,6 +57,13 @@ export class Branch extends Element {
       return [this.junctions[0].position, ...this.points, this.junctions[1].position];
     }
 
+  }
+
+
+  move(delta) {
+    for (let i = 0; i < this.points.length; i++) {
+      this.points[i] = new Point(this.points[i].x + delta.x, this.points[i].y + delta.y);
+    }
   }
 
   getIndexAddPoint(cursor) {
