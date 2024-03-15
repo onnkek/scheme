@@ -7,8 +7,8 @@ const SquareControlComponent = ({ position }) => {
   return (
     <>
       <Rectangle
-        x={position.x}
-        y={position.y}
+        x={position.x - config.editor.controls.squareControl.size3 / 2}
+        y={position.y - config.editor.controls.squareControl.size3 / 2}
         width={config.editor.controls.squareControl.size3}
         height={config.editor.controls.squareControl.size3}
         stroke="white"
@@ -16,8 +16,8 @@ const SquareControlComponent = ({ position }) => {
         fill="white"
       />
       <Rectangle
-        x={position.x}
-        y={position.y}
+        x={position.x - config.editor.controls.squareControl.size2 / 2}
+        y={position.y - config.editor.controls.squareControl.size2 / 2}
         width={config.editor.controls.squareControl.size2}
         height={config.editor.controls.squareControl.size2}
         stroke="black"
@@ -25,8 +25,8 @@ const SquareControlComponent = ({ position }) => {
         fill="black"
       />
       <Rectangle
-        x={position.x}
-        y={position.y}
+        x={position.x - config.editor.controls.squareControl.size1 / 2}
+        y={position.y - config.editor.controls.squareControl.size1 / 2}
         width={config.editor.controls.squareControl.size1}
         height={config.editor.controls.squareControl.size1}
         stroke="black"

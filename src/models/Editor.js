@@ -15,8 +15,8 @@ import { SelectLayer } from "./SelectLayer";
 export class Editor {
 	static Modes = { // enum
 		Default: "Default",
-		Select: "Select",
-		SelectMany: "SelectMany",
+		Selection: "Selection",
+		Selected: "Selected",
 		Move: "Move",
 		Edit: "Edit",
 		EditBranch: "EditBranch",
@@ -35,7 +35,7 @@ export class Editor {
 	mode;
 	addMode;
 	lastCursor;
-	select;
+	//select;
 	selectControl;
 	connectNode;
 	connectTerminal;

@@ -11,40 +11,46 @@ export class SelectLayer {
 	selectionMany;
 	selectionFrame;
 	startPointSelect;
-	
-	constructor() {
+	selected;
+
+	constructor () {
+		this.selected = [];
 		this.box = [];
 	}
-	selectMany(elements) {
-		
-		for(let i = 0; i < elements.length; i++) {
-			this.select(elements[i])
-		}
-		
-		// this.frame = element.getFrame();
-		// if (element instanceof Branch) {
-		// 	this.box = new SelectLine(this.frame);
-		// } else {
-		// 	this.box = new SelectBox(this.frame, element.angle, element.canRotate, element.canResize);
-		// }
 
+	selectElement(element) {
+		this.selected = [];
+		this.selected.push(element);
+		this.select();
+	}
+	selectElements(elements) {
+		this.selected = [];
+		elements.forEach((element) => {
+			this.selected.push(element);
+			this.select();
+		})
+	}
+	clear() {
+		this.selected = [];
+		this.box = [];
 	}
 
-	select(element) {
-		this.frame = element.getFrame();
-		if (element instanceof Branch) {
-			this.box.push(new SelectLine(this.frame));
-		} else {
-			this.box.push(new SelectBox(this.frame, element.angle, element.canRotate, element.canResize));
+	select() {
+		this.box = [];
+		for (let i = 0; i < this.selected.length; i++) {
+			if (this.selected[i] instanceof Branch) {
+				this.box.push(new SelectLine(this.selected[i].getFrame()));
+			} else {
+				this.box.push(new SelectBox(this.selected[i].getFrame(), this.selected[i].angle, this.selected[i].canRotate, this.selected[i].canResize));
+			}
 		}
-
 	}
 
 	getSelectControl(cursor) {
 		let control = null;
-		for (let i = 0; i < this.box.controls.length; i++) {
-			if (hitTestFrame(this.box.controls[i].getFrame(), cursor, 5)) {
-				control = this.box.controls[i];
+		for (let i = 0; i < this.box[0].controls.length; i++) {
+			if (hitTestFrame(this.box[0].controls[i].getFrame(), cursor, 5)) {
+				control = this.box[0].controls[i];
 			}
 		}
 		return control;

@@ -35,6 +35,7 @@ function EditorComponent(props) {
   const { setContextMenu } = useContextMenu();
 
   const svgMouseDownHandler = (e) => {
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
 
@@ -42,14 +43,16 @@ function EditorComponent(props) {
 
       case Editor.Modes.Default:
         if (!elem) {
-          editor.mode = Editor.Modes.SelectMany;
+          editor.mode = Editor.Modes.Selection;
           editor.selectLayer.selectionFrame = new SelectionFrame(cursor, cursor);
-          editor.selected = [];
         }
-
         break;
-      case Editor.Modes.Select:
+      case Editor.Modes.Selected:
       case Editor.Modes.ContextMenu:
+        if (!elem) {
+          editor.mode = Editor.Modes.Selection;
+          editor.selectLayer.selectionFrame = new SelectionFrame(cursor, cursor);
+        }
         if (elem && editor.select === elem && !(elem instanceof Branch) && e.button === 0) {
           editor.mode = Editor.Modes.Move;
         }
@@ -72,6 +75,9 @@ function EditorComponent(props) {
           }
           editor.selectControl = control;
         }
+
+
+
         break;
 
       default:
@@ -87,7 +93,7 @@ function EditorComponent(props) {
 
     switch (editor.mode) {
 
-      case Editor.Modes.SelectMany:
+      case Editor.Modes.Selection:
 
         if (cursor.y - editor.selectLayer.selectionFrame.startPoint.y > 0) {
           editor.selectLayer.selectionFrame.mode = SelectionFrame.Modes.Contain;
@@ -136,64 +142,62 @@ function EditorComponent(props) {
 
 
   const svgMouseUpHandler = (e) => {
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX, e.clientY);
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
+
+
     switch (editor.mode) {
 
-      case Editor.Modes.SelectMany:
-        let elements = editor.scheme.elements;
+      case Editor.Modes.Selection:
         let selectionVertices = [
           editor.selectLayer.selectionFrame.position,
           new Point(editor.selectLayer.selectionFrame.position.x + editor.selectLayer.selectionFrame.width, editor.selectLayer.selectionFrame.position.y),
           new Point(editor.selectLayer.selectionFrame.position.x + editor.selectLayer.selectionFrame.width, editor.selectLayer.selectionFrame.position.y + editor.selectLayer.selectionFrame.height),
           new Point(editor.selectLayer.selectionFrame.position.x, editor.selectLayer.selectionFrame.position.y + editor.selectLayer.selectionFrame.height),
         ];
-        console.log(selectionVertices)
 
-        for (let i = 0; i < elements.length; i++) {
+        let selectElements = [];
+        for (let i = 0; i < editor.scheme.elements.length; i++) {
           if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Contain) {
-            let containElement = polyPolyContain(selectionVertices, elements[i].getFrame());
+            let containElement = polyPolyContain(selectionVertices, editor.scheme.elements[i].getFrame());
             if (containElement) {
-              //console.log(elements[i])
-              editor.selected.push(elements[i]);
+              selectElements.push(editor.scheme.elements[i]);
             }
           }
           if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Intersect) {
-            let containElement = polyPoly(selectionVertices, elements[i].getFrame());
+            let containElement = polyPoly(selectionVertices, editor.scheme.elements[i].getFrame());
             if (containElement) {
-              console.log(elements[i])
-              editor.selected.push(elements[i]);
+              //console.log(editor.scheme.elements[i])
+              selectElements.push(editor.scheme.elements[i]);
             }
           }
-
         }
-        console.log(editor.selected)
-        editor.selectLayer.selectMany(editor.selected);
-
-
-
+        //console.log(selectElements)
+        editor.selectLayer.selectElements(selectElements);
         editor.selectLayer.selectionFrame = null;
-        editor.mode = Editor.Modes.Default;
+        if (selectElements.length) {
+          editor.mode = Editor.Modes.Selected;
+        } else {
+          editor.mode = Editor.Modes.Default;
+          editor.selectLayer.clear();
+        }
+
         break;
       case Editor.Modes.Default:
-      case Editor.Modes.Select:
+      case Editor.Modes.Selected:
         if (elem) {
           if (e.button === 2) {
             editor.mode = Editor.Modes.ContextMenu;
             setContextMenu(contextMenuRemoveBranch, cursor);
           }
-          editor.mode = Editor.Modes.Select;
-          editor.select = elem;
-          editor.selectLayer.select(elem);
-        } else {
-          editor.mode = Editor.Modes.Default;
-          editor.select = null;
-          editor.selectLayer = new SelectLayer();
+          editor.mode = Editor.Modes.Selected;
+          editor.selectLayer.selectElement(elem);
         }
         break;
 
       case Editor.Modes.AddElement:
-        editor.mode = Editor.Modes.Select;
+        editor.mode = Editor.Modes.Selected;
         editor.addMode = null;
         break;
       case Editor.Modes.AddBranch:
@@ -231,6 +235,7 @@ function EditorComponent(props) {
       default:
         break;
     }
+    console.log(editor.selectLayer.selected)
     setLastCursor(cursor);
   }
 
