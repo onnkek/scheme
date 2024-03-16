@@ -14,7 +14,7 @@ export class SelectBox {
 	canRotate;
 	canResize;
 
-	constructor (frame, angle, canRotate, canResize) {
+	constructor(frame, angle, canRotate, canResize) {
 		this.id = Math.random();
 		this.frame = frame;
 		this.angle = angle;

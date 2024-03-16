@@ -147,6 +147,8 @@ function EditorComponent(props) {
         if (editor.selectControl instanceof RotateControl) {
           if (editor.selectLayer.selected.length === 1) {
             editor.selectLayer.selected[0].rotate(cursor);
+          } else {
+            editor.selectLayer.rotate(cursor);
           }
 
         }
@@ -403,7 +405,7 @@ function EditorComponent(props) {
           let index = terminals.findIndex(x => x.id === branches[i].terminals[j].id)
           if (index !== -1) {
             branches[i].terminals[j] = terminals[index];
-          } 
+          }
         }
       }
 
@@ -422,7 +424,7 @@ function EditorComponent(props) {
               branches[i].junctions[j] = new Terminal("Терминал " + Math.random(), branches[i].junctions[j].position);
             }
 
-            
+
             branches[i].junctions[j].position.x += delta.x;
             branches[i].junctions[j].position.y += delta.y;
             branches[i].terminals[j] = null;

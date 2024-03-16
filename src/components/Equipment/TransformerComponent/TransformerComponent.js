@@ -21,7 +21,7 @@ const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, vol
       <Circle
         center={getRotateTransformPoint(new Point(x, y + config.elements.transformer.offset), angle, new Point(x, y))}
         radius={config.elements.transformer.radius}
-        fill="none" 
+        fill="none"
         stroke={voltageColor2}
         strokeWidth={config.elements.transformer.strokeWidth}
       />

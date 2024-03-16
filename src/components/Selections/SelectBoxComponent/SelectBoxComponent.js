@@ -1,7 +1,8 @@
+import React from "react";
 import { getRotateTransformPoints } from "../../../utils/Transform";
 import Polygon from "../../Shapes/Polygon/Polygon";
 
-const SelectBoxComponent = ({ box }) => {
+const SelectBoxComponent = React.memo(({ box }) => {
 
   // console.log("Render select box")
   return (
@@ -14,6 +15,6 @@ const SelectBoxComponent = ({ box }) => {
       {box.controls.map(e => e.drawComponent())}
     </>
   );
-}
+})
 
 export default SelectBoxComponent;

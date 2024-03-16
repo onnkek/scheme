@@ -9,7 +9,7 @@ export class Element {
   canResize;
 
 
-  constructor (name) {
+  constructor(name) {
     this.type = "";
     this.name = name;
     this.id = Math.random();
@@ -23,17 +23,17 @@ export class Element {
 
   setTerminalsPosition() {
     for (let i = 0; i < this.terminals.length; i++) {
-      if (Math.abs(this.angle) !== Math.abs(this.terminals[i].angle)) {
+      //if (Math.abs(this.angle) !== Math.abs(this.terminals[i].angle)) {
 
-        this.terminals[i].position = getRotateTransformPoint(this.terminals[i].position,
-          this.angle - this.terminals[i].angle, this.position);
-        this.terminals[i].angle = this.angle;
-      }
+      this.terminals[i].position = getRotateTransformPoint(this.terminals[i].position,
+        this.angle - this.terminals[i].angle, this.position);
+      this.terminals[i].angle = this.angle;
+      //}
     }
   }
 
 
-  
+
   move(delta) {
     this.position = new Point(this.position.x + delta.x, this.position.y + delta.y);
 

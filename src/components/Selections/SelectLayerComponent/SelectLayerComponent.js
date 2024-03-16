@@ -12,7 +12,6 @@ const SelectLayerComponent = ({ selectElement, selectLayer }) => {
     <>
       {selectLayer.selectionFrame ? <SelectionFrameComponent selectionFrame={selectLayer.selectionFrame} /> : <></>}
       {selectLayer.box.map(b => b.draw())}
-
       {/* {selectElement instanceof Branch ? (<SelectLineComponent box={selectLayer.box[0]} />) : <></>}
       {!(selectElement instanceof Branch) && selectLayer.box[0] ? <SelectBoxComponent box={selectLayer.box[0]} /> : <></>} */}
     </>

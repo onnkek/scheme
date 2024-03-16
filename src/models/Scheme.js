@@ -132,6 +132,10 @@ export class Scheme {
     elem.addTerminals();
     this.elements.push(elem);
 
+    elem = new Switch("S3", true, new Point(300, 350), 500);
+    elem.addTerminals();
+    this.elements.push(elem);
+
     elem = new Generation("G1", new Point(800, 800), 110);
     elem.addTerminals();
     this.elements.push(elem);
