@@ -9,7 +9,7 @@ export class RotateControl extends Control {
 
   heightFrame;
 
-  constructor(position, heightFrame, angle) {
+  constructor (position, heightFrame, angle) {
     super(position);
     this.heightFrame = heightFrame;
     this.angle = angle;
@@ -19,7 +19,7 @@ export class RotateControl extends Control {
 
   drawComponent() {
     const linePoint1 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2 - config.editor.controls.rotateControl.offset), this.angle, this.position);
-    const linePoint2 = getRotateTransformPoint(new Point(this.position.x, this.position.y - this.heightFrame / 2), this.angle, this.position);
+    const linePoint2 = getRotateTransformPoint(new Point(this.position.x, this.position.y), this.angle, this.position);
     return (
       <g key={this.id}>
         <Path
@@ -34,8 +34,9 @@ export class RotateControl extends Control {
         <Line
           p1={linePoint1}
           p2={linePoint2}
-          stroke="magenta"
+          stroke="lightblue"
           strokeWidth={1}
+          strokeDasharray={5}
         />
       </g>
     );

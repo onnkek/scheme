@@ -13,8 +13,10 @@ export class SelectBox {
 	angle;
 	canRotate;
 	canResize;
+	color;
+	strokeDasharray;
 
-	constructor(frame, angle, canRotate, canResize) {
+	constructor (frame, angle, canRotate, canResize) {
 		this.id = Math.random();
 		this.frame = frame;
 		this.angle = angle;
@@ -22,6 +24,7 @@ export class SelectBox {
 		this.canResize = canResize;
 		this.initSelectBox();
 		this.addControls();
+		this.color = "magenta";
 	}
 
 	draw() {

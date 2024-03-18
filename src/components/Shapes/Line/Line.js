@@ -1,6 +1,6 @@
 function Line(props) {
 
-  let { p1, p2, stroke, strokeWidth } = props;
+  let { p1, p2, stroke, strokeWidth, strokeDasharray } = props;
 
   return (
     <line
@@ -10,6 +10,7 @@ function Line(props) {
       y2={p2.y}
       stroke={stroke}
       strokeWidth={strokeWidth}
+      strokeDasharray={strokeDasharray}
     />
   );
 }

@@ -18,7 +18,7 @@ export class SelectLayer {
 	lastAngle;
 	rotatePoint;
 
-	constructor() {
+	constructor () {
 		this.selected = [];
 		this.box = [];
 		this.angle = 0;
@@ -178,7 +178,8 @@ export class SelectLayer {
 		if (this.selected.length !== 1) {
 			let frame = this.getFrame();
 			let selectBox = new SelectBox(frame, this.angle, true, false);
-
+			selectBox.color = "lightblue";
+			selectBox.strokeDasharray = "5"
 			console.log(this.angle)
 			console.log(this.angle)
 			console.log(this.angle)
