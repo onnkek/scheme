@@ -1,0 +1,46 @@
+.explorer {
+  width: 300px;
+  background-color: white;
+  height: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+}
+.explorer__list {
+  pisition: absolute;
+}
+.explorer__list-baseroot {
+  margin: 0px 0px 0px 10px;
+}
+.explorer__list-root {
+  margin: 0px 0px 0px 20px;
+}
+.explorer__list-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+  border: 1px solid transparent;
+}
+.explorer__list-item:hover {
+  background-color: #aaccff;
+  border: 1px solid #7aafff;
+}
+.explorer__list-item:active {
+  background-color: #94befd;
+  border: 1px solid #67a4ff;
+}
+.explorer__list-item-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+.explorer__list-item-arrow {
+  width: 15px;
+  margin-right: 5px;
+  font-size: 20px;
+  line-height: 20px;
+}
+.explorer__list-item-arrow_open {
+  transform: rotate(90deg);
+}/*# sourceMappingURL=Explorer.css.map */

@@ -23,6 +23,8 @@ import { Generation } from '../../models/Elements/Generation';
 import { Terminal } from '../../models/Elements/Terminal';
 import { Serializer } from '../../utils/Serializer';
 import { SelectionFrame } from '../../models/SelectionFrame';
+import PropertiesBar from '../PropertiesBar/PropertiesBar';
+import Explorer from '../Explorer/Explorer';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -566,6 +568,7 @@ function EditorComponent(props) {
 
   return (
     <>
+      <Explorer />
       <div className='edit-panel'>
         <button
           className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
@@ -628,11 +631,13 @@ function EditorComponent(props) {
         onMouseDown={svgMouseDownHandler}
         onMouseMove={svgMouseMoveHandler}
         onMouseUp={svgMouseUpHandler}
-        viewBox="10 40 1400 1000"
+        viewBox="300 40 1400 1000"
       >
         <SchemeComponent scheme={editor.scheme} />
         <SelectLayerComponent selectElement={editor.select} selectLayer={editor.selectLayer} />
       </svg>
+      <PropertiesBar />
+
     </>
 
 
