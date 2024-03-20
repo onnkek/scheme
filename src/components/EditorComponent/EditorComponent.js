@@ -203,7 +203,10 @@ function EditorComponent(props) {
           }
         }
         //console.log(selectElements)
-        editor.selectLayer.selectElements(selectElements);
+        if (selectElements.length > 0) {
+          editor.selectLayer.selectElements(selectElements);
+
+        }
         editor.selectLayer.selectionFrame = null;
         if (selectElements.length) {
           editor.mode = Editor.Modes.Selected;
@@ -566,9 +569,19 @@ function EditorComponent(props) {
 
   //console.log("render EditorComponent")
 
+  const explorerSelectHandler = useMemo(() => (e) => {
+
+    const uid = e.target.getAttribute("uid");
+    const element = editor.scheme.elements.find(x => x.id === Number(uid));
+    if (element) {
+      editor.selectLayer.selectElement(element);
+      setLastCursor(new Point(e.clientX, e.clientY))
+    }
+
+  }, [editor.scheme.elements, editor.selectLayer])
   return (
     <>
-      <Explorer />
+
       <div className='edit-panel'>
         <button
           className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
@@ -634,10 +647,10 @@ function EditorComponent(props) {
         viewBox="300 40 1400 1000"
       >
         <SchemeComponent scheme={editor.scheme} />
-        <SelectLayerComponent selectElement={editor.select} selectLayer={editor.selectLayer} />
+        <SelectLayerComponent selectLayer={editor.selectLayer} />
       </svg>
       <PropertiesBar />
-
+      <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
     </>
 
 

@@ -1,0 +1,42 @@
+.tree-view {
+  background-color: #ffc7c7;
+}
+
+.tree-view-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+  border: 1px solid transparent;
+}
+.tree-view-item__area {
+  width: 300px;
+  height: 26px;
+  position: absolute;
+  left: 0px;
+}
+.tree-view-item__area_select {
+  background-color: rgba(0, 102, 255, 0.1843137255);
+  border: 1px solid rgba(0, 102, 255, 0.4196078431);
+}
+.tree-view-item__area:hover {
+  background-color: rgba(0, 102, 255, 0.062745098);
+  border: 1px solid rgba(0, 102, 255, 0.2588235294);
+  cursor: pointer;
+}
+.tree-view-item__icon {
+  width: 18px;
+  height: 18px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.tree-view-item__control {
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+.tree-view-item__control_show {
+  opacity: 1;
+}
+.tree-view-item__control_open {
+  transform: rotate(90deg);
+}/*# sourceMappingURL=TreeViewItem.css.map */

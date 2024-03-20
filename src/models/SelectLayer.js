@@ -98,8 +98,11 @@ export class SelectLayer {
 
 	}
 	clear() {
-		this.selected = [];
 		this.box = [];
+		if (this.selected.length > 0) {
+			this.selected = [];
+		}
+
 	}
 	getRotatePoint() {
 		const frame = this.getFrame();

@@ -1,17 +1,78 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import "./Explorer.css"
 import nodeIcon from '../../assets/icons/node.svg'
 import folderIcon from '../../assets/icons/folder.svg'
 import branchIcon from '../../assets/icons/branch.svg'
-import branchIcon2 from '../../assets/icons/branch2.svg'
 import switchIcon from '../../assets/icons/switch.svg'
 import transIcon from '../../assets/icons/trans.svg'
 import genIcon from '../../assets/icons/gen.svg'
 import loadIcon from '../../assets/icons/load.svg'
+import TreeView from "../TreeView/TreeView";
 
-const Explorer = ({ }) => {
+const Explorer = React.memo(({ scheme, onSelect, selected }) => {
 
   //console.log(`render PropertiesBar`)
+
+
+
+  const getIcon = (element) => {
+    switch (element.constructor.name) {
+      case "Node":
+        return nodeIcon;
+      case "Branch":
+        return branchIcon;
+      case "Switch":
+        return switchIcon;
+      case "Generation":
+        return genIcon;
+      case "Transformer":
+        return transIcon;
+      case "Load":
+        return loadIcon;
+      default:
+        return folderIcon;
+    }
+  }
+
+
+  const getData = useMemo(() => {
+    const data = [
+      {
+        uid: "1",
+        label: "Scheme",
+        icon: folderIcon,
+        select: false,
+        children: []
+      }
+    ]
+    for (let i = 0; i < scheme.elements.length; i++) {
+      const type = scheme.elements[i].constructor.name;
+
+      let typeIndex = -1;
+      if (data[0].children.length) {
+        typeIndex = data[0].children.findIndex(x => x.label === type)
+      }
+      const isSelected = (selected.length > 0 && selected[0].id === scheme.elements[i].id) ? true : false;
+      if (typeIndex !== -1) {
+        data[0].children[typeIndex].children.push(
+          { uid: scheme.elements[i].id, select: isSelected, label: scheme.elements[i].name, icon: getIcon(scheme.elements[i]), children: [] }
+        )
+      } else {
+        data[0].children.push({
+          uid: Math.random(), label: type, select: false, icon: folderIcon, children: [
+            { uid: scheme.elements[i].id, select: isSelected, label: scheme.elements[i].name, icon: getIcon(scheme.elements[i]), children: [] }
+          ]
+        })
+      }
+
+    }
+    return data;
+  }, [scheme.elements, selected])
+
+
+
+
+  //const onSelectHandler = useCallback((e) => onSelect(e), [onSelect]);
 
   return (
     <div className="explorer">
@@ -20,249 +81,11 @@ const Explorer = ({ }) => {
         <div style={{ border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf" }}>BETA, DONT WORK</div>
       </div>
       {/* BETA */}
-      <div className="explorer__list">
 
-        <div className="explorer__list-baseroot">
-          <div className="explorer__list-item">
-            <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-              </svg>
-            </div>
-            <div className="explorer__list-item-icon">
-              <img src={folderIcon} />
-            </div>
-            <div className="explorer__list-item-title">Scheme</div>
-          </div>
+      <TreeView data={getData} onSelect={onSelect} />
 
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Nodes</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={nodeIcon} />
-                </div>
-                <div className="explorer__list-item-title">Node 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={nodeIcon} />
-                </div>
-                <div className="explorer__list-item-title">Node 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={nodeIcon} />
-                </div>
-                <div className="explorer__list-item-title">Node 3</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Branches</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={branchIcon2} />
-                </div>
-                <div className="explorer__list-item-title">Branch 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={branchIcon2} />
-                </div>
-                <div className="explorer__list-item-title">Branch 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={branchIcon2} />
-                </div>
-                <div className="explorer__list-item-title">Branch 3</div>
-              </div>
-            </div>
-          </div>
-
-
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Switches</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={switchIcon} />
-                </div>
-                <div className="explorer__list-item-title">Switch 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={switchIcon} />
-                </div>
-                <div className="explorer__list-item-title">Switch 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={switchIcon} />
-                </div>
-                <div className="explorer__list-item-title">Switch 3</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Transformers</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={transIcon} />
-                </div>
-                <div className="explorer__list-item-title">Transformer 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={transIcon} />
-                </div>
-                <div className="explorer__list-item-title">Transformer 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={transIcon} />
-                </div>
-                <div className="explorer__list-item-title">Transformer 3</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Generators</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={genIcon} />
-                </div>
-                <div className="explorer__list-item-title">Generator 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={genIcon} />
-                </div>
-                <div className="explorer__list-item-title">Generator 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={genIcon} />
-                </div>
-                <div className="explorer__list-item-title">Generator 3</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="explorer__list-root">
-            <div className="explorer__list-item">
-              <div className="explorer__list-item-arrow explorer__list-item-arrow_open">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                </svg>
-              </div>
-              <div className="explorer__list-item-icon">
-                <img src={folderIcon} />
-              </div>
-              <div className="explorer__list-item-title">Loads</div>
-            </div>
-            <div className="explorer__list-root">
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={loadIcon} />
-                </div>
-                <div className="explorer__list-item-title">Load 1</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={loadIcon} />
-                </div>
-                <div className="explorer__list-item-title">Load 2</div>
-              </div>
-              <div className="explorer__list-item">
-                <div className="explorer__list-item-arrow"></div>
-                <div className="explorer__list-item-icon">
-                  <img src={loadIcon} />
-                </div>
-                <div className="explorer__list-item-title">Load 3</div>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
     </div>
   );
-}
+})
 
 export default Explorer;
