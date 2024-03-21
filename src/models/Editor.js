@@ -63,7 +63,7 @@ export class Editor {
 		this.selectLayer = new SelectLayer();
 		this.scheme = new Scheme();
 		this.scheme.initScheme();
-		this.svgOffset = new Point(-300, -40);
+		this.svgOffset = new Point(-300, -50);
 	}
 
 	addElement(addMode, cursor) {

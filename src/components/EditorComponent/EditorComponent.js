@@ -25,6 +25,15 @@ import { Serializer } from '../../utils/Serializer';
 import { SelectionFrame } from '../../models/SelectionFrame';
 import PropertiesBar from '../PropertiesBar/PropertiesBar';
 import Explorer from '../Explorer/Explorer';
+import { Button } from 'reactstrap';
+import nodeIcon from '../../assets/icons/node.svg'
+import folderIcon from '../../assets/icons/folder.svg'
+import branchIcon from '../../assets/icons/branch.svg'
+import branchIcon2 from '../../assets/icons/branch2.svg'
+import switchIcon from '../../assets/icons/switch.svg'
+import transIcon from '../../assets/icons/trans.svg'
+import genIcon from '../../assets/icons/gen.svg'
+import loadIcon from '../../assets/icons/load.svg'
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -81,7 +90,7 @@ function EditorComponent(props) {
           if (editor.selectLayer.selected.length === 1 && editor.selectLayer.selected[0] instanceof Branch) {
             if (e.button === 2 && control instanceof SquareControl) {
               editor.mode = Editor.Modes.ContextMenu;
-              setContextMenu(contextMenuBranchPoint, cursor);
+              setContextMenu(contextMenuBranchPoint, new Point(e.clientX, e.clientY));
             }
             else {
               editor.mode = Editor.Modes.Connect;
@@ -220,7 +229,7 @@ function EditorComponent(props) {
         if (elem) {
           if (e.button === 2) {
             editor.mode = Editor.Modes.ContextMenu;
-            setContextMenu(contextMenuRemoveBranch, cursor);
+            setContextMenu(contextMenuRemoveBranch, new Point(e.clientX, e.clientY));
           }
           editor.mode = Editor.Modes.Selected;
           editor.selectLayer.selectElement(elem);
@@ -579,64 +588,66 @@ function EditorComponent(props) {
 
   }, [editor.scheme.elements, editor.selectLayer, editor.svgOffset])
   return (
-    <>
+    <div className='editor'>
 
       <div className='edit-panel'>
-        <button
-          className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
+        <Button
+          // className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
+          className='add-btn p-0'
           onClick={connectModeClickHandler}
         >
-          <img src={connectIcon} alt="Connect"></img>
-        </button>
-        <button
-          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
+          <img className='add-btn__icon' src={branchIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
+          className='add-btn p-0'
           onClick={(e) => addElement(e, Editor.AddModes.Node)}
         >
-          <div style={{ width: 35, fontSize: 35, color: "white" }}>N</div>
-          {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
+          <img className='add-btn__icon' src={nodeIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
+          className='add-btn p-0'
           onClick={(e) => addElement(e, Editor.AddModes.Switch)}
         >
-          <div style={{ width: 35, fontSize: 35, color: "white" }}>S</div>
-          {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
+          <img className='add-btn__icon' src={switchIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          className='add-btn p-0'
+          // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
           onClick={(e) => addElement(e, Editor.AddModes.Transformer)}
         >
-          <div style={{ width: 35, fontSize: 35, color: "white" }}>T</div>
-          {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
+          <img className='add-btn__icon' src={transIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          className='add-btn p-0'
+          // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
+
           onClick={(e) => addElement(e, Editor.AddModes.Load)}
         >
-          <div style={{ width: 35, fontSize: 35, color: "white" }}>L</div>
-          {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+          <img className='add-btn__icon' src={loadIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+          className='add-btn p-0'
           onClick={(e) => addElement(e, Editor.AddModes.Generation)}
         >
-          <div style={{ width: 35, fontSize: 35, color: "white" }}>G</div>
-          {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className="edit-panel__button"
+          <img className='add-btn__icon' src={genIcon} alt="Connect"></img>
+        </Button>
+        <Button
+          className="add-btn"
           onClick={save}
         >
-          <div style={{ width: 100, fontSize: 35, color: "white" }}>SAVE</div>
+          <div style={{ fontSize: 16, color: "white", fontWeight: 600 }}>SAVE</div>
           {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
-        <button
-          className="edit-panel__button"
+        </Button>
+        <Button
+          className="add-btn"
           onClick={load}
         >
-          <div style={{ width: 100, fontSize: 35, color: "white" }}>LOAD</div>
+          <div style={{ fontSize: 16, color: "white", fontWeight: 600 }}>LOAD</div>
           {/* <img src={connectIcon} alt="Connect"></img> */}
-        </button>
+        </Button>
       </div>
       <svg id='svg'
         onContextMenu={(e) => e.preventDefault()}
@@ -650,7 +661,7 @@ function EditorComponent(props) {
       </svg>
       <PropertiesBar selected={editor.selectLayer.selected} />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
-    </>
+    </div>
 
 
   );

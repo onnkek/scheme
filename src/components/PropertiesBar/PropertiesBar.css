@@ -1,4 +1,5 @@
 .prop-bar {
+  padding: 10px;
   width: 300px;
   background-color: white;
   height: 100vw;
@@ -13,9 +14,6 @@
 .prop-bar__title {
   background-color: lightblue;
   padding: 3px 10px;
-}
-.prop-bar__main {
-  padding: 10px;
 }
 .prop-bar__main-name {
   font-weight: 700;
@@ -80,4 +78,22 @@
   padding: 4px 5px;
   width: 55%;
   outline: none;
+}
+
+.rbar {
+  padding: 10px;
+  width: 300px;
+  background-color: #222222;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.3960784314);
+}
+
+.sect {
+  height: 46%;
+  border: 1px solid #686868;
+  border-radius: 4px;
+  margin-bottom: 5px;
 }/*# sourceMappingURL=PropertiesBar.css.map */

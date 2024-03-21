@@ -1,19 +1,21 @@
 #svg {
-  margin: 0 0 0 300px;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
   width: 1400px;
   height: 1000px;
-  border: 1px solid white;
   background-color: black;
 }
 
+.editor {
+  padding: 0 300px 0 300px;
+}
+
 .edit-panel {
-  height: 40px;
-  padding: 0px 300px;
+  height: 50px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3960784314);
 }
 .edit-panel__button {
   background-color: #131313;
@@ -34,4 +36,16 @@
 }
 .edit-panel__button:focus-visible {
   outline: none;
+}
+
+.add-btn {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0px 5px 5px;
+}
+.add-btn__icon {
+  margin: 6px;
 }/*# sourceMappingURL=EditorComponent.css.map */

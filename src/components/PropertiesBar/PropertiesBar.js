@@ -2,46 +2,60 @@ import React from "react";
 import "./PropertiesBar.css"
 import { Node } from "../../models/Elements/Node";
 import { Branch } from "../../models/Elements/Branch";
+import { Input, InputGroup, InputGroupText, Label } from "reactstrap";
 
 const PropertiesBar = ({ selected }) => {
 
   //console.log(`render PropertiesBar`)
 
   return (
-    <div className="prop-bar">
+    <div className="rbar">
 
       {/* BETA */}
-      <div style={{ color: "red", fontWeight: 900, padding: "20px 0px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
-        <div style={{ border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf" }}>BETA</div>
+      <div style={{ color: "red", fontWeight: 900, padding: "0px 0px 10px 0px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
+        <div style={{ width: "100%", border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf", textAlign: "center" }}>BETA PANEL</div>
       </div>
       {/* BETA */}
 
-      {selected[0] && !(selected[0] instanceof Branch) &&
-        <div className="prop-bar__section">
-          <div className="prop-bar__title">Frame</div>
+      {selected[0] &&
+        <div className="sect">
+          <div className="m-3">
+            <Label>Frame</Label>
 
-          <div className="frame-bar__list">
-            <div className="frame-bar__list-col">
-              <div className="frame-bar__list-item">
-                <div className="frame-bar__list-item-frame">X</div>
-                <input className="frame-bar__list-item-value" value={selected[0].position.x} onChange={() => { }} />
+            {!(selected[0] instanceof Branch) && <>
+              <div className="d-flex mb-3">
+                <InputGroup className="me-3" size="sm">
+                  <InputGroupText style={{ width: "30px" }}>X</InputGroupText>
+                  <Input placeholder="X" value={selected[0].position.x} onChange={() => { }} />
+                </InputGroup>
+                <InputGroup size="sm">
+                  <InputGroupText style={{ width: "30px" }}>Y</InputGroupText>
+                  <Input placeholder="Y" value={selected[0].position.y} onChange={() => { }} />
+                </InputGroup>
               </div>
-              <div className="frame-bar__list-item">
-                <div className="frame-bar__list-item-frame">Y</div>
-                <input className="frame-bar__list-item-value" value={selected[0].position.y} onChange={() => { }} />
+              <div className="d-flex mb-3">
+                <InputGroup className="me-3" size="sm">
+                  <InputGroupText style={{ width: "30px" }}>W</InputGroupText>
+                  <Input placeholder="W" value={0} onChange={() => { }} />
+                </InputGroup>
+                <InputGroup size="sm">
+                  <InputGroupText style={{ width: "30px" }}>H</InputGroupText>
+                  <Input placeholder="H" value={0} onChange={() => { }} />
+                </InputGroup>
               </div>
-            </div>
+            </>}
+
             {selected[0] instanceof Node &&
-              <div className="frame-bar__list-col">
-                <div className="frame-bar__list-item">
-                  <div className="frame-bar__list-item-frame">WidthRight</div>
-                  <input className="frame-bar__list-item-value" value={selected[0].widthRight} onChange={() => { }} />
-                </div>
-                <div className="frame-bar__list-item">
-                  <div className="frame-bar__list-item-frame">WidthLeft</div>
-                  <input className="frame-bar__list-item-value" value={selected[0].widthLeft} onChange={() => { }} />
-                </div>
-              </div>
+              <>
+                <InputGroup className="me-3 mb-3" size="sm">
+                  <InputGroupText style={{ width: "100px" }}>Width right</InputGroupText>
+                  <Input placeholder="X" value={selected[0].widthRight} onChange={() => { }} />
+                </InputGroup>
+                <InputGroup size="sm">
+                  <InputGroupText style={{ width: "100px" }}>Width left</InputGroupText>
+                  <Input placeholder="Y" value={selected[0].widthLeft} onChange={() => { }} />
+                </InputGroup>
+              </>
             }
           </div>
         </div>
@@ -49,36 +63,46 @@ const PropertiesBar = ({ selected }) => {
 
 
       {selected[0] &&
-        <div className="prop-bar__section">
-          <div className="prop-bar__title">Object properties</div>
-          <div className="prop-bar__main">
-            <div className="prop-bar__main-name">{selected[0].name}</div>
-            <div className="prop-bar__main-type">{selected[0].constructor.name}</div>
-            <input className="prop-bar__main-uid" value={selected[0].id} onChange={() => { }} />
-          </div>
-          <div className="prop-bar__list">
-            <div className="prop-bar__list-item">
-              <div className="prop-bar__list-item-prop">Name</div>
-              <input className="prop-bar__list-item-value" value={selected[0].name} onChange={() => { }} />
+        <div className="sect">
+
+          <div className="m-3">
+            <Label>Object properties</Label>
+            <div className="prop-bar__main">
+              <div className="prop-bar__main-name">{selected[0].name}</div>
+              <div className="prop-bar__main-type">{selected[0].constructor.name}</div>
+              <Input size="sm" value={selected[0].id} onChange={() => { }} />
             </div>
-            <div className="prop-bar__list-item">
-              <div className="prop-bar__list-item-prop">Voltage</div>
-              <input className="prop-bar__list-item-value" value={selected[0].voltage} onChange={() => { }} />
+
+            <div className="prop-bar__list">
+
+              <InputGroup size="sm" className="mb-2">
+                <InputGroupText style={{ width: "100px" }}>Name</InputGroupText>
+                <Input placeholder="Y" value={selected[0].name} onChange={() => { }} />
+              </InputGroup>
+              <InputGroup size="sm" className="mb-2">
+                <InputGroupText style={{ width: "100px" }}>Voltage</InputGroupText>
+                <Input placeholder="Y" value={selected[0].voltage} onChange={() => { }} />
+              </InputGroup>
+              <InputGroup size="sm" className="mb-2">
+                <InputGroupText style={{ width: "100px" }}>Test Prop</InputGroupText>
+                <Input placeholder="Y" value="???" onChange={() => { }} />
+              </InputGroup>
+              <InputGroup size="sm" className="mb-2">
+                <InputGroupText style={{ width: "100px" }}>Test Prop</InputGroupText>
+                <Input placeholder="Y" value="???" onChange={() => { }} />
+              </InputGroup>
+              <InputGroup size="sm" className="mb-2">
+                <InputGroupText style={{ width: "100px" }}>Test Prop</InputGroupText>
+                <Input placeholder="Y" value="???" onChange={() => { }} />
+              </InputGroup>
+
             </div>
-            <div className="prop-bar__list-item">
-              <div className="prop-bar__list-item-prop">Test Prop</div>
-              <input className="prop-bar__list-item-value" value="???" onChange={() => { }} />
-            </div>
-            <div className="prop-bar__list-item">
-              <div className="prop-bar__list-item-prop">Test Prop</div>
-              <input className="prop-bar__list-item-value" value="???" onChange={() => { }} />
-            </div>
-            <div className="prop-bar__list-item">
-              <div className="prop-bar__list-item-prop">Test Prop</div>
-              <input className="prop-bar__list-item-value" value="???" onChange={() => { }} />
-            </div>
+
+
+
           </div>
         </div>
+
       }
     </div>
   );

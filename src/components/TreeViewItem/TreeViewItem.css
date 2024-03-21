@@ -13,11 +13,11 @@
 }
 .tree-view-item__area_select {
   background-color: rgba(0, 102, 255, 0.1843137255);
-  border: 1px solid rgba(0, 102, 255, 0.4196078431);
+  border: 1px solid rgba(0, 102, 255, 0.5411764706);
 }
 .tree-view-item__area:hover {
-  background-color: rgba(0, 102, 255, 0.062745098);
-  border: 1px solid rgba(0, 102, 255, 0.2588235294);
+  background-color: rgba(0, 102, 255, 0.1843137255);
+  border: 1px solid rgba(0, 102, 255, 0.5411764706);
   cursor: pointer;
 }
 .tree-view-item__icon {

@@ -1,11 +1,11 @@
 .explorer {
   width: 300px;
-  background-color: white;
+  background-color: #222222;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   padding: 10px 0;
   overflow: auto;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid rgba(255, 255, 255, 0.3960784314);
 }/*# sourceMappingURL=Explorer.css.map */

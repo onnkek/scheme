@@ -104,8 +104,8 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
   return (
     <div className="explorer">
       {/* BETA */}
-      <div style={{ color: "red", fontWeight: 900, padding: "10px 0px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
-        <div style={{ border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf" }}>BETA</div>
+      <div style={{ color: "red", fontWeight: 900, padding: "0px 10px 10px 10px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
+        <div style={{ width: "100%", border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf", textAlign: "center" }}>BETA PANEL</div>
       </div>
       {/* BETA */}
 
