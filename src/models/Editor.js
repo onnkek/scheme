@@ -54,14 +54,16 @@ export class Editor {
 	buffer;
 	bufferPoint;
 	cursor;
+	svgOffset;
 
-	constructor() {
+	constructor () {
 		this.mode = Editor.Modes.Default;
 		this.selected = [];
 		this.lastCursor = new Point(0, 0);
 		this.selectLayer = new SelectLayer();
 		this.scheme = new Scheme();
 		this.scheme.initScheme();
+		this.svgOffset = new Point(-300, -40);
 	}
 
 	addElement(addMode, cursor) {

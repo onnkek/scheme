@@ -38,10 +38,9 @@ function EditorComponent(props) {
 
   const svgMouseDownHandler = (e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
-    const cursor = new Point(e.clientX, e.clientY);
+    const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
-    console.log(elem)
 
     switch (editor.mode) {
 
@@ -106,7 +105,7 @@ function EditorComponent(props) {
 
   const svgMouseMoveHandler = useThrottle((e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
-    const cursor = new Point(e.clientX, e.clientY);
+    const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
     const delta = getGridDelta(cursor, lastCursor);
 
@@ -171,7 +170,7 @@ function EditorComponent(props) {
 
   const svgMouseUpHandler = (e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
-    const cursor = new Point(e.clientX, e.clientY);
+    const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
 
@@ -461,7 +460,7 @@ function EditorComponent(props) {
 
 
     }
-    setLastCursor(new Point(e.clientX, e.clientY))
+    setLastCursor(new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y))
   }, [connectModeClickHandler, editor])
 
   const svgKeyDownHandler = useCallback((e) => {
@@ -496,7 +495,7 @@ function EditorComponent(props) {
     }
 
 
-    setLastCursor(new Point(e.clientX, e.clientY))
+    setLastCursor(new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y))
   }, [editor])
 
   const addElement = useCallback((e, addMode) => {
@@ -505,7 +504,7 @@ function EditorComponent(props) {
       editor.removeElement();
       editor.hideTerminals();
     }
-    editor.addElement(addMode, new Point(e.clientX, e.clientY));
+    editor.addElement(addMode, new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y));
   }, [editor])
 
 
@@ -545,7 +544,7 @@ function EditorComponent(props) {
         }
       }
     }
-    setLastCursor(new Point(e.clientX, e.clientY))
+    setLastCursor(new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y))
   }, [editor])
 
   useEffect(() => {
@@ -555,7 +554,7 @@ function EditorComponent(props) {
       window.removeEventListener("keyup", svgKeyUpHandler);
       window.removeEventListener("keydown", svgKeyDownHandler);
     };
-  }, [svgKeyUpHandler]);
+  }, [svgKeyUpHandler, svgKeyDownHandler]);
 
 
 
@@ -575,10 +574,10 @@ function EditorComponent(props) {
     const element = editor.scheme.elements.find(x => x.id === Number(uid));
     if (element) {
       editor.selectLayer.selectElement(element);
-      setLastCursor(new Point(e.clientX, e.clientY))
+      setLastCursor(new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y))
     }
 
-  }, [editor.scheme.elements, editor.selectLayer])
+  }, [editor.scheme.elements, editor.selectLayer, editor.svgOffset])
   return (
     <>
 
@@ -644,12 +643,12 @@ function EditorComponent(props) {
         onMouseDown={svgMouseDownHandler}
         onMouseMove={svgMouseMoveHandler}
         onMouseUp={svgMouseUpHandler}
-        viewBox="300 40 1400 1000"
+        viewBox="0 0 1400 1000"
       >
         <SchemeComponent scheme={editor.scheme} />
         <SelectLayerComponent selectLayer={editor.selectLayer} />
       </svg>
-      <PropertiesBar />
+      <PropertiesBar selected={editor.selectLayer.selected} />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
     </>
 

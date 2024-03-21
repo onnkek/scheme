@@ -1,43 +1,10 @@
 .explorer
   width: 300px
   background-color: white
-  height: 100vw
+  height: 100%
   position: fixed
   top: 0
   left: 0
   padding: 10px 0
-
-  &__list
-    pisition: absolute
-  &__list-baseroot
-    margin: 0px 0px 0px 10px
-  &__list-root
-    margin: 0px 0px 0px 20px
-    
-  &__list-item
-    display: flex
-    align-items: center
-    margin: 5px 0px
-    border: 1px solid transparent
-    &:hover
-      background-color: #aaccff
-      border: 1px solid #7aafff
-    &:active
-      background-color: #94befd
-      border: 1px solid #67a4ff
-  &__list-item-icon
-    width: 18px
-    height: 18px
-    // border: 1px solid black
-    // background-color: black
-    margin-right: 5px
-
-  &__list-item-arrow
-    width: 15px
-    margin-right: 5px
-    font-size: 20px
-    line-height: 20px
-    &_open
-      transform: rotate(90deg)
-
-  &__list-item-title
+  overflow: auto
+  border-right: 1px solid lightgray

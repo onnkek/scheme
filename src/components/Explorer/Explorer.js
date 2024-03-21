@@ -59,13 +59,14 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
         )
       } else {
         data[0].children.push({
-          uid: Math.random(), label: type, select: false, icon: folderIcon, children: [
+          uid: i, label: type, select: false, icon: folderIcon, children: [
             { uid: scheme.elements[i].id, select: isSelected, label: scheme.elements[i].name, icon: getIcon(scheme.elements[i]), children: [] }
           ]
         })
       }
 
     }
+    console.log(data)
     return data;
   }, [scheme.elements, selected])
 
@@ -77,8 +78,8 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
   return (
     <div className="explorer">
       {/* BETA */}
-      <div style={{ color: "red", fontWeight: 900, padding: "50px 0px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
-        <div style={{ border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf" }}>BETA, DONT WORK</div>
+      <div style={{ color: "red", fontWeight: 900, padding: "10px 0px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
+        <div style={{ border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf" }}>BETA</div>
       </div>
       {/* BETA */}
 
