@@ -8,6 +8,12 @@ import transIcon from '../../assets/icons/trans.svg'
 import genIcon from '../../assets/icons/gen.svg'
 import loadIcon from '../../assets/icons/load.svg'
 import TreeView from "../TreeView/TreeView";
+import { Switch } from "../../models/Elements/Switch";
+import { Branch } from "../../models/Elements/Branch";
+import { Node } from "../../models/Elements/Node";
+import { Generation } from "../../models/Elements/Generation";
+import { Transformer } from "../../models/Elements/Transformer";
+import { Load } from "../../models/Elements/Load";
 
 const Explorer = React.memo(({ scheme, onSelect, selected }) => {
 
@@ -16,22 +22,42 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
 
 
   const getIcon = (element) => {
-    switch (element.constructor.name) {
-      case "Node":
-        return nodeIcon;
-      case "Branch":
-        return branchIcon;
-      case "Switch":
-        return switchIcon;
-      case "Generation":
-        return genIcon;
-      case "Transformer":
-        return transIcon;
-      case "Load":
-        return loadIcon;
-      default:
-        return folderIcon;
+
+    if (element instanceof Node) {
+      return nodeIcon;
+    } else if (element instanceof Branch) {
+      return branchIcon;
+    } else if (element instanceof Switch) {
+      return switchIcon;
+    } else if (element instanceof Generation) {
+      return genIcon;
+    } else if (element instanceof Transformer) {
+      return transIcon;
+    } else if (element instanceof Load) {
+      return loadIcon;
+    } else {
+      return folderIcon;
     }
+
+  }
+  const getType = (element) => {
+
+    if (element instanceof Node) {
+      return "Nodes";
+    } else if (element instanceof Branch) {
+      return "Branches";
+    } else if (element instanceof Switch) {
+      return "Switches";
+    } else if (element instanceof Generation) {
+      return "Generators";
+    } else if (element instanceof Transformer) {
+      return "Transformers";
+    } else if (element instanceof Load) {
+      return "Loads";
+    } else {
+      return "Unknowns";
+    }
+
   }
 
 
@@ -46,7 +72,7 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
       }
     ]
     for (let i = 0; i < scheme.elements.length; i++) {
-      const type = scheme.elements[i].constructor.name;
+      const type = getType(scheme.elements[i]);
 
       let typeIndex = -1;
       if (data[0].children.length) {
@@ -59,7 +85,7 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
         )
       } else {
         data[0].children.push({
-          uid: i, label: type, select: false, icon: folderIcon, children: [
+          uid: i, label: getType(scheme.elements[i]), select: false, icon: folderIcon, children: [
             { uid: scheme.elements[i].id, select: isSelected, label: scheme.elements[i].name, icon: getIcon(scheme.elements[i]), children: [] }
           ]
         })
