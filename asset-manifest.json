@@ -1,8 +1,7 @@
 {
   "files": {
-    "main.css": "/scheme/static/css/main.1152a4a1.css",
-    "main.js": "/scheme/static/js/main.b2872359.js",
-    "static/media/branch2.svg": "/scheme/static/media/branch2.1cd766801c1ee92d68cc02b4fded8e31.svg",
+    "main.css": "/scheme/static/css/main.cb548264.css",
+    "main.js": "/scheme/static/js/main.035a7080.js",
     "static/media/trans.svg": "/scheme/static/media/trans.ae53d1621e931d5ef446484cdb3c7d0d.svg",
     "static/media/connect.svg": "/scheme/static/media/connect.c3aa24ecf78fd46c115a0bf474fd52ef.svg",
     "static/media/branch.svg": "/scheme/static/media/branch.564645ee2564dfdb9dc5e7bde74ff65d.svg",
@@ -12,11 +11,12 @@
     "static/media/folder.svg": "/scheme/static/media/folder.71a9e41dc93dac11d4ec394a1fca0a29.svg",
     "static/media/switch.svg": "/scheme/static/media/switch.94b08e513f0eb6a5cac794e98a1e5d1d.svg",
     "index.html": "/scheme/index.html",
-    "main.1152a4a1.css.map": "/scheme/static/css/main.1152a4a1.css.map",
-    "main.b2872359.js.map": "/scheme/static/js/main.b2872359.js.map"
+    "static/media/arrow.svg": "/scheme/static/media/arrow.a43400a974a13fcf2d47c70554888e97.svg",
+    "main.cb548264.css.map": "/scheme/static/css/main.cb548264.css.map",
+    "main.035a7080.js.map": "/scheme/static/js/main.035a7080.js.map"
   },
   "entrypoints": [
-    "static/css/main.1152a4a1.css",
-    "static/js/main.b2872359.js"
+    "static/css/main.cb548264.css",
+    "static/js/main.035a7080.js"
   ]
 }
