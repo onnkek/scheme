@@ -36,16 +36,4 @@
 }
 .edit-panel__button:focus-visible {
   outline: none;
-}
-
-.add-btn {
-  min-width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px 0px 5px 5px;
-}
-.add-btn__icon {
-  margin: 6px;
 }/*# sourceMappingURL=EditorComponent.css.map */

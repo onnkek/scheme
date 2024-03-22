@@ -40,25 +40,7 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
     }
 
   }
-  const getType = (element) => {
 
-    if (element instanceof Node) {
-      return "Nodes";
-    } else if (element instanceof Branch) {
-      return "Branches";
-    } else if (element instanceof Switch) {
-      return "Switches";
-    } else if (element instanceof Generation) {
-      return "Generators";
-    } else if (element instanceof Transformer) {
-      return "Transformers";
-    } else if (element instanceof Load) {
-      return "Loads";
-    } else {
-      return "Unknowns";
-    }
-
-  }
 
 
   const getData = useMemo(() => {
@@ -104,9 +86,9 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
   return (
     <div className="explorer">
       {/* BETA */}
-      <div style={{ color: "red", fontWeight: 900, padding: "0px 10px 10px 10px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
+      {/* <div style={{ color: "red", fontWeight: 900, padding: "0px 10px 10px 10px", display: "flex", justifyContent: "center", fontSize: "20px" }}>
         <div style={{ width: "100%", border: "1px solid red", padding: "5px 15px", borderRadius: "4px", backgroundColor: "#fdafaf", textAlign: "center" }}>BETA PANEL</div>
-      </div>
+      </div> */}
       {/* BETA */}
 
       <TreeView data={getData} onSelect={onSelect} />
@@ -116,3 +98,23 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
 })
 
 export default Explorer;
+
+export const getType = (element) => {
+
+  if (element instanceof Node) {
+    return "Node";
+  } else if (element instanceof Branch) {
+    return "Branch";
+  } else if (element instanceof Switch) {
+    return "Switch";
+  } else if (element instanceof Generation) {
+    return "Generation";
+  } else if (element instanceof Transformer) {
+    return "Transformer";
+  } else if (element instanceof Load) {
+    return "Load";
+  } else {
+    return "Unknown";
+  }
+
+}

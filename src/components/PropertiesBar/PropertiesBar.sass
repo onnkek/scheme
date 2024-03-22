@@ -1,80 +1,4 @@
-.prop-bar
-  padding: 10px
-  width: 300px
-  background-color: white
-  height: 100vw
-  position: fixed
-  top: 0
-  right: 0
-  border-left: 1px solid lightgray
-  &__section
-    margin-bottom: 15px
-  &__title
-    background-color: lightblue
-    padding: 3px 10px
-
-  &__main
-
-  &__main-name
-    font-weight: 700
-    margin-bottom: 5px
-  &__main-type
-    margin-bottom: 5px
-  &__main-uid
-    border: 1px solid gray
-    border-radius: 4px
-    padding: 4px 5px
-    outline: none
-    background-color: lightgray
-  &__list
-    margin-top: 15px
-  &__list-item
-    display: flex
-    align-items: center
-    padding: 2px 10px
-    font-weight: 400
-    font-size: 15px
-    line-height: 15px
-  &__list-item-prop
-    border: 1px solid gray
-    border-radius: 4px
-    margin: 0 10px 0 0
-    width: 50%
-    padding: 4px 5px
-  &__list-item-value
-    border: 1px solid gray
-    border-radius: 4px
-    padding: 4px 5px
-    outline: none
-
-.frame-bar
-  &__list
-    display: flex
-    margin-top: 15px
-  &__list-col
-
-  &__list-item
-    display: flex
-    padding: 2px 10px
-    font-weight: 400
-    font-size: 15px
-    line-height: 15px
-  &__list-item-frame
-    border: 1px solid gray
-    border-radius: 4px
-    width: 45%
-    padding: 4px 5px
-    margin-right: 4px
-  &__list-item-value
-    border: 1px solid gray
-    border-radius: 4px
-    padding: 4px 5px
-    width: 55%
-    outline: none
-
-
-  
-.rbar
+.right-bar
   padding: 10px
   width: 300px
   background-color: #222222
@@ -83,9 +7,70 @@
   top: 0
   right: 0
   border-left: 1px solid #ffffff65
+  &__section
+    height: 46%
+    margin-bottom: 10px
 
-.sect
-  height: 46%
+.section
   border: 1px solid #686868
   border-radius: 4px
-  margin-bottom: 5px
+  &__title
+    width: 100%
+    border-bottom: 1px solid #686868
+
+.opacity-input
+  width: 52%
+  padding: 0 8px
+  display: flex
+  align-items: center
+  border: 1px solid #555
+
+.container-row
+  display: flex
+  justify-content: space-between
+
+.container-box
+  position: relative
+  margin: 10px auto
+  width: 135px
+  height: 50px
+  display: flex
+  justify-content: center
+  align-items: center
+  border: 1px solid gray
+  &__corner
+    position: absolute
+    width: 10px
+    height: 10px
+    background-color: #0d6efd
+    &_1
+      top: -5px
+      left: -5px
+    &_2
+      top: -5px
+      right: -5px
+    &_3
+      bottom: -5px
+      left: -5px
+    &_4
+      bottom: -5px
+      right: -5px
+
+.btns
+  display: flex
+  flex-direction: column
+
+.add-btn
+  // height: 40px
+  // height: 40px
+  display: flex
+  // justify-content: center
+  align-items: center
+  padding: 0 5px
+  &__icon
+    height: 20px
+    width: 20px
+    display: block
+    margin: 6px
+  div
+    color: #e2e2e2
