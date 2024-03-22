@@ -23,7 +23,8 @@ export class Editor {
 		ContextMenu: "ContextMenu",
 		Connect: "Connect",
 		AddBranch: "AddBranch",
-		AddElement: "AddElement"
+		AddElement: "AddElement",
+		ResizeBar: "ResizeBar"
 	}
 	static AddModes = {
 		Node: "Node",
@@ -55,6 +56,7 @@ export class Editor {
 	bufferPoint;
 	cursor;
 	svgOffset;
+	propertyBarWidth;
 
 	constructor () {
 		this.mode = Editor.Modes.Default;
@@ -64,6 +66,7 @@ export class Editor {
 		this.scheme = new Scheme();
 		this.scheme.initScheme();
 		this.svgOffset = new Point(-300, -50);
+		this.propertyBarWidth = 300;
 	}
 
 	addElement(addMode, cursor) {

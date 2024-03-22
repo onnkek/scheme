@@ -13,7 +13,7 @@ import genIcon from '../../assets/icons/gen.svg'
 import loadIcon from '../../assets/icons/load.svg'
 import { Editor } from "../../models/Editor";
 
-const PropertiesBar = ({ selected, add, connectModeHandler }) => {
+const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
 
   //console.log(`render PropertiesBar`)
   // ICONS REFERENCE
@@ -28,8 +28,9 @@ const PropertiesBar = ({ selected, add, connectModeHandler }) => {
   if (selected && selected.length > 0) {
     frame = selected[0].getFrame()
   }
+
   return (
-    <div className="right-bar">
+    <div className="right-bar" style={{ width: width }}>
 
 
       {selected[0] ? <></> :

@@ -580,8 +580,46 @@ function EditorComponent(props) {
     }
 
   }, [editor.scheme.elements, editor.selectLayer, editor.svgOffset])
+
+
+
+  const editorMouseDownHandler = (e) => {
+    const cursor = new Point(e.clientX, e.clientY);
+    if (Math.abs(cursor.x - window.innerWidth + editor.propertyBarWidth) < 10) {
+      editor.mode = Editor.Modes.ResizeBar;
+      setLastCursor(cursor);
+    }
+
+  }
+  const editorMouseMoveHandler = (e) => {
+    const cursor = new Point(e.clientX, e.clientY);
+
+    // document.getElementsByTagName("body")[0].style.cursor = "pointer";
+    if (editor.mode === Editor.Modes.ResizeBar) {
+      if (editor.propertyBarWidth >= 200) {
+        editor.propertyBarWidth += lastCursor.x - cursor.x;
+      }
+      if (editor.propertyBarWidth < 200) {
+        editor.propertyBarWidth = 200;
+      }
+      setLastCursor(cursor);
+    }
+
+  }
+  const editorMouseUpHandler = (e) => {
+    const cursor = new Point(e.clientX, e.clientY);
+    if (editor.mode === Editor.Modes.ResizeBar) {
+      editor.mode = Editor.Modes.Default;
+      setLastCursor(cursor);
+    }
+
+  }
+
   return (
-    <div className='editor'>
+    <div className='editor'
+      onMouseDown={editorMouseDownHandler}
+      onMouseMove={editorMouseMoveHandler}
+      onMouseUp={editorMouseUpHandler}>
 
       <div className='edit-panel'>
 
@@ -619,7 +657,7 @@ function EditorComponent(props) {
         <SchemeComponent scheme={editor.scheme} />
         <SelectLayerComponent selectLayer={editor.selectLayer} />
       </svg>
-      <PropertiesBar connectModeHandler={connectModeClickHandler} add={addElement} selected={editor.selectLayer.selected} />
+      <PropertiesBar width={editor.propertyBarWidth} connectModeHandler={connectModeClickHandler} add={addElement} selected={editor.selectLayer.selected} />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
     </div>
 
