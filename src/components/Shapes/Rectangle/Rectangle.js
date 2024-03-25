@@ -1,6 +1,6 @@
 function Rectangle(props) {
 
-  let { x, y, width, height, stroke, strokeWidth, fill } = props;
+  let { x, y, width, height, stroke, strokeWidth, fill, opacity = 1 } = props;
 
   return (
     <rect
@@ -11,6 +11,7 @@ function Rectangle(props) {
       stroke={stroke}
       strokeWidth={strokeWidth}
       fill={fill}
+      opacity={opacity}
     />
   );
 }

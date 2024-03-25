@@ -6,7 +6,7 @@ import { Point } from "../../../utils/Point";
 import Path from "../../Shapes/Path/Path";
 import { pathParse } from "../../../utils/Transform";
 
-const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle }) => {
+const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle, opacity }) => {
 
 
   // console.log(`render generation`)
@@ -18,6 +18,7 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
         fill="none"
         stroke={voltageColor}
         strokeWidth={config.elements.generation.strokeWidth}
+        opacity={opacity}
       />
       <Path
         point={new Point(x, y)}
@@ -27,6 +28,7 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
         fill="none"
         strokeWidth={config.elements.generation.strokeWidth}
         angle={angle}
+        opacity={opacity}
       />
 
       {isShowTerminals ? terminals.map((terminal) =>
@@ -34,6 +36,7 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
           canConnect={terminal.canConnect}
           position={terminal.position}
           key={terminal.id}
+          opacity={opacity}
         />) : <></>}
     </>
 

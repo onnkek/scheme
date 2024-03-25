@@ -1,7 +1,7 @@
 import { Point } from "../../../utils/Point";
 import { getRotateTransformPoint } from "../../../utils/Transform";
 
-function Path({ point, path, stroke, strokeWidth, angle, fill = "none", offset }) {
+function Path({ point, path, stroke, strokeWidth, angle, fill = "none", offset, opacity = 1 }) {
 
   let stringPath = "";
   for (let i = 0; i < path.length; i++) {
@@ -20,6 +20,7 @@ function Path({ point, path, stroke, strokeWidth, angle, fill = "none", offset }
       stroke={stroke}
       strokeWidth={strokeWidth}
       fill={fill}
+      opacity={opacity}
     />
   );
 }

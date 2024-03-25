@@ -22,6 +22,13 @@ export class Transformer extends Element {
     this.voltage2 = voltage2;
     this.angle = 0;
   }
+  getObjectProperties() {
+    return [
+      "name",
+      "voltage1",
+      "voltage2",
+    ]
+  }
   addTerminals() {
     this.terminals.push(new Terminal("Терминал " + Math.random(),
       new Point(this.position.x, this.position.y - config.elements.transformer.radius - config.elements.transformer.offset), this.angle));
@@ -39,6 +46,7 @@ export class Transformer extends Element {
         voltageColor1={this.getVoltageColor(this.voltage1)}
         voltageColor2={this.getVoltageColor(this.voltage2)}
         angle={this.angle}
+        opacity={this.opacity}
       />
     );
   }

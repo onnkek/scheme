@@ -5,7 +5,7 @@ import Polyline from "../../Shapes/Polyline/Polyline";
 import { getRotateTransformPoints } from "../../../utils/Transform";
 import { Point } from "../../../utils/Point";
 
-const LoadComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle }) => {
+const LoadComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle, opacity }) => {
 
 
   // console.log(`render load`)
@@ -42,11 +42,13 @@ const LoadComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageCol
         points={getRotateTransformPoints(polyline1, angle, new Point(x, y))}
         stroke={voltageColor}
         strokeWidth={config.elements.load.strokeWidth}
+        opacity={opacity}
       />
       <Polyline
         points={getRotateTransformPoints(polyline2, angle, new Point(x, y))}
         stroke={voltageColor}
         strokeWidth={config.elements.load.strokeWidth}
+        opacity={opacity}
       />
 
       {isShowTerminals ? terminals.map((terminal) =>
@@ -54,6 +56,7 @@ const LoadComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageCol
           canConnect={terminal.canConnect}
           position={terminal.position}
           key={terminal.id}
+          opacity={opacity}
         />) : <></>}
     </>
 

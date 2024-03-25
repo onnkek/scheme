@@ -1,6 +1,6 @@
 import { getPointsString } from "../../../utils/Point";
 
-function Polygon({ points, stroke, strokeWidth, strokeDasharray, fill = "none" }) {
+function Polygon({ points, stroke, strokeWidth, strokeDasharray, fill = "none", opacity = 1 }) {
 
   return (
     <polygon
@@ -9,6 +9,7 @@ function Polygon({ points, stroke, strokeWidth, strokeDasharray, fill = "none" }
       strokeWidth={strokeWidth}
       fill={fill}
       strokeDasharray={strokeDasharray}
+      opacity={opacity}
     />
   );
 }

@@ -1,6 +1,6 @@
 import { getPointsString } from "../../../utils/Point";
 
-function Polyline({ points, stroke, strokeWidth }) {
+function Polyline({ points, stroke, strokeWidth, opacity = 1 }) {
 
   return (
     <polyline
@@ -8,6 +8,7 @@ function Polyline({ points, stroke, strokeWidth }) {
       stroke={stroke}
       strokeWidth={strokeWidth}
       fill="none"
+      opacity={opacity}
     />
   );
 }

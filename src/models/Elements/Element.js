@@ -7,16 +7,23 @@ export class Element {
   name;
   terminals;
   canResize;
+  opacity;
 
 
-  constructor(name) {
+  constructor (name) {
     this.type = "";
     this.name = name;
     this.id = Math.random();
     this.terminals = [];
     this.canResize = false;
+    this.opacity = 1;
   }
-
+  getObjectProperties() {
+    return [
+      "name",
+      "voltage",
+    ]
+  }
   drawComponent() { }
 
   getFrame() { }

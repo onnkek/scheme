@@ -31,6 +31,7 @@ export class Branch extends Element {
         points={this.getFrame()}
         terminals={this.terminals}
         voltageColor={this.getVoltageColor()}
+        opacity={this.opacity}
       /> : "");
   }
   getVoltageColor() {

@@ -124,15 +124,15 @@ export class Scheme {
 
 
 
-    let elem = new Switch("S1", false, new Point(300, 300), 500);
+    let elem = new Switch("S1", 0, new Point(300, 300), 500);
     elem.addTerminals();
     this.elements.push(elem);
 
-    elem = new Switch("S2", true, new Point(300, 500), 500);
+    elem = new Switch("S2", 1, new Point(300, 500), 500);
     elem.addTerminals();
     this.elements.push(elem);
 
-    elem = new Switch("S3", true, new Point(300, 350), 500);
+    elem = new Switch("S3", 1, new Point(300, 350), 500);
     elem.addTerminals();
     this.elements.push(elem);
 

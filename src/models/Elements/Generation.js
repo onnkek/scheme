@@ -36,6 +36,7 @@ export class Generation extends Element {
         terminals={this.terminals}
         voltageColor={this.getVoltageColor()}
         angle={this.angle}
+        opacity={this.opacity}
       />
     );
   }

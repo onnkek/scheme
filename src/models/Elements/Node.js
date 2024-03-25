@@ -29,7 +29,7 @@ export class Node extends Element {
     this.angle = 0;
     this.canResize = true;
   }
-  addTerminals() {}
+  addTerminals() { }
   addTerminal(x) {
     let terminal = new Terminal("Терминал " + Math.random(), new Point(x, this.position.y));
     this.terminals.push(terminal);
@@ -43,12 +43,22 @@ export class Node extends Element {
     ]
   }
 
+
+  getFrameProperties() {
+    return [
+      "position",
+      "widthLeft",
+      "widthRight",
+      "angle",
+    ]
+  }
+
   drawComponent() {
     return (
       <NodeComponent
         id={this.id}
         key={this.id}
-        number={this.number}
+        name={this.name}
         x={this.position.x}
         y={this.position.y}
         widthLeft={this.widthLeft}
@@ -56,6 +66,7 @@ export class Node extends Element {
         isShowTerminals={this.isShowTerminals}
         terminals={this.terminals}
         voltageColor={this.getVoltageColor()}
+        opacity={this.opacity}
       />
     );
   }

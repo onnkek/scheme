@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PropertiesBar.css"
 import { Node } from "../../models/Elements/Node";
 import { Branch } from "../../models/Elements/Branch";
@@ -13,7 +13,7 @@ import genIcon from '../../assets/icons/gen.svg'
 import loadIcon from '../../assets/icons/load.svg'
 import { Editor } from "../../models/Editor";
 
-const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
+const PropertiesBar = (({ selected, add, connectModeHandler, width }) => {
 
   //console.log(`render PropertiesBar`)
   // ICONS REFERENCE
@@ -24,9 +24,28 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
   // https://www.figma.com/file/uIzfhvNiHR5OVC23tZN8cB/Quill-Rich-Text-Editor-(Community)?type=design&node-id=15-236&mode=design&t=PhLyURVAaQfno0fw-0
   // https://www.figma.com/file/js0aFD7lgjUyVHeK3bundO/Rich-Text-Editor-Component-Kit-(Community)?type=design&node-id=24567-36451&mode=design&t=N6kRpQIMQnGkQuzA-0
 
+  const [value, setValue] = useState(0);
   let frame = [];
+  let objectProperties = "";
   if (selected && selected.length > 0) {
     frame = selected[0].getFrame()
+
+    const props = selected[0].getObjectProperties();
+    objectProperties = props.map(x =>
+      <InputGroup size="sm" className="mb-2">
+        <InputGroupText className="w-50">{x}</InputGroupText>
+        {x.includes("voltage") || x.includes("state") ? <Input type="number" placeholder="Y" value={selected[0][x]} onChange={(e) => {
+          setValue(e.target.value);
+          selected[0][x] = Number(e.target.value);
+        }} /> :
+          <Input placeholder="Y" value={selected[0][x]} onChange={(e) => {
+            setValue(e.target.value);
+            selected[0][x] = e.target.value;
+          }} />
+        }
+
+      </InputGroup>
+    );
   }
 
   return (
@@ -133,19 +152,25 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
                 <div className="d-flex mb-2">
                   <InputGroup className="me-3" size="sm">
                     <InputGroupText style={{ width: "30px" }}>X</InputGroupText>
-                    <Input placeholder="X" value={selected[0].position.x} onChange={() => { }} />
+                    <Input type="number" placeholder="X" value={selected[0].position.x} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].position.x = Number(e.target.value);
+                    }} />
                   </InputGroup>
                   <InputGroup size="sm">
                     <InputGroupText style={{ width: "30px" }}>Y</InputGroupText>
-                    <Input placeholder="Y" value={selected[0].position.y} onChange={() => { }} />
+                    <Input type="number" placeholder="Y" value={selected[0].position.y} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].position.y = Number(e.target.value);
+                    }} />
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-2">
-                  <InputGroup className="me-3" size="sm">
+                  <InputGroup className="me-3" size="sm" style={{ border: "1px solid red", borderRadius: "4px" }}>
                     <InputGroupText style={{ width: "30px" }}>W</InputGroupText>
                     <Input placeholder="W" value={0} onChange={() => { }} />
                   </InputGroup>
-                  <InputGroup size="sm">
+                  <InputGroup size="sm" style={{ border: "1px solid red", borderRadius: "4px" }}>
                     <InputGroupText style={{ width: "30px" }}>H</InputGroupText>
                     <Input placeholder="H" value={0} onChange={() => { }} />
                   </InputGroup>
@@ -153,7 +178,10 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
               </>}
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "30px" }}><img src={angleIcon} alt="" /></InputGroupText>
-                <Input placeholder="Y" value={selected[0].angle} onChange={() => { }} />
+                <Input type="number" placeholder="Y" value={selected[0].angle} onChange={(e) => {
+                  setValue(e.target.value);
+                  selected[0].angle = Number(e.target.value);
+                }} />
               </InputGroup>
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "27%" }}>Opacity</InputGroupText>
@@ -162,20 +190,33 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
                     id="exampleRange"
                     name="range"
                     type="range"
-                  // value={100}
+                    value={selected[0].opacity * 100}
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].opacity = Number(e.target.value) / 100;
+                    }}
                   />
                 </div>
-                <Input placeholder="%" value="100%" onChange={() => { }} />
+                <Input type="number" placeholder="%" value={selected[0].opacity * 100} onChange={(e) => {
+                  setValue(e.target.value);
+                  selected[0].opacity = Number(e.target.value) / 100;
+                }} />
               </InputGroup>
               {selected[0] instanceof Node &&
                 <>
                   <InputGroup className="me-3 mb-2" size="sm">
                     <InputGroupText className="w-50">Width right</InputGroupText>
-                    <Input placeholder="X" value={selected[0].widthRight} onChange={() => { }} />
+                    <Input type="number" placeholder="X" value={selected[0].widthRight} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].widthRight = Number(e.target.value);
+                    }} />
                   </InputGroup>
                   <InputGroup size="sm mb-2">
                     <InputGroupText className="w-50">Width left</InputGroupText>
-                    <Input placeholder="Y" value={selected[0].widthLeft} onChange={() => { }} />
+                    <Input type="number" placeholder="Y" value={selected[0].widthLeft} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].widthLeft = Number(e.target.value);
+                    }} />
                   </InputGroup>
                 </>
               }
@@ -220,13 +261,16 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
 
 
       {selected[0] &&
+
         <div className="right-bar__section section">
           <Label className="section__title p-3 pt-1 pb-1 m-0">Object properties</Label>
           <div className="m-3">
             <div style={{ fontWeight: 700 }}>{selected[0].name}</div>
             <div className="mb-1">{getType(selected[0])}</div>
             <Input size="sm" className="mb-3" value={selected[0].id} onChange={() => { }} />
-            <InputGroup size="sm" className="mb-2">
+
+            {objectProperties}
+            {/* <InputGroup size="sm" className="mb-2">
               <InputGroupText className="w-50">Name</InputGroupText>
               <Input placeholder="Y" value={selected[0].name} onChange={() => { }} />
             </InputGroup>
@@ -245,12 +289,12 @@ const PropertiesBar = ({ selected, add, connectModeHandler, width }) => {
             <InputGroup size="sm" className="mb-2">
               <InputGroupText className="w-50">Test Prop</InputGroupText>
               <Input placeholder="Y" value="???" onChange={() => { }} />
-            </InputGroup>
+            </InputGroup> */}
           </div>
         </div>
       }
     </div>
   );
-}
+})
 
 export default PropertiesBar;

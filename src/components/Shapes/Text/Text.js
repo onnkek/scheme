@@ -1,6 +1,6 @@
 function Text(props) {
 
-  let { point, fontSize, fill } = props;
+  let { point, fontSize, fill, opacity = 1 } = props;
 
   return (
     <text
@@ -9,6 +9,8 @@ function Text(props) {
       fontSize={fontSize}
       fill={fill}
       fontFamily="Verdana"
+      text-anchor="end"
+      opacity={opacity}
     >{props.children}</text>
   );
 }

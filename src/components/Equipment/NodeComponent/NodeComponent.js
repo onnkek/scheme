@@ -7,7 +7,7 @@ import "./NodeComponent.css"
 
 const NodeComponent = React.memo((props) => {
 
-  let { x, y, widthRight, widthLeft, number, terminals, voltageColor, isShowTerminals } = props;
+  let { x, y, widthRight, widthLeft, name, terminals, voltageColor, isShowTerminals, opacity } = props;
 
   //console.log(`render node - ${number}`)
   return (
@@ -18,6 +18,7 @@ const NodeComponent = React.memo((props) => {
         p2={{ x: x + widthRight, y: y }}
         stroke={voltageColor}
         strokeWidth={config.elements.node.height}
+        opacity={opacity}
       />
       {isShowTerminals ?
         <>
@@ -26,12 +27,14 @@ const NodeComponent = React.memo((props) => {
             p2={{ x: x + widthRight, y: y }}
             stroke="black"
             strokeWidth={5}
+            opacity={opacity}
           />
           <Line
             p1={{ x: x - widthLeft, y: y }}
             p2={{ x: x + widthRight, y: y }}
             stroke="white"
             strokeWidth={4}
+            opacity={opacity}
           />
         </>
         : <></>}
@@ -43,12 +46,14 @@ const NodeComponent = React.memo((props) => {
           fill="white"
           stroke="black"
           strokeWidth={config.elements.terminalNode.strokeWidth}
+          opacity={opacity}
         />)}
       <Text
-        point={{ x: x - widthLeft - 20, y: y + 7 }}
+        point={{ x: x - widthLeft - 10, y: y + 7 }}
         fill="white"
         fontSize={20}
-      >{number}</Text>
+        opacity={opacity}
+      >{name}</Text>
 
     </>
   );

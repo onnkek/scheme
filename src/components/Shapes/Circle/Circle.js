@@ -1,6 +1,6 @@
 function Circle(props) {
 
-  let { center, radius, fill, stroke, strokeWidth } = props;
+  let { center, radius, fill, stroke, strokeWidth, opacity = 1 } = props;
 
   return (
     <circle
@@ -10,6 +10,7 @@ function Circle(props) {
       fill={fill}
       stroke={stroke}
       strokeWidth={strokeWidth}
+      opacity={opacity}
     />
   );
 }

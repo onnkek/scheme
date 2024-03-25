@@ -5,7 +5,7 @@ import Circle from "../../Shapes/Circle/Circle";
 import { Point } from "../../../utils/Point";
 import { getRotateTransformPoint } from "../../../utils/Transform";
 
-const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor1, voltageColor2, angle }) => {
+const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor1, voltageColor2, angle, opacity }) => {
 
 
   //console.log(`render transformer`)
@@ -17,6 +17,7 @@ const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, vol
         fill="none"
         stroke={voltageColor1}
         strokeWidth={config.elements.transformer.strokeWidth}
+        opacity={opacity}
       />
       <Circle
         center={getRotateTransformPoint(new Point(x, y + config.elements.transformer.offset), angle, new Point(x, y))}
@@ -24,6 +25,7 @@ const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, vol
         fill="none"
         stroke={voltageColor2}
         strokeWidth={config.elements.transformer.strokeWidth}
+        opacity={opacity}
       />
 
 
@@ -32,6 +34,7 @@ const TransformerComponent = React.memo(({ x, y, isShowTerminals, terminals, vol
           canConnect={terminal.canConnect}
           position={terminal.position}
           key={terminal.id}
+          opacity={opacity}
         />) : <></>}
     </>
 

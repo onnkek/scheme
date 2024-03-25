@@ -77,7 +77,7 @@ export class Editor {
 				newElement = new Node("1", 1, cursorGrid, 100, 100, 500);
 				break;
 			case Editor.AddModes.Switch:
-				newElement = new Switch("S1", false, cursorGrid, 500);
+				newElement = new Switch("S1", 0, cursorGrid, 500);
 				break;
 			case Editor.AddModes.Transformer:
 				newElement = new Transformer("T1", cursorGrid, 500, 220);

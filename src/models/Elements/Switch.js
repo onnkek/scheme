@@ -25,6 +25,13 @@ export class Switch extends Element {
 		this.voltage = voltage;
 
 	}
+	getObjectProperties() {
+		return [
+			"name",
+			"voltage",
+			"state",
+		]
+	}
 	addTerminals() {
 		this.terminals.push(new Terminal("Терминал " + Math.random(),
 			new Point(this.position.x, this.position.y - config.elements.switch.size / 2), this.angle));
@@ -42,6 +49,7 @@ export class Switch extends Element {
 				terminals={this.terminals}
 				voltageColor={this.getVoltageColor()}
 				angle={this.angle}
+				opacity={this.opacity}
 			/>
 		);
 	}
