@@ -6,6 +6,7 @@ import { Terminal } from "./Elements/Terminal";
 import { Transformer } from "./Elements/Transformer";
 import { Generation } from "./Elements/Generation";
 import { Load } from "./Elements/Load";
+import { TextBlock } from "./Elements/TextBlock";
 
 export class Scheme {
   elements = [];
@@ -148,6 +149,21 @@ export class Scheme {
     transformer.terminals[0] = terminal5_2;
     transformer.terminals[1] = terminal3_2;
     this.elements.push(transformer);
+
+    elem = new TextBlock("New Text Block 1", new Point(1100, 200));
+    elem.color = "#DC5CFF";
+    elem.fontSize = 16;
+    this.elements.push(elem);
+
+    elem = new TextBlock("New Text Block 2", new Point(1100, 250));
+    elem.color = "#FF00DD";
+    elem.fontSize = 20;
+    this.elements.push(elem);
+
+    elem = new TextBlock("New Text Block 3", new Point(1100, 300));
+    elem.color = "#00FFD5";
+    elem.fontSize = 24;
+    this.elements.push(elem);
 
   }
 

@@ -53,6 +53,9 @@ const NodeComponent = React.memo((props) => {
         fill="white"
         fontSize={20}
         opacity={opacity}
+        textAnchor="end"
+        angle={0}
+        rotatePoint={{ x: x - widthLeft - 10, y: y + 7 }}
       >{name}</Text>
 
     </>

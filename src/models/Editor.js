@@ -8,7 +8,9 @@ import { Load } from "./Elements/Load";
 import { Node } from "./Elements/Node";
 import { Switch } from "./Elements/Switch";
 import { Terminal } from "./Elements/Terminal";
+import { TextBlock } from "./Elements/TextBlock";
 import { Transformer } from "./Elements/Transformer";
+import { Grid } from "./Grid";
 import { Scheme } from "./Scheme";
 import { SelectLayer } from "./SelectLayer";
 
@@ -31,7 +33,8 @@ export class Editor {
 		Switch: "Switch",
 		Transformer: "Transformer",
 		Load: "Load",
-		Generation: "Generation"
+		Generation: "Generation",
+		TextBlock: "TextBlock"
 	}
 	static ModKeys = {
 		Shift: "Shift",
@@ -57,6 +60,7 @@ export class Editor {
 	cursor;
 	svgOffset;
 	propertyBarWidth;
+	grid;
 
 	constructor () {
 		this.mode = Editor.Modes.Default;
@@ -67,11 +71,12 @@ export class Editor {
 		this.scheme.initScheme();
 		this.svgOffset = new Point(-300, -50);
 		this.propertyBarWidth = 300;
+		this.grid = new Grid(1400, 1000);
 	}
 
 	addElement(addMode, cursor) {
 		let newElement = null;
-		let cursorGrid = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10);
+		let cursorGrid = new Point(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX, Math.round(cursor.y / this.grid.stepY) * this.grid.stepY);
 		switch (addMode) {
 			case Editor.AddModes.Node:
 				newElement = new Node("1", 1, cursorGrid, 100, 100, 500);
@@ -88,8 +93,10 @@ export class Editor {
 			case Editor.AddModes.Generation:
 				newElement = new Generation("G1", cursorGrid, 110);
 				break;
+			case Editor.AddModes.TextBlock:
+				newElement = new TextBlock("New Text Block", cursorGrid);
+				break;
 			default:
-
 				break;
 		}
 		newElement.addTerminals();
@@ -187,12 +194,12 @@ export class Editor {
 				let indexOfPoint = this.selectLayer.box[0].controls.findIndex(x => x === this.selectControl);
 
 				if (indexOfPoint === 0) {
-					this.selectLayer.selected[0].junctions[0].position = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10)
+					this.selectLayer.selected[0].junctions[0].position = new Point(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX, Math.round(cursor.y / this.grid.stepY) * this.grid.stepY)
 				} else if (indexOfPoint === this.selectLayer.box[0].controls.length - 1) {
-					this.selectLayer.selected[0].junctions[1].position = new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10)
+					this.selectLayer.selected[0].junctions[1].position = new Point(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX, Math.round(cursor.y / this.grid.stepY) * this.grid.stepY)
 				} else {
 					this.selectLayer.selected[0].points = [...this.selectLayer.selected[0].points.slice(0, indexOfPoint - 1),
-					new Point(Math.round(cursor.x / 10) * 10, Math.round(cursor.y / 10) * 10), ...this.selectLayer.selected[0].points.slice(indexOfPoint)]
+					new Point(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX, Math.round(cursor.y / this.grid.stepY) * this.grid.stepY), ...this.selectLayer.selected[0].points.slice(indexOfPoint)]
 				}
 			}
 			if (this.mode === Editor.Modes.Connect) {
@@ -218,7 +225,7 @@ export class Editor {
 					if (this.selectLayer.selected[0].terminals[i]) {
 						this.scheme.changeTerminalPosition(this.selectLayer.selected[0].terminals[i], newPoint)
 					} else {
-						let terminal = this.connectNode.addTerminal(Math.round(cursor.x / 10) * 10);
+						let terminal = this.connectNode.addTerminal(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX);
 						this.selectLayer.selected[0].terminals[i] = terminal;
 					}
 				}

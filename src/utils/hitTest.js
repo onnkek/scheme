@@ -1,5 +1,6 @@
 import { Branch } from "../models/Elements/Branch";
 import { Point } from "./Point";
+import { getRotateTransformPoints } from "./Transform";
 
 export const hitTestLine = function (point1, point2, cursor, r) {
   let x1 = point1.x - cursor.x;
@@ -69,7 +70,7 @@ export const hitTestElement = (elements, cursor, radius) => {
         return elements[i];
       }
     } else {
-      if (hitTestFrame(elements[i].getFrame(), cursor, radius)) {
+      if (hitTestFrame(getRotateTransformPoints(elements[i].getFrame(), elements[i].angle, elements[i].position), cursor, radius)) {
         return elements[i];
       }
     }

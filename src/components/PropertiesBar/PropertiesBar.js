@@ -11,9 +11,15 @@ import switchIcon from '../../assets/icons/switch.svg'
 import transIcon from '../../assets/icons/trans.svg'
 import genIcon from '../../assets/icons/gen.svg'
 import loadIcon from '../../assets/icons/load.svg'
+import textIcon from '../../assets/icons/text.svg'
+import tIcon from '../../assets/icons/t.svg'
+import textSizeIcon from '../../assets/icons/textSize.svg'
+import fillIcon from '../../assets/icons/fill.svg'
+import widthIcon from '../../assets/icons/width.svg'
 import { Editor } from "../../models/Editor";
+import { TextBlock } from "../../models/Elements/TextBlock";
 
-const PropertiesBar = (({ selected, add, connectModeHandler, width }) => {
+const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) => {
 
   //console.log(`render PropertiesBar`)
   // ICONS REFERENCE
@@ -53,89 +59,149 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width }) => {
 
 
       {selected[0] ? <></> :
-        <div className="right-bar__section section">
-          <Label className="section__title p-3 pt-1 pb-1 m-0">Create element</Label>
-          <div className="m-3">
-            <Label className="d-block">Equipments</Label>
+        <>
+          <div className="right-bar__section section">
+            <Label className="section__title p-3 pt-1 pb-1 m-0">Create element</Label>
+            <div className="m-3">
+              <Label className="d-block">Equipments</Label>
 
-            <div className="btns">
-              <Button
-                secondary
-                outline
-                className='add-btn p-0 mb-1'
-                // className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
-                onClick={connectModeHandler}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={branchIcon} alt="Connect"></img>
-                  <div>Branch</div>
-                </div>
-              </Button>
-              <Button
-                secondary
-                outline
-                // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
-                className='add-btn p-0 mb-1'
-                onClick={(e) => add(e, Editor.AddModes.Node)}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={nodeIcon} alt="Connect"></img>
-                  <div>Node</div>
-                </div>
-              </Button>
-              <Button
-                secondary
-                outline
-                // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
-                className='add-btn p-0 mb-1'
-                onClick={(e) => add(e, Editor.AddModes.Switch)}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={switchIcon} alt="Connect"></img>
-                  <div>Switch</div>
-                </div>
-              </Button>
-              <Button
-                secondary
-                outline
-                className='add-btn p-0 mb-1'
-                // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
-                onClick={(e) => add(e, Editor.AddModes.Transformer)}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={transIcon} alt="Connect"></img>
-                  <div>Transformer</div>
-                </div>
-              </Button>
-              <Button
-                secondary
-                outline
-                className='add-btn p-0 mb-1'
-                // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
+              <div className="btns">
+                <Button
+                  secondary
+                  outline
+                  className='add-btn p-0 mb-1'
+                  // className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
+                  onClick={connectModeHandler}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={branchIcon} alt="Connect"></img>
+                    <div>Branch</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.Node)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={nodeIcon} alt="Connect"></img>
+                    <div>Node</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.Switch)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={switchIcon} alt="Connect"></img>
+                    <div>Switch</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  className='add-btn p-0 mb-1'
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
+                  onClick={(e) => add(e, Editor.AddModes.Transformer)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={transIcon} alt="Connect"></img>
+                    <div>Transformer</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  className='add-btn p-0 mb-1'
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
 
-                onClick={(e) => add(e, Editor.AddModes.Load)}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={loadIcon} alt="Connect"></img>
-                  <div>Load</div>
-                </div>
-              </Button>
-              <Button
-                secondary
-                outline
-                // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                className='add-btn p-0 mb-1'
-                onClick={(e) => add(e, Editor.AddModes.Generation)}
-              >
-                <div className="add-btn">
-                  <img className='add-btn__icon' src={genIcon} alt="Connect"></img>
-                  <div>Generation</div>
-                </div>
-              </Button>
+                  onClick={(e) => add(e, Editor.AddModes.Load)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={loadIcon} alt="Connect"></img>
+                    <div>Load</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.Generation)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={genIcon} alt="Connect"></img>
+                    <div>Generation</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.TextBlock)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={textIcon} alt="Connect"></img>
+                    <div>Text Block</div>
+                  </div>
+                </Button>
+              </div>
+
             </div>
-
           </div>
-        </div>
+          <div className="right-bar__section section">
+            <Label className="section__title p-3 pt-1 pb-1 m-0">Editor settings</Label>
+            <div className="m-3">
+              <InputGroup size="sm mb-2">
+                <InputGroupText style={{ width: "60px" }}><img src={fillIcon} alt="" /></InputGroupText>
+                <Input type="color" placeholder="Y" value={editor.backgroundColor} onChange={(e) => {
+                  setValue(e.target.value);
+                  editor.backgroundColor = e.target.value;
+                }} />
+              </InputGroup>
+            </div>
+          </div>
+          <div className="right-bar__section section">
+            <Label className="section__title p-3 pt-1 pb-1 m-0">Grid settings</Label>
+            <div className="m-3">
+              <InputGroup size="sm mb-2">
+                <InputGroupText style={{ width: "60px" }}>Step X</InputGroupText>
+                <Input type="number" placeholder="px" value={editor.grid.stepX} onChange={(e) => {
+                  setValue(e.target.value);
+                  editor.grid.stepX = e.target.value;
+                }} />
+              </InputGroup>
+              <InputGroup size="sm mb-2">
+                <InputGroupText style={{ width: "60px" }}>Step Y</InputGroupText>
+                <Input type="number" placeholder="px" value={editor.grid.stepY} onChange={(e) => {
+                  setValue(e.target.value);
+                  editor.grid.stepY = e.target.value;
+                }} />
+              </InputGroup>
+              <InputGroup size="sm mb-2">
+                <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                <Input type="number" placeholder="px" value={editor.grid.strokeWidth} onChange={(e) => {
+                  setValue(e.target.value);
+                  editor.grid.strokeWidth = e.target.value;
+                }} />
+              </InputGroup>
+              <InputGroup size="sm mb-2">
+                <InputGroupText style={{ width: "60px" }}><img src={fillIcon} alt="" /></InputGroupText>
+                <Input type="color" placeholder="Y" value={editor.grid.backgroundColor} onChange={(e) => {
+                  setValue(e.target.value);
+                  editor.grid.backgroundColor = e.target.value;
+                }} />
+              </InputGroup>
+            </div>
+          </div>
+        </>
+
       }
       {selected[0] &&
         <>
@@ -202,6 +268,32 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width }) => {
                   selected[0].opacity = Number(e.target.value) / 100;
                 }} />
               </InputGroup>
+              {selected[0] instanceof TextBlock &&
+                <>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "30px" }}><img src={tIcon} alt="" /></InputGroupText>
+                    <Input type="text" placeholder="Y" value={selected[0].text} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].text = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "30px" }}><img src={textSizeIcon} alt="" /></InputGroupText>
+                    <Input type="number" placeholder="Y" value={selected[0].fontSize} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].fontSize = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "30px" }}><img src={fillIcon} alt="" /></InputGroupText>
+                    <Input type="color" placeholder="Y" value={selected[0].color} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].color = e.target.value;
+                    }} />
+                  </InputGroup>
+                </>
+              }
+
               {selected[0] instanceof Node &&
                 <>
                   <InputGroup className="me-3 mb-2" size="sm">

@@ -1,6 +1,6 @@
 function Text(props) {
 
-  let { point, fontSize, fill, opacity = 1 } = props;
+  let { point, fontSize, fill, opacity = 1, textAnchor, angle, rotatePoint } = props;
 
   return (
     <text
@@ -9,8 +9,9 @@ function Text(props) {
       fontSize={fontSize}
       fill={fill}
       fontFamily="Verdana"
-      text-anchor="end"
+      text-anchor={textAnchor}
       opacity={opacity}
+      transform={`rotate(${angle}, ${rotatePoint.x}, ${rotatePoint.y})`}
     >{props.children}</text>
   );
 }

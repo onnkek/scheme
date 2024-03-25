@@ -27,6 +27,7 @@ import Explorer from '../Explorer/Explorer';
 import { Button } from 'reactstrap';
 import openIcon from '../../assets/icons/open.svg';
 import downloadIcon from '../../assets/icons/download.svg';
+import GridComponent from '../GridComponent/GridComponent';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -109,7 +110,7 @@ function EditorComponent(props) {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
     const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
-    const delta = getGridDelta(cursor, lastCursor);
+    const delta = getGridDelta(cursor, lastCursor, editor.grid);
 
     switch (editor.mode) {
 
@@ -506,8 +507,8 @@ function EditorComponent(props) {
       editor.removeElement();
       editor.hideTerminals();
     }
-    editor.addElement(addMode, new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y));
-  }, [editor])
+    editor.addElement(addMode, lastCursor);
+  }, [editor, lastCursor])
 
 
   //let test = "";
@@ -653,11 +654,14 @@ function EditorComponent(props) {
         onMouseMove={svgMouseMoveHandler}
         onMouseUp={svgMouseUpHandler}
         viewBox="0 0 1400 1000"
+        style={{ backgroundColor: editor.backgroundColor }}
       >
+
         <SchemeComponent scheme={editor.scheme} />
         <SelectLayerComponent selectLayer={editor.selectLayer} />
+        <GridComponent grid={editor.grid} backgroundColor={editor.grid.backgroundColor} stepX={editor.grid.stepX} stepY={editor.grid.stepY} strokeWidth={editor.grid.strokeWidth} />
       </svg>
-      <PropertiesBar width={editor.propertyBarWidth} connectModeHandler={connectModeClickHandler} add={addElement} selected={editor.selectLayer.selected} />
+      <PropertiesBar width={editor.propertyBarWidth} editor={editor} connectModeHandler={connectModeClickHandler} add={addElement} selected={editor.selectLayer.selected} />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
     </div>
 
