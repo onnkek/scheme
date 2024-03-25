@@ -1,24 +1,29 @@
 {
   "files": {
-    "main.css": "/scheme/static/css/main.da48601d.css",
-    "main.js": "/scheme/static/js/main.1cd39372.js",
+    "main.css": "/scheme/static/css/main.c3063151.css",
+    "main.js": "/scheme/static/js/main.4a79b8b1.js",
     "static/media/trans.svg": "/scheme/static/media/trans.ae53d1621e931d5ef446484cdb3c7d0d.svg",
+    "static/media/fill.svg": "/scheme/static/media/fill.cc3921ffa089d8f07e90753e9d7fc593.svg",
     "static/media/branch.svg": "/scheme/static/media/branch.564645ee2564dfdb9dc5e7bde74ff65d.svg",
     "static/media/gen.svg": "/scheme/static/media/gen.2fa871c014696775fd6887f513ae5feb.svg",
     "static/media/node.svg": "/scheme/static/media/node.a3b2cc2ed54a5b6e2fb7607902cda51a.svg",
     "static/media/load.svg": "/scheme/static/media/load.2ad6cbacb6a80ce4622b59c8a6fd2a47.svg",
+    "static/media/text.svg": "/scheme/static/media/text.627e60dc4894c2e65697689f5d4b0e1a.svg",
     "index.html": "/scheme/index.html",
     "static/media/folder.svg": "/scheme/static/media/folder.71a9e41dc93dac11d4ec394a1fca0a29.svg",
     "static/media/switch.svg": "/scheme/static/media/switch.94b08e513f0eb6a5cac794e98a1e5d1d.svg",
     "static/media/open.svg": "/scheme/static/media/open.d5b4b4ea5221d82c792f4658573f0be3.svg",
+    "static/media/textSize.svg": "/scheme/static/media/textSize.e91bc9e285c9369249d995cfac960168.svg",
     "static/media/download.svg": "/scheme/static/media/download.c8400239258e0fb78adb4f1c9d527296.svg",
+    "static/media/width.svg": "/scheme/static/media/width.81510bee1754a2a2f3ada6964b83dfe4.svg",
+    "static/media/t.svg": "/scheme/static/media/t.a49c31da6ace9c0a94180bfa1bcc68e0.svg",
     "static/media/angle.svg": "/scheme/static/media/angle.f852501bdb654ecd0d6c0e569e81e55c.svg",
     "static/media/arrow.svg": "/scheme/static/media/arrow.902e005062312968c6e9505c02ad58cd.svg",
-    "main.da48601d.css.map": "/scheme/static/css/main.da48601d.css.map",
-    "main.1cd39372.js.map": "/scheme/static/js/main.1cd39372.js.map"
+    "main.c3063151.css.map": "/scheme/static/css/main.c3063151.css.map",
+    "main.4a79b8b1.js.map": "/scheme/static/js/main.4a79b8b1.js.map"
   },
   "entrypoints": [
-    "static/css/main.da48601d.css",
-    "static/js/main.1cd39372.js"
+    "static/css/main.c3063151.css",
+    "static/js/main.4a79b8b1.js"
   ]
 }
