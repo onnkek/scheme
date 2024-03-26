@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/scheme/static/css/main.c3063151.css",
-    "main.js": "/scheme/static/js/main.4a79b8b1.js",
+    "main.js": "/scheme/static/js/main.f4ec3627.js",
     "static/media/trans.svg": "/scheme/static/media/trans.ae53d1621e931d5ef446484cdb3c7d0d.svg",
     "static/media/fill.svg": "/scheme/static/media/fill.cc3921ffa089d8f07e90753e9d7fc593.svg",
     "static/media/branch.svg": "/scheme/static/media/branch.564645ee2564dfdb9dc5e7bde74ff65d.svg",
@@ -14,16 +14,22 @@
     "static/media/switch.svg": "/scheme/static/media/switch.94b08e513f0eb6a5cac794e98a1e5d1d.svg",
     "static/media/open.svg": "/scheme/static/media/open.d5b4b4ea5221d82c792f4658573f0be3.svg",
     "static/media/textSize.svg": "/scheme/static/media/textSize.e91bc9e285c9369249d995cfac960168.svg",
+    "static/media/polyline.svg": "/scheme/static/media/polyline.898fb9b70d4906aec64e0b0210841a7b.svg",
+    "static/media/path.svg": "/scheme/static/media/path.9d0598eee3599c85f62e1bfaca6e2db6.svg",
     "static/media/download.svg": "/scheme/static/media/download.c8400239258e0fb78adb4f1c9d527296.svg",
     "static/media/width.svg": "/scheme/static/media/width.81510bee1754a2a2f3ada6964b83dfe4.svg",
     "static/media/t.svg": "/scheme/static/media/t.a49c31da6ace9c0a94180bfa1bcc68e0.svg",
     "static/media/angle.svg": "/scheme/static/media/angle.f852501bdb654ecd0d6c0e569e81e55c.svg",
+    "static/media/polygon.svg": "/scheme/static/media/polygon.40094ebaf3b7fc3874e9c1c79a47a250.svg",
     "static/media/arrow.svg": "/scheme/static/media/arrow.902e005062312968c6e9505c02ad58cd.svg",
+    "static/media/line.svg": "/scheme/static/media/line.f866cc5c57ba840d5444325e6a4a5af4.svg",
+    "static/media/rectangle.svg": "/scheme/static/media/rectangle.026c1f07b67cf040068e7dab26d54ba5.svg",
+    "static/media/circle.svg": "/scheme/static/media/circle.bd6f607b27a58ef529d21d908c7459af.svg",
     "main.c3063151.css.map": "/scheme/static/css/main.c3063151.css.map",
-    "main.4a79b8b1.js.map": "/scheme/static/js/main.4a79b8b1.js.map"
+    "main.f4ec3627.js.map": "/scheme/static/js/main.f4ec3627.js.map"
   },
   "entrypoints": [
     "static/css/main.c3063151.css",
-    "static/js/main.4a79b8b1.js"
+    "static/js/main.f4ec3627.js"
   ]
 }
