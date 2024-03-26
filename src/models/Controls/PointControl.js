@@ -1,5 +1,5 @@
 import { config } from "../../config";
-import Circle from "../../components/Shapes/Circle/Circle";
+import Circle from "../../components/Shapes/CircleComponent/CircleComponent";
 import { Point } from "../../utils/Point";
 import { Control } from "./Control";
 

@@ -1,6 +1,6 @@
 import { config } from "../../../config";
 import { SelectionFrame } from "../../../models/SelectionFrame";
-import Rectangle from "../../Shapes/Rectangle/Rectangle";
+import Rectangle from "../../Shapes/RectangleComponent/RectangleComponent";
 
 const SelectionFrameComponent = ({ selectionFrame }) => {
 

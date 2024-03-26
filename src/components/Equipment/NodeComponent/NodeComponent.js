@@ -2,7 +2,7 @@ import React from "react";
 import Line from "../../Shapes/Line/Line";
 import Text from "../../Shapes/Text/Text";
 import { config } from "../../../config";
-import Circle from "../../Shapes/Circle/Circle";
+import Circle from "../../Shapes/CircleComponent/CircleComponent";
 import "./NodeComponent.css"
 
 const NodeComponent = React.memo((props) => {

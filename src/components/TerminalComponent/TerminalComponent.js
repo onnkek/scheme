@@ -1,5 +1,5 @@
 import React from "react";
-import Circle from "../Shapes/Circle/Circle";
+import Circle from "../Shapes/CircleComponent/CircleComponent";
 import { config } from "../../config";
 
 const TerminalComponent = ({ position, id, canConnect }) => {

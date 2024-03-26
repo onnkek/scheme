@@ -16,8 +16,18 @@ import tIcon from '../../assets/icons/t.svg'
 import textSizeIcon from '../../assets/icons/textSize.svg'
 import fillIcon from '../../assets/icons/fill.svg'
 import widthIcon from '../../assets/icons/width.svg'
+
+import lineIcon from '../../assets/icons/Shapes/line.svg'
+import circleIcon from '../../assets/icons/Shapes/circle.svg'
+import polylineIcon from '../../assets/icons/Shapes/polyline.svg'
+import polygonIcon from '../../assets/icons/Shapes/polygon.svg'
+import pathIcon from '../../assets/icons/Shapes/path.svg'
+import rectangleIcon from '../../assets/icons/Shapes/rectangle.svg'
+
 import { Editor } from "../../models/Editor";
 import { TextBlock } from "../../models/Elements/TextBlock";
+import { Circle } from "../../models/Elements/Shapes/Circle";
+import { Rectangle } from "../../models/Elements/Shapes/Rectangle";
 
 const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) => {
 
@@ -131,7 +141,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
                   secondary
                   outline
                   // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
+                  className='add-btn p-0 mb-3'
                   onClick={(e) => add(e, Editor.AddModes.Generation)}
                 >
                   <div className="add-btn">
@@ -139,6 +149,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
                     <div>Generation</div>
                   </div>
                 </Button>
+                <Label className="d-block">Base shapes</Label>
                 <Button
                   secondary
                   outline
@@ -149,6 +160,82 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
                   <div className="add-btn">
                     <img className='add-btn__icon' src={textIcon} alt="Connect"></img>
                     <div>Text Block</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  style={{ border: "1px solid red", borderRadius: "4px" }}
+                  onClick={(e) => add(e, Editor.AddModes.Line)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={lineIcon} alt="Connect"></img>
+                    <div>Line</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.Circle)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={circleIcon} alt="Connect"></img>
+                    <div>Circle</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  onClick={(e) => add(e, Editor.AddModes.Rectangle)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={rectangleIcon} alt="Connect"></img>
+                    <div>Rectangle</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  style={{ border: "1px solid red", borderRadius: "4px" }}
+                  onClick={(e) => add(e, Editor.AddModes.Polyline)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={polylineIcon} alt="Connect"></img>
+                    <div>Polyline</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  style={{ border: "1px solid red", borderRadius: "4px" }}
+                  onClick={(e) => add(e, Editor.AddModes.Polygon)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={polygonIcon} alt="Connect"></img>
+                    <div>Polygon</div>
+                  </div>
+                </Button>
+                <Button
+                  secondary
+                  outline
+                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
+                  className='add-btn p-0 mb-1'
+                  style={{ border: "1px solid red", borderRadius: "4px" }}
+                  onClick={(e) => add(e, Editor.AddModes.Path)}
+                >
+                  <div className="add-btn">
+                    <img className='add-btn__icon' src={pathIcon} alt="Connect"></img>
+                    <div>Path</div>
                   </div>
                 </Button>
               </div>
@@ -242,13 +329,15 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
                   </InputGroup>
                 </div>
               </>}
-              <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "30px" }}><img src={angleIcon} alt="" /></InputGroupText>
-                <Input type="number" placeholder="Y" value={selected[0].angle} onChange={(e) => {
-                  setValue(e.target.value);
-                  selected[0].angle = Number(e.target.value);
-                }} />
-              </InputGroup>
+              {selected[0].canRotate &&
+                <InputGroup size="sm mb-2">
+                  <InputGroupText style={{ width: "30px" }}><img src={angleIcon} alt="" /></InputGroupText>
+                  <Input type="number" placeholder="Y" value={selected[0].angle} onChange={(e) => {
+                    setValue(e.target.value);
+                    selected[0].angle = Number(e.target.value);
+                  }} />
+                </InputGroup>
+              }
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "27%" }}>Opacity</InputGroupText>
                 <div className="opacity-input">
@@ -268,6 +357,79 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
                   selected[0].opacity = Number(e.target.value) / 100;
                 }} />
               </InputGroup>
+              {selected[0] instanceof Circle &&
+                <>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}>R</InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].radius} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].radius = Number(e.target.value);
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}>Fill</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].fill = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].strokeWidth} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].strokeWidth = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}>Stroke</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} value={selected[0].stroke} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].stroke = e.target.value;
+                    }} />
+                  </InputGroup>
+                </>
+              }
+              {selected[0] instanceof Rectangle &&
+                <>
+                  <div className="d-flex mb-2">
+                    <InputGroup className="me-3" size="sm">
+                      <InputGroupText style={{ width: "30px" }}>W</InputGroupText>
+                      <Input type="number" placeholder="px" value={selected[0].width} onChange={(e) => {
+                        setValue(e.target.value);
+                        selected[0].width = e.target.value;
+                      }} />
+                    </InputGroup>
+                    <InputGroup size="sm">
+                      <InputGroupText style={{ width: "30px" }}>H</InputGroupText>
+                      <Input type="number" placeholder="px" value={selected[0].height} onChange={(e) => {
+                        setValue(e.target.value);
+                        selected[0].height = e.target.value;
+                      }} />
+                    </InputGroup>
+                  </div>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}>Fill</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].fill = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].strokeWidth} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].strokeWidth = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "60px" }}>Stroke</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} value={selected[0].stroke} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].stroke = e.target.value;
+                    }} />
+                  </InputGroup>
+                </>
+              }
               {selected[0] instanceof TextBlock &&
                 <>
                   <InputGroup size="sm mb-2">

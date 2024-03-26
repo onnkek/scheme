@@ -1,7 +1,7 @@
 import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
-import Circle from "../../Shapes/Circle/Circle";
+import Circle from "../../Shapes/CircleComponent/CircleComponent";
 import { Point } from "../../../utils/Point";
 import Path from "../../Shapes/Path/Path";
 import { pathParse } from "../../../utils/Transform";

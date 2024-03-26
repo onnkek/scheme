@@ -6,6 +6,8 @@ import { Branch } from "./Elements/Branch";
 import { Generation } from "./Elements/Generation";
 import { Load } from "./Elements/Load";
 import { Node } from "./Elements/Node";
+import { Circle } from "./Elements/Shapes/Circle";
+import { Rectangle } from "./Elements/Shapes/Rectangle";
 import { Switch } from "./Elements/Switch";
 import { Terminal } from "./Elements/Terminal";
 import { TextBlock } from "./Elements/TextBlock";
@@ -34,7 +36,13 @@ export class Editor {
 		Transformer: "Transformer",
 		Load: "Load",
 		Generation: "Generation",
-		TextBlock: "TextBlock"
+		TextBlock: "TextBlock",
+		Circle: "Circle",
+		Line: "Line",
+		Rectangle: "Rectangle",
+		Polyline: "Polyline",
+		Polygon: "Polygon",
+		Path: "Path"
 	}
 	static ModKeys = {
 		Shift: "Shift",
@@ -95,6 +103,12 @@ export class Editor {
 				break;
 			case Editor.AddModes.TextBlock:
 				newElement = new TextBlock("New Text Block", cursorGrid);
+				break;
+			case Editor.AddModes.Circle:
+				newElement = new Circle("Circle", cursorGrid, 20, "#00AAFF", 3, "#FFFFFF");
+				break;
+			case Editor.AddModes.Rectangle:
+				newElement = new Rectangle("Rectangle", cursorGrid, 50, 100, "#00AAFF", 3, "#FFFFFF");
 				break;
 			default:
 				break;

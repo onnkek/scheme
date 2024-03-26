@@ -1,5 +1,5 @@
 import React from "react";
-import Rectangle from "../../Shapes/Rectangle/Rectangle";
+import Rectangle from "../../Shapes/RectangleComponent/RectangleComponent";
 import { config } from "../../../config"
 
 const SquareControlComponent = ({ position }) => {

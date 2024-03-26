@@ -1,4 +1,4 @@
-function Rectangle(props) {
+function RectangleComponent(props) {
 
   let { x, y, width, height, stroke, strokeWidth, fill, opacity = 1 } = props;
 
@@ -16,4 +16,4 @@ function Rectangle(props) {
   );
 }
 
-export default Rectangle;
+export default RectangleComponent;

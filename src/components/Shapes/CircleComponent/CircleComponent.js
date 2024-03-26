@@ -1,4 +1,4 @@
-function Circle(props) {
+function CircleComponent(props) {
 
   let { center, radius, fill, stroke, strokeWidth, opacity = 1 } = props;
 
@@ -15,4 +15,4 @@ function Circle(props) {
   );
 }
 
-export default Circle;
+export default CircleComponent;
