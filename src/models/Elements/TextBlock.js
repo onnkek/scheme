@@ -1,8 +1,7 @@
 import { Element } from "./Element";
 import { Point } from "../../utils/Point";
-import { config } from "../../config";
 import TextBlockComponent from "../../components/Equipment/TextBlockComponent/TextBlockComponent";
-import { getRotateTransformPoints } from "../../utils/Transform";
+import icon from "../../assets/icons/text.svg";
 
 export class TextBlock extends Element {
 
@@ -12,6 +11,8 @@ export class TextBlock extends Element {
   fontSize;
   color;
   _coefFontSize = 0.6;
+  icon;
+
   constructor (text, position) {
     super("TextBlock");
     this.type = "textBlock"
@@ -21,6 +22,7 @@ export class TextBlock extends Element {
     this.fontSize = 20;
     this.color = "#FFFFFF";
     this.text = text;
+    this.icon = icon;
   }
   getObjectProperties() {
     return [

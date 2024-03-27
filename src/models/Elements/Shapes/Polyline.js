@@ -1,5 +1,6 @@
 import PolylineComponent from "../../../components/Shapes/PolylineComponent/PolylineComponent";
 import { Element } from "../Element";
+import icon from "../../../assets/icons/Shapes/polyline.svg";
 
 export class Polyline extends Element {
 
@@ -9,6 +10,7 @@ export class Polyline extends Element {
   stroke;
   strokeWidth;
   points;
+
   constructor (name, stroke, strokeWidth, fill) {
     super(name);
     this.type = "polyline"
@@ -18,6 +20,7 @@ export class Polyline extends Element {
     this.fill = fill;
     this.stroke = stroke;
     this.strokeWidth = strokeWidth;
+    this.icon = icon;
   }
   addTerminals() { }
   getObjectProperties() {

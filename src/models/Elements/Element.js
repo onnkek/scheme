@@ -8,6 +8,7 @@ export class Element {
   terminals;
   canResize;
   opacity;
+  icon;
 
 
   constructor (name) {

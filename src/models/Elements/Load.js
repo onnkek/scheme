@@ -3,6 +3,7 @@ import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import LoadComponent from "../../components/Equipment/LoadComponent/LoadComponent";
+import icon from "../../assets/icons/load.svg";
 
 export class Load extends Element {
 
@@ -21,6 +22,7 @@ export class Load extends Element {
     this.canRotate = true;
     this.angle = 0;
     this.voltage = voltage;
+    this.icon = icon;
   }
   addTerminals() {
     this.terminals.push(new Terminal("Терминал " + Math.random(),

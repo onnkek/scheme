@@ -482,8 +482,16 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
         <div className="right-bar__section section">
           <Label className="section__title p-3 pt-1 pb-1 m-0">Object properties</Label>
           <div className="m-3">
-            <div style={{ fontWeight: 700 }}>{selected[0].name}</div>
-            <div className="mb-1">{getType(selected[0])}</div>
+            <div className="mb-1" style={{ display: "flex", "justifyContent": "space-between" }}>
+              <div>
+                <div style={{ fontWeight: 700 }}>{selected[0].name}</div>
+                <div>{getType(selected[0])}</div>
+
+              </div>
+              <div style={{ border: "1px solid #686868", borderRadius: "4px", width: "48px", height: "48px" }}>
+                <img src={selected[0].icon} alt="" className="p-1"></img>
+              </div>
+            </div>
             <Input size="sm" className="mb-3" value={selected[0].id} onChange={() => { }} />
 
             {objectProperties}

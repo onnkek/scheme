@@ -4,6 +4,7 @@ import { Point } from "../../utils/Point";
 import { SizeControl } from "../Controls/SizeControl";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
+import icon from "../../assets/icons/node.svg";
 
 export class Node extends Element {
 
@@ -28,6 +29,7 @@ export class Node extends Element {
     this.voltage = voltage;
     this.angle = 0;
     this.canResize = true;
+    this.icon = icon;
   }
   addTerminals() { }
   addTerminal(x) {

@@ -3,6 +3,7 @@ import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import TransformerComponent from "../../components/Equipment/TransformerComponent/TransformerComponent";
 import { config } from "../../config";
+import icon from "../../assets/icons/trans.svg";
 
 export class Transformer extends Element {
 
@@ -21,6 +22,7 @@ export class Transformer extends Element {
     this.voltage1 = voltage1;
     this.voltage2 = voltage2;
     this.angle = 0;
+    this.icon = icon;
   }
   getObjectProperties() {
     return [

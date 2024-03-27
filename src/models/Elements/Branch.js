@@ -3,6 +3,7 @@ import { config } from "../../config";
 import { Point } from "../../utils/Point";
 import { Element } from "./Element";
 import { Terminal } from "./Terminal";
+import icon from "../../assets/icons/branch.svg";
 
 export class Branch extends Element {
 
@@ -13,14 +14,15 @@ export class Branch extends Element {
   voltage;
   canDraw;
 
-  constructor(name, points, voltage) {
+  constructor (name, points, voltage) {
     super(name);
     this.type = "branch"
     this.points = points;
     this.voltage = voltage;
     this.canDraw = true;
     this.junctions = [new Terminal("Пустой терминал " + Math.random(), new Point(0, 0)),
-    new Terminal("Пустой терминал " + Math.random(), new Point(0, 0))]
+    new Terminal("Пустой терминал " + Math.random(), new Point(0, 0))];
+    this.icon = icon;
   }
   addTerminals() { }
   drawComponent() {

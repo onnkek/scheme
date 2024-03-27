@@ -3,6 +3,7 @@ import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
 import GenerationComponent from "../../components/Equipment/GenerationComponent/GenerationComponent";
+import icon from "../../assets/icons/gen.svg";
 
 export class Generation extends Element {
 
@@ -21,6 +22,7 @@ export class Generation extends Element {
     this.canRotate = true;
     this.angle = 0;
     this.voltage = voltage;
+    this.icon = icon;
   }
   addTerminals() {
     this.terminals.push(new Terminal("Терминал " + Math.random(), new Point(this.position.x, this.position.y - config.elements.generation.radius), this.angle));

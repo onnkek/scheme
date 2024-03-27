@@ -3,6 +3,7 @@ import { Element } from "./Element";
 import { Point } from "../../utils/Point";
 import { Terminal } from "./Terminal";
 import { config } from "../../config";
+import icon from "../../assets/icons/switch.svg";
 
 export class Switch extends Element {
 
@@ -23,6 +24,7 @@ export class Switch extends Element {
 		this.canRotate = true;
 		this.angle = 0;
 		this.voltage = voltage;
+		this.icon = icon;
 
 	}
 	getObjectProperties() {

@@ -1,5 +1,6 @@
 import LineComponent from "../../../components/Shapes/LineComponent/LineComponent";
 import { Element } from "../Element";
+import icon from "../../../assets/icons/Shapes/line.svg";
 
 export class Line extends Element {
 
@@ -16,6 +17,7 @@ export class Line extends Element {
     this.points = [];
     this.stroke = stroke;
     this.strokeWidth = strokeWidth;
+    this.icon = icon;
   }
   addTerminals() { }
   getObjectProperties() {

@@ -1,6 +1,7 @@
 import RectangleComponent from "../../../components/Shapes/RectangleComponent/RectangleComponent";
 import { Point } from "../../../utils/Point";
 import { Element } from "../Element";
+import icon from "../../../assets/icons/Shapes/rectangle.svg";
 
 export class Rectangle extends Element {
 
@@ -12,6 +13,7 @@ export class Rectangle extends Element {
   fill;
   stroke;
   strokeWidth;
+
   constructor (name, position, width, height, stroke, strokeWidth, fill) {
     super(name);
     this.position = position;
@@ -23,6 +25,7 @@ export class Rectangle extends Element {
     this.fill = fill;
     this.stroke = stroke;
     this.strokeWidth = strokeWidth;
+    this.icon = icon;
   }
   getObjectProperties() {
     return [

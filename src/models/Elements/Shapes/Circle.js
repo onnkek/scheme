@@ -1,6 +1,7 @@
 import CircleComponent from "../../../components/Shapes/CircleComponent/CircleComponent";
 import { Point } from "../../../utils/Point";
 import { Element } from "../Element";
+import icon from "../../../assets/icons/Shapes/circle.svg";
 
 export class Circle extends Element {
 
@@ -21,6 +22,7 @@ export class Circle extends Element {
     this.fill = fill;
     this.stroke = stroke;
     this.strokeWidth = strokeWidth;
+    this.icon = icon;
   }
   getObjectProperties() {
     return [
