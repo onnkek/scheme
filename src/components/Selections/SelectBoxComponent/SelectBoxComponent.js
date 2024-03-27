@@ -1,6 +1,6 @@
 import React from "react";
 import { getRotateTransformPoints } from "../../../utils/Transform";
-import Polygon from "../../Shapes/Polygon/Polygon";
+import Polygon from "../../Shapes/PolygonComponent/PolygonComponent";
 
 const SelectBoxComponent = React.memo(({ box }) => {
 

@@ -28,6 +28,9 @@ import { Button } from 'reactstrap';
 import openIcon from '../../assets/icons/open.svg';
 import downloadIcon from '../../assets/icons/download.svg';
 import GridComponent from '../GridComponent/GridComponent';
+import { Polyline } from '../../models/Elements/Shapes/Polyline';
+import { Polygon } from '../../models/Elements/Shapes/Polygon';
+import { Line } from '../../models/Elements/Shapes/Line';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -111,6 +114,7 @@ function EditorComponent(props) {
     const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
     const delta = getGridDelta(cursor, lastCursor, editor.grid);
+    let cursorGrid = new Point(Math.round(cursor.x / editor.grid.stepX) * editor.grid.stepX, Math.round(cursor.y / editor.grid.stepY) * editor.grid.stepY);
 
     switch (editor.mode) {
 
@@ -132,6 +136,29 @@ function EditorComponent(props) {
         }
 
         break;
+
+      // New logic create ------------------------------------------------
+      case Editor.Modes.ChangePolyline:
+
+        switch (editor.addMode) {
+          case Editor.AddModes.Line:
+            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+            break;
+          case Editor.AddModes.Polyline:
+            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+            break;
+          case Editor.AddModes.Polygon:
+            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+            break;
+          case Editor.AddModes.Path:
+            break;
+          default:
+            break;
+        }
+
+        break;
+      // New logic create ------------------------------------------------
+
       case Editor.Modes.Move:
         for (let i = 0; i < editor.selectLayer.selected.length; i++) {
           editor.selectLayer.selected[i].move(delta);
@@ -176,7 +203,7 @@ function EditorComponent(props) {
     const cursor = new Point(e.clientX + editor.svgOffset.x, e.clientY + editor.svgOffset.y);
     editor.cursor = cursor;
     const elem = hitTestElement(editor.scheme.elements, cursor, 5);
-
+    let cursorGrid = new Point(Math.round(cursor.x / editor.grid.stepX) * editor.grid.stepX, Math.round(cursor.y / editor.grid.stepY) * editor.grid.stepY);
 
     switch (editor.mode) {
 
@@ -254,6 +281,87 @@ function EditorComponent(props) {
 
 
         break;
+      // New logic create ------------------------------------------------
+      case Editor.Modes.AddPolyline:
+        switch (editor.addMode) {
+          case Editor.AddModes.Line:
+            editor.newElement = new Line("Line", "#FFFFFF", 3);
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.points.push(cursorGrid);
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
+            break;
+          case Editor.AddModes.Polyline:
+            editor.newElement = new Polyline("Polyline", "#FFFFFF", 3, "none");
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.points.push(cursorGrid);
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
+            break;
+          case Editor.AddModes.Polygon:
+            editor.newElement = new Polygon("Polygon", "#FFFFFF", 3, "none");
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.points.push(cursorGrid);
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
+            break;
+          case Editor.AddModes.Path:
+            break;
+          default:
+            break;
+        }
+
+
+        break;
+      case Editor.Modes.ChangePolyline:
+        switch (editor.addMode) {
+          case Editor.AddModes.Line:
+            editor.mode = Editor.Modes.Default;
+            if (e.button === 2) {
+              // remove element if right click
+              editor.removeNewElement();
+            } else {
+              editor.mode = Editor.Modes.Default;
+            }
+            break;
+          case Editor.AddModes.Polyline:
+            if (e.button === 2) {
+              if (editor.newElement.points.length < 3) {
+                // remove element if count of points < 3 (2 point and 1 move point)
+                editor.removeNewElement();
+              } else {
+                // remove last point in cursor position
+                editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
+              }
+              editor.mode = Editor.Modes.Default;
+            } else {
+              editor.newElement.points.push(cursorGrid);
+            }
+            break;
+          case Editor.AddModes.Polygon:
+            if (e.button === 2) {
+              if (editor.newElement.points.length < 3) {
+                // remove element if count of points < 3 (2 point and 1 move point)
+                editor.removeNewElement();
+              } else {
+                // remove last point in cursor position
+                editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
+              }
+              editor.mode = Editor.Modes.Default;
+            } else {
+              editor.newElement.points.push(cursorGrid);
+            }
+            break;
+          case Editor.AddModes.Path:
+            break;
+          default:
+            break;
+        }
+
+
+
+        break;
+      // New logic create ------------------------------------------------
       case Editor.Modes.Move:
       case Editor.Modes.Connect:
         editor.mode = Editor.Modes.Selected;
@@ -272,6 +380,33 @@ function EditorComponent(props) {
     //console.log(editor.selectLayer.selected)
     setLastCursor(cursor);
   }
+
+
+  const addPolylineHandler = useCallback((e, mode) => {
+    editor.mode = Editor.Modes.AddPolyline; // TODO: rename AddPolyline
+    switch (mode) {
+      case Editor.AddModes.Line:
+        editor.addMode = Editor.AddModes.Line;
+        break;
+      case Editor.AddModes.Polyline:
+        editor.addMode = Editor.AddModes.Polyline;
+        break;
+      case Editor.AddModes.Polygon:
+        editor.addMode = Editor.AddModes.Polygon;
+        break;
+      case Editor.AddModes.Path:
+        editor.addMode = Editor.AddModes.Path;
+        break;
+      default:
+        break;
+    }
+
+
+
+    setLastCursor(e.clientX, e.clientY);
+  }, [editor])
+
+
 
   const connectModeClickHandler = useCallback((e) => {
     if (editor.mode === Editor.Modes.AddElement) {
@@ -661,7 +796,14 @@ function EditorComponent(props) {
         <SelectLayerComponent selectLayer={editor.selectLayer} />
         <GridComponent grid={editor.grid} backgroundColor={editor.grid.backgroundColor} stepX={editor.grid.stepX} stepY={editor.grid.stepY} strokeWidth={editor.grid.strokeWidth} />
       </svg>
-      <PropertiesBar width={editor.propertyBarWidth} editor={editor} connectModeHandler={connectModeClickHandler} add={addElement} selected={editor.selectLayer.selected} />
+      <PropertiesBar
+        width={editor.propertyBarWidth}
+        editor={editor}
+        connectModeHandler={connectModeClickHandler}
+        add={addElement}
+        selected={editor.selectLayer.selected}
+        polyline={addPolylineHandler}
+      />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
     </div>
 

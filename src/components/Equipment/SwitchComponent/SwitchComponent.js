@@ -1,7 +1,7 @@
 import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
-import Polygon from "../../Shapes/Polygon/Polygon";
+import Polygon from "../../Shapes/PolygonComponent/PolygonComponent";
 import { Point } from "../../../utils/Point";
 import { getRotateTransformPoints } from "../../../utils/Transform";
 

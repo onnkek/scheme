@@ -1,6 +1,6 @@
 import { getPointsString } from "../../../utils/Point";
 
-function Polygon({ points, stroke, strokeWidth, strokeDasharray, fill = "none", opacity = 1 }) {
+function PolygonComponent({ points, stroke, strokeWidth, strokeDasharray, fill = "none", opacity = 1 }) {
 
   return (
     <polygon
@@ -14,4 +14,4 @@ function Polygon({ points, stroke, strokeWidth, strokeDasharray, fill = "none", 
   );
 }
 
-export default Polygon;
+export default PolygonComponent;

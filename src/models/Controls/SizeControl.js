@@ -1,4 +1,4 @@
-import Polyline from "../../components/Shapes/Polyline/Polyline";
+import Polyline from "../../components/Shapes/PolylineComponent/PolylineComponent";
 import { config } from "../../config";
 import { getRotateTransformPoints } from "../../utils/Transform";
 import { Point } from "../../utils/Point";

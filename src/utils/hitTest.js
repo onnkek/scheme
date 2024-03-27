@@ -1,4 +1,7 @@
 import { Branch } from "../models/Elements/Branch";
+import { Line } from "../models/Elements/Shapes/Line";
+import { Polygon } from "../models/Elements/Shapes/Polygon";
+import { Polyline } from "../models/Elements/Shapes/Polyline";
 import { Point } from "./Point";
 import { getRotateTransformPoints } from "./Transform";
 
@@ -65,7 +68,7 @@ export const hitTestFrame = (vertices, cursor, radius) => {
 
 export const hitTestElement = (elements, cursor, radius) => {
   for (let i = 0; i < elements.length; i++) {
-    if (elements[i] instanceof Branch) {
+    if (elements[i] instanceof Branch || elements[i] instanceof Polyline || elements[i] instanceof Polygon || elements[i] instanceof Line) {
       if (hitTestBranch(elements[i].getFrame(), cursor, radius)) {
         return elements[i];
       }

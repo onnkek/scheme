@@ -1,4 +1,4 @@
-function Line(props) {
+function LineComponent(props) {
 
   let { p1, p2, stroke, strokeWidth, strokeDasharray, opacity = 1 } = props;
 
@@ -16,4 +16,4 @@ function Line(props) {
   );
 }
 
-export default Line;
+export default LineComponent;

@@ -1,5 +1,5 @@
 import React from "react";
-import Polyline from "../../Shapes/Polyline/Polyline";
+import PolylineComponent from "../../Shapes/PolylineComponent/PolylineComponent";
 import { config } from "../../../config";
 import "./BranchComponent.css"
 
@@ -7,7 +7,7 @@ const BranchComponent = React.memo(({ points, voltageColor, opacity }) => {
 	//console.log(`render Branch - ${name}`)
 	return (
 		<>
-			<Polyline
+			<PolylineComponent
 				points={points}
 				stroke={voltageColor}
 				strokeWidth={config.elements.branch.strokeWidth}

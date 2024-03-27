@@ -7,6 +7,7 @@ import { Generation } from "./Elements/Generation";
 import { Load } from "./Elements/Load";
 import { Node } from "./Elements/Node";
 import { Circle } from "./Elements/Shapes/Circle";
+import { Polyline } from "./Elements/Shapes/Polyline";
 import { Rectangle } from "./Elements/Shapes/Rectangle";
 import { Switch } from "./Elements/Switch";
 import { Terminal } from "./Elements/Terminal";
@@ -28,6 +29,8 @@ export class Editor {
 		Connect: "Connect",
 		AddBranch: "AddBranch",
 		AddElement: "AddElement",
+		AddPolyline: "AddPolyline",
+		ChangePolyline: "ChangePolyline",
 		ResizeBar: "ResizeBar"
 	}
 	static AddModes = {
@@ -87,19 +90,19 @@ export class Editor {
 		let cursorGrid = new Point(Math.round(cursor.x / this.grid.stepX) * this.grid.stepX, Math.round(cursor.y / this.grid.stepY) * this.grid.stepY);
 		switch (addMode) {
 			case Editor.AddModes.Node:
-				newElement = new Node("1", 1, cursorGrid, 100, 100, 500);
+				newElement = new Node("1", 1, cursorGrid, 100, 100, 0);
 				break;
 			case Editor.AddModes.Switch:
-				newElement = new Switch("S1", 0, cursorGrid, 500);
+				newElement = new Switch("S1", 0, cursorGrid, 0);
 				break;
 			case Editor.AddModes.Transformer:
-				newElement = new Transformer("T1", cursorGrid, 500, 220);
+				newElement = new Transformer("T1", cursorGrid, 0, 0);
 				break;
 			case Editor.AddModes.Load:
-				newElement = new Load("G1", cursorGrid, 110);
+				newElement = new Load("G1", cursorGrid, 0);
 				break;
 			case Editor.AddModes.Generation:
-				newElement = new Generation("G1", cursorGrid, 110);
+				newElement = new Generation("G1", cursorGrid, 0);
 				break;
 			case Editor.AddModes.TextBlock:
 				newElement = new TextBlock("New Text Block", cursorGrid);
@@ -276,6 +279,9 @@ export class Editor {
 				}
 			}
 		}
+	}
+	removeNewElement() {
+		this.scheme.removeElement(this.newElement);
 	}
 	removeElement() {
 		const index = this.scheme.elements.findIndex(x => x.id === this.selectLayer.selected[0].id);

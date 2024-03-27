@@ -1,16 +1,16 @@
 import { getPointsString } from "../../../utils/Point";
 
-function Polyline({ points, stroke, strokeWidth, opacity = 1 }) {
+function PolylineComponent({ points, stroke, strokeWidth, opacity = 1, fill = "none" }) {
 
   return (
     <polyline
       points={getPointsString(points)}
       stroke={stroke}
       strokeWidth={strokeWidth}
-      fill="none"
+      fill={fill}
       opacity={opacity}
     />
   );
 }
 
-export default Polyline;
+export default PolylineComponent;

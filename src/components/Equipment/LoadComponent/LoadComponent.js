@@ -1,7 +1,7 @@
 import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
-import Polyline from "../../Shapes/Polyline/Polyline";
+import Polyline from "../../Shapes/PolylineComponent/PolylineComponent";
 import { getRotateTransformPoints } from "../../../utils/Transform";
 import { Point } from "../../../utils/Point";
 

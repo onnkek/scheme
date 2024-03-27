@@ -15,7 +15,7 @@ export class Rectangle extends Element {
   constructor (name, position, width, height, stroke, strokeWidth, fill) {
     super(name);
     this.position = position;
-    this.type = "circle"
+    this.type = "rectangle"
     this.canRotate = false;
     this.angle = 0;
     this.width = width;

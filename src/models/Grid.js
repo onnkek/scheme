@@ -1,4 +1,4 @@
-import Line from "../components/Shapes/Line/Line";
+import Line from "../components/Shapes/LineComponent/LineComponent";
 
 export class Grid {
   stepX;

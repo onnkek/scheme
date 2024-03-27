@@ -1,5 +1,5 @@
 import React from "react";
-import Polyline from "../../Shapes/Polyline/Polyline";
+import Polyline from "../../Shapes/PolylineComponent/PolylineComponent";
 
 const SelectLineComponent = ({ box }) => {
   return (

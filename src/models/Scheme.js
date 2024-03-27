@@ -25,6 +25,11 @@ export class Scheme {
   }
 
 
+  removeElement(element) {
+    const indexElement = this.elements.findIndex(x => x === element);
+    this.elements = [...this.elements.slice(0, indexElement), ...this.elements.slice(indexElement + 1)];
+  }
+
   changeTerminalPosition(selectTerminal, position) {
     const nodes = this.elements.filter(x => x instanceof Node);
     let nodeIndex = nodes.findIndex(x => x.terminals.find(x => x.id === selectTerminal.id));

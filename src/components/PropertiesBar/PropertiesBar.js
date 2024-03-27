@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./PropertiesBar.css"
 import { Node } from "../../models/Elements/Node";
 import { Branch } from "../../models/Elements/Branch";
-import { Button, Input, InputGroup, InputGroupText, Label } from "reactstrap";
+import { Badge, Button, Input, InputGroup, InputGroupText, Label } from "reactstrap";
 import { getType } from "../Explorer/Explorer";
 import angleIcon from "../../assets/icons/angle.svg"
 import nodeIcon from '../../assets/icons/node.svg'
@@ -28,8 +28,10 @@ import { Editor } from "../../models/Editor";
 import { TextBlock } from "../../models/Elements/TextBlock";
 import { Circle } from "../../models/Elements/Shapes/Circle";
 import { Rectangle } from "../../models/Elements/Shapes/Rectangle";
+import { Polyline } from "../../models/Elements/Shapes/Polyline";
+import AddButton from "../Controls/AddButton/AddButton";
 
-const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) => {
+const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, polyline }) => {
 
   //console.log(`render PropertiesBar`)
   // ICONS REFERENCE
@@ -76,174 +78,133 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
               <Label className="d-block">Equipments</Label>
 
               <div className="btns">
-                <Button
-                  secondary
-                  outline
-                  className='add-btn p-0 mb-1'
-                  // className={`edit-panel__button ${editor.mode === Editor.Modes.AddBranch ? "edit-panel__button_active" : ""}`}
-                  onClick={connectModeHandler}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={branchIcon} alt="Connect"></img>
-                    <div>Branch</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Node ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  onClick={(e) => add(e, Editor.AddModes.Node)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={nodeIcon} alt="Connect"></img>
-                    <div>Node</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Switch ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  onClick={(e) => add(e, Editor.AddModes.Switch)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={switchIcon} alt="Connect"></img>
-                    <div>Switch</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  className='add-btn p-0 mb-1'
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Transformer ? "edit-panel__button_active" : ""}`}
-                  onClick={(e) => add(e, Editor.AddModes.Transformer)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={transIcon} alt="Connect"></img>
-                    <div>Transformer</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  className='add-btn p-0 mb-1'
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Load ? "edit-panel__button_active" : ""}`}
 
+                <AddButton
+                  onClick={connectModeHandler}
+                  icon={branchIcon}
+                  borderColor="secondary"
+                  text="Branch"
+                />
+                <AddButton
+                  onClick={(e) => add(e, Editor.AddModes.Node)}
+                  icon={nodeIcon}
+                  borderColor="secondary"
+                  text="Node"
+                />
+                <AddButton
+                  onClick={(e) => add(e, Editor.AddModes.Switch)}
+                  icon={switchIcon}
+                  borderColor="secondary"
+                  text="Switch"
+                />
+                <AddButton
+                  onClick={(e) => add(e, Editor.AddModes.Transformer)}
+                  icon={transIcon}
+                  borderColor="secondary"
+                  text="Transformer"
+                />
+                <AddButton
                   onClick={(e) => add(e, Editor.AddModes.Load)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={loadIcon} alt="Connect"></img>
-                    <div>Load</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-3'
+                  icon={loadIcon}
+                  borderColor="secondary"
+                  text="Load"
+                />
+                <AddButton
                   onClick={(e) => add(e, Editor.AddModes.Generation)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={genIcon} alt="Connect"></img>
-                    <div>Generation</div>
-                  </div>
-                </Button>
+                  icon={genIcon}
+                  borderColor="secondary"
+                  text="Generation"
+                />
+
+
                 <Label className="d-block">Base shapes</Label>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
+                <AddButton
                   onClick={(e) => add(e, Editor.AddModes.TextBlock)}
+                  icon={textIcon}
+                  borderColor="secondary"
+                  text="Text Block"
+                />
+                <AddButton
+                  onClick={(e) => polyline(e, Editor.AddModes.Line)}
+                  icon={lineIcon}
+                  borderColor="warning"
+                  text="Line"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={textIcon} alt="Connect"></img>
-                    <div>Text Block</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  style={{ border: "1px solid red", borderRadius: "4px" }}
-                  onClick={(e) => add(e, Editor.AddModes.Line)}
-                >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={lineIcon} alt="Connect"></img>
-                    <div>Line</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
+                  <Badge
+                    color="warning"
+                    className="ms-2"
+                    style={{ display: "block", top: 0, color: "black" }}
+                  >Without selection</Badge>
+                </AddButton>
+                <AddButton
                   onClick={(e) => add(e, Editor.AddModes.Circle)}
+                  icon={circleIcon}
+                  borderColor="secondary"
+                  text="Circle"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={circleIcon} alt="Connect"></img>
-                    <div>Circle</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
+                  <Badge
+                    color="primary"
+                    className="ms-2"
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
+                </AddButton>
+                <AddButton
                   onClick={(e) => add(e, Editor.AddModes.Rectangle)}
+                  icon={rectangleIcon}
+                  borderColor="secondary"
+                  text="Rectangle"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={rectangleIcon} alt="Connect"></img>
-                    <div>Rectangle</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  style={{ border: "1px solid red", borderRadius: "4px" }}
-                  onClick={(e) => add(e, Editor.AddModes.Polyline)}
+                  <Badge
+                    color="primary"
+                    className="ms-2"
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
+                </AddButton>
+                <AddButton
+                  onClick={(e) => polyline(e, Editor.AddModes.Polyline)}
+                  icon={polylineIcon}
+                  borderColor="warning"
+                  text="Polyline"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={polylineIcon} alt="Connect"></img>
-                    <div>Polyline</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  style={{ border: "1px solid red", borderRadius: "4px" }}
-                  onClick={(e) => add(e, Editor.AddModes.Polygon)}
+                  <Badge
+                    color="warning"
+                    className="ms-2"
+                    style={{ display: "block", top: 0, color: "black" }}
+                  >Without selection</Badge>
+                </AddButton>
+                <AddButton
+                  onClick={(e) => polyline(e, Editor.AddModes.Polygon)}
+                  icon={polygonIcon}
+                  borderColor="warning"
+                  text="Polygon"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={polygonIcon} alt="Connect"></img>
-                    <div>Polygon</div>
-                  </div>
-                </Button>
-                <Button
-                  secondary
-                  outline
-                  // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
-                  className='add-btn p-0 mb-1'
-                  style={{ border: "1px solid red", borderRadius: "4px" }}
-                  onClick={(e) => add(e, Editor.AddModes.Path)}
+                  <Badge
+                    color="warning"
+                    className="ms-2"
+                    style={{ display: "block", top: 0, color: "black" }}
+                  >Without selection</Badge>
+                </AddButton>
+                <AddButton
+                  onClick={(e) => polyline(e, Editor.AddModes.Path)}
+                  icon={pathIcon}
+                  borderColor="danger"
+                  text="Path"
                 >
-                  <div className="add-btn">
-                    <img className='add-btn__icon' src={pathIcon} alt="Connect"></img>
-                    <div>Path</div>
-                  </div>
-                </Button>
+                  <Badge
+                    color="danger"
+                    className="ms-2"
+                    style={{ display: "block", top: 0, color: "black" }}
+                  >Doesnt work</Badge>
+                </AddButton>
+
               </div>
 
             </div>
           </div>
           <div className="right-bar__section section">
-            <Label className="section__title p-3 pt-1 pb-1 m-0">Editor settings</Label>
+            <Label className="section__title p-3 pt-1 pb-1 m-0">Editor settings
+              <Badge color="primary" className="ms-2 green" style={{ top: 0 }}>New</Badge>
+            </Label>
             <div className="m-3">
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "60px" }}><img src={fillIcon} alt="" /></InputGroupText>
@@ -255,7 +216,9 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
             </div>
           </div>
           <div className="right-bar__section section">
-            <Label className="section__title p-3 pt-1 pb-1 m-0">Grid settings</Label>
+            <Label className="section__title p-3 pt-1 pb-1 m-0">Grid settings
+              <Badge color="primary" className="ms-2 green" style={{ top: 0 }}>New</Badge>
+            </Label>
             <div className="m-3">
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "60px" }}>Step X</InputGroupText>
@@ -301,7 +264,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor }) =>
           <div className="right-bar__section section">
             <Label className="section__title p-3 pt-1 pb-1 m-0">Frame</Label>
             <div className="m-3">
-              {!(selected[0] instanceof Branch) && <>
+              {!(selected[0] instanceof Branch) && !(selected[0] instanceof Polyline) && <>
                 <div className="d-flex mb-2">
                   <InputGroup className="me-3" size="sm">
                     <InputGroupText style={{ width: "30px" }}>X</InputGroupText>

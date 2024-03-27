@@ -1,5 +1,5 @@
 import React from "react";
-import Line from "../../Shapes/Line/Line";
+import Line from "../../Shapes/LineComponent/LineComponent";
 import Text from "../../Shapes/Text/Text";
 import { config } from "../../../config";
 import Circle from "../../Shapes/CircleComponent/CircleComponent";
