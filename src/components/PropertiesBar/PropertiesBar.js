@@ -190,7 +190,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                   onClick={(e) => polyline(e, Editor.AddModes.Path)}
                   icon={pathIcon}
                   borderColor="danger"
-                  text="Path"
+                  text="Spline"
                 >
                   <Badge
                     color="danger"

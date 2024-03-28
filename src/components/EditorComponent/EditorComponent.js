@@ -33,6 +33,8 @@ import { Polygon } from '../../models/Elements/Shapes/Polygon';
 import { Line } from '../../models/Elements/Shapes/Line';
 import { Ellipse } from '../../models/Elements/Shapes/Ellipse';
 import { Rectangle } from '../../models/Elements/Shapes/Rectangle';
+import { Path } from '../../models/Elements/Shapes/Path';
+import { PointControl } from '../../models/Controls/PointControl';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -117,7 +119,6 @@ function EditorComponent(props) {
     editor.cursor = cursor;
     const delta = getGridDelta(cursor, lastCursor, editor.grid);
     let cursorGrid = new Point(Math.round(cursor.x / editor.grid.stepX) * editor.grid.stepX, Math.round(cursor.y / editor.grid.stepY) * editor.grid.stepY);
-
     switch (editor.mode) {
 
       case Editor.Modes.Selection:
@@ -184,6 +185,8 @@ function EditorComponent(props) {
               editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
               break;
             case Editor.AddModes.Path:
+              editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+              editor.newElement.getSpline();
               break;
             default:
               break;
@@ -208,6 +211,12 @@ function EditorComponent(props) {
 
 
         // New logic create ------------------------------------------------
+
+        if (editor.selectLayer.selected.length === 1 && editor.selectControl instanceof PointControl) {
+          const index = editor.selectLayer.box[0].controls.findIndex(x => x === editor.selectControl);
+          editor.selectLayer.selected[0].points[index] = cursorGrid;
+          editor.selectLayer.selected[0].getSpline();
+        }
 
         if (editor.selectLayer.selected.length === 1 && editor.selectControl) {
           // console.log(editor.selectLayer.selected[0])
@@ -374,6 +383,14 @@ function EditorComponent(props) {
             editor.mode = Editor.Modes.ChangePolyline;
             break;
           case Editor.AddModes.Path:
+            editor.newElement = new Path("Path", cursorGrid, "", "#FFFFFF", 3, "none");
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.points.push(cursorGrid);
+            editor.newElement.getSpline();
+
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
             break;
           default:
             break;
@@ -436,6 +453,22 @@ function EditorComponent(props) {
             }
             break;
           case Editor.AddModes.Path:
+            if (e.button === 2) {
+              if (editor.newElement.points.length < 4) {
+                // remove element if count of points < 4 (2 point and 1 move point)
+                editor.removeNewElement();
+              } else {
+                // remove 2 last point in cursor position
+                editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 2);
+                editor.newElement.getSpline();
+              }
+              editor.mode = Editor.Modes.Default;
+              editor.selectLayer.selectElement(editor.newElement);
+              editor.newElement = null;
+            } else {
+              editor.newElement.points.push(cursorGrid);
+              editor.newElement.points.push(cursorGrid);
+            }
             break;
           default:
             break;

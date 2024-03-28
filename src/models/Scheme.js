@@ -10,6 +10,9 @@ import { TextBlock } from "./Elements/TextBlock";
 import { Polyline } from "./Elements/Shapes/Polyline";
 import { Polygon } from "./Elements/Shapes/Polygon";
 import { Line } from "./Elements/Shapes/Line";
+import { pathParse } from "../utils/Transform";
+import { Path } from "./Elements/Shapes/Path";
+import { Ellipse } from "./Elements/Shapes/Ellipse";
 
 export class Scheme {
   elements = [];
@@ -193,6 +196,27 @@ export class Scheme {
     elem.points.push(new Point(50, 250));
     elem.points.push(new Point(150, 250));
     this.elements.unshift(elem)
+
+
+    // const startPoint = new Point(100, 400);
+
+    // const p1 = new Point(10, 10);
+    // const p2 = new Point(50, 50);
+    // const control = new Point(100, -100);
+
+
+    // elem = new Path("Test Path", startPoint, `M ${p1.x} ${p1.y} Q ${control.x} ${control.y} ${p2.x} ${p2.y}`, "#FFFFFF", 3, 0, "#FFFFFF");
+    // elem.offset = startPoint;
+    // this.elements.unshift(elem)
+
+
+    // elem = new Ellipse("", new Point(startPoint.x + p1.x - 2, startPoint.y + p1.y - 2), new Point(4, 4), "blue", 3, "blue")
+    // this.elements.unshift(elem)
+    // elem = new Ellipse("", new Point(startPoint.x + p2.x - 2, startPoint.y + p2.y - 2), new Point(4, 4), "blue", 3, "blue")
+    // this.elements.unshift(elem)
+    // elem = new Ellipse("", new Point(startPoint.x + control.x - 2, startPoint.y + control.y - 2), new Point(4, 4), "red", 3, "red")
+    // this.elements.unshift(elem)
+
 
   }
 

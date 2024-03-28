@@ -3,10 +3,12 @@ import { getRotateTransformPoint, getRotateTransformPoints } from "../utils/Tran
 import { hitTestFrame } from "../utils/hitTest";
 import { Branch } from "./Elements/Branch";
 import { Line } from "./Elements/Shapes/Line";
+import { Path } from "./Elements/Shapes/Path";
 import { Polygon } from "./Elements/Shapes/Polygon";
 import { Polyline } from "./Elements/Shapes/Polyline";
 import { SelectBox } from "./SelectBox";
 import { SelectLine } from "./SelectLine";
+import { SelectSpline } from "./SelectSpline";
 import { SelectionFrameBox } from "./SelectionFrame";
 
 export class SelectLayer {
@@ -179,6 +181,8 @@ export class SelectLayer {
 				this.box.push(new SelectLine(this.selected[i].getFrame(), true));
 			} else if (this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line) {
 				this.box.push(new SelectLine(this.selected[i].getFrame(), false));
+			} else if (this.selected[i] instanceof Path) {
+				this.box.push(new SelectSpline(this.selected[i].getFrame()));
 			} else {
 				let canRotate = this.selected.length === 1 ? this.selected[i].canRotate : false;
 				this.box.push(new SelectBox(this.selected[i].getFrame(), this.selected[i].angle, canRotate, this.selected[i].canResize));

@@ -2,7 +2,7 @@ import { config } from "../../config";
 import { Point } from "../../utils/Point";
 import { Control } from "./Control";
 import { getRotateTransformPoint, getRotateTransformPoints, pathParse } from "../../utils/Transform";
-import Path from "../../components/Shapes/Path/Path";
+import Path from "../../components/Shapes/PathComponent/PathComponent";
 import Line from "../../components/Shapes/LineComponent/LineComponent";
 
 export class RotateControl extends Control {
