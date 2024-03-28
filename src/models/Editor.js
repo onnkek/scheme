@@ -6,7 +6,7 @@ import { Branch } from "./Elements/Branch";
 import { Generation } from "./Elements/Generation";
 import { Load } from "./Elements/Load";
 import { Node } from "./Elements/Node";
-import { Circle } from "./Elements/Shapes/Circle";
+import { Ellipse } from "./Elements/Shapes/Ellipse";
 import { Polyline } from "./Elements/Shapes/Polyline";
 import { Rectangle } from "./Elements/Shapes/Rectangle";
 import { Switch } from "./Elements/Switch";
@@ -110,7 +110,7 @@ export class Editor {
 				newElement = new TextBlock("New Text Block", cursorGrid);
 				break;
 			case Editor.AddModes.Circle:
-				newElement = new Circle("Circle", cursorGrid, 20, "#00AAFF", 3, "#FFFFFF");
+				newElement = new Ellipse("Circle", cursorGrid, 20, "#00AAFF", 3, "#FFFFFF");
 				break;
 			case Editor.AddModes.Rectangle:
 				newElement = new Rectangle("Rectangle", cursorGrid, 50, 100, "#00AAFF", 3, "#FFFFFF");

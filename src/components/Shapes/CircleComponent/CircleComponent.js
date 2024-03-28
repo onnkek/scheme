@@ -1,6 +1,4 @@
-function CircleComponent(props) {
-
-  let { center, radius, fill, stroke, strokeWidth, opacity = 1 } = props;
+function CircleComponent({ center, radius, fill, stroke, strokeWidth, opacity = 1 }) {
 
   return (
     <circle

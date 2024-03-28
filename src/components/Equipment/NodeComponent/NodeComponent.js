@@ -2,8 +2,8 @@ import React from "react";
 import Line from "../../Shapes/LineComponent/LineComponent";
 import Text from "../../Shapes/Text/Text";
 import { config } from "../../../config";
-import Circle from "../../Shapes/CircleComponent/CircleComponent";
 import "./NodeComponent.css"
+import CircleComponent from "../../Shapes/CircleComponent/CircleComponent";
 
 const NodeComponent = React.memo((props) => {
 
@@ -39,7 +39,7 @@ const NodeComponent = React.memo((props) => {
         </>
         : <></>}
       {terminals.map((terminal) =>
-        <Circle
+        <CircleComponent
           key={terminal.id}
           center={terminal.position}
           radius={config.elements.terminalNode.radius}

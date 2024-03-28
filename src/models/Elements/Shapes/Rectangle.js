@@ -6,6 +6,7 @@ import icon from "../../../assets/icons/Shapes/rectangle.svg";
 export class Rectangle extends Element {
 
   position;
+  startPosition;
   angle;
   canRotate;
   width;
@@ -17,6 +18,7 @@ export class Rectangle extends Element {
   constructor (name, position, width, height, stroke, strokeWidth, fill) {
     super(name);
     this.position = position;
+    this.startPosition = new Point(position.x, position.y);
     this.type = "rectangle"
     this.canRotate = false;
     this.angle = 0;
@@ -35,8 +37,8 @@ export class Rectangle extends Element {
   drawComponent() {
     return (
       <RectangleComponent
-        x={this.position.x - this.width / 2}
-        y={this.position.y - this.height / 2}
+        x={this.position.x}
+        y={this.position.y}
         width={this.width}
         height={this.height}
         stroke={this.stroke}
@@ -48,11 +50,17 @@ export class Rectangle extends Element {
   }
   addTerminals() { }
   getFrame() {
+    console.log([
+      new Point(this.position.x, this.position.y),
+      new Point(this.position.x + this.width, this.position.y),
+      new Point(this.position.x + this.width, this.position.y + this.height),
+      new Point(this.position.x, this.position.y + this.height)
+    ])
     return [
-      new Point(this.position.x - this.width / 2, this.position.y - this.height / 2),
-      new Point(this.position.x + this.width / 2, this.position.y - this.height / 2),
-      new Point(this.position.x + this.width / 2, this.position.y + this.height / 2),
-      new Point(this.position.x - this.width / 2, this.position.y + this.height / 2)
+      new Point(this.position.x, this.position.y),
+      new Point(this.position.x + this.width, this.position.y),
+      new Point(this.position.x + this.width, this.position.y + this.height),
+      new Point(this.position.x, this.position.y + this.height)
     ]
   }
 }

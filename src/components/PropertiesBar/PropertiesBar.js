@@ -26,7 +26,7 @@ import rectangleIcon from '../../assets/icons/Shapes/rectangle.svg'
 
 import { Editor } from "../../models/Editor";
 import { TextBlock } from "../../models/Elements/TextBlock";
-import { Circle } from "../../models/Elements/Shapes/Circle";
+import { Ellipse } from "../../models/Elements/Shapes/Ellipse";
 import { Rectangle } from "../../models/Elements/Shapes/Rectangle";
 import { Polyline } from "../../models/Elements/Shapes/Polyline";
 import AddButton from "../Controls/AddButton/AddButton";
@@ -139,10 +139,10 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                   >New</Badge>
                 </AddButton>
                 <AddButton
-                  onClick={(e) => add(e, Editor.AddModes.Circle)}
+                  onClick={(e) => polyline(e, Editor.AddModes.Circle)}
                   icon={circleIcon}
                   borderColor="secondary"
-                  text="Circle"
+                  text="Ellipse"
                 >
                   <Badge
                     color="primary"
@@ -151,7 +151,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                   >New</Badge>
                 </AddButton>
                 <AddButton
-                  onClick={(e) => add(e, Editor.AddModes.Rectangle)}
+                  onClick={(e) => polyline(e, Editor.AddModes.Rectangle)}
                   icon={rectangleIcon}
                   borderColor="secondary"
                   text="Rectangle"
@@ -385,13 +385,20 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
 
                 </>
               }
-              {selected[0] instanceof Circle &&
+              {selected[0] instanceof Ellipse &&
                 <>
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "27%" }}>R</InputGroupText>
-                    <Input type="number" placeholder="px" value={selected[0].radius} onChange={(e) => {
+                    <InputGroupText style={{ width: "27%" }}>Rx</InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].radius.x} onChange={(e) => {
                       setValue(e.target.value);
-                      selected[0].radius = Number(e.target.value);
+                      selected[0].radius.x = Number(e.target.value);
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "27%" }}>Ry</InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].radius.y} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].radius.y = Number(e.target.value);
                     }} />
                   </InputGroup>
                   <InputGroup size="sm mb-2">
@@ -424,14 +431,14 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                       <InputGroupText style={{ width: "30px" }}>W</InputGroupText>
                       <Input type="number" placeholder="px" value={selected[0].width} onChange={(e) => {
                         setValue(e.target.value);
-                        selected[0].width = e.target.value;
+                        selected[0].width = Number(e.target.value);
                       }} />
                     </InputGroup>
                     <InputGroup size="sm">
                       <InputGroupText style={{ width: "30px" }}>H</InputGroupText>
                       <Input type="number" placeholder="px" value={selected[0].height} onChange={(e) => {
                         setValue(e.target.value);
-                        selected[0].height = e.target.value;
+                        selected[0].height = Number(e.target.value);
                       }} />
                     </InputGroup>
                   </div>

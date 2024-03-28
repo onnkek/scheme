@@ -1,10 +1,10 @@
 import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
-import Circle from "../../Shapes/CircleComponent/CircleComponent";
 import { Point } from "../../../utils/Point";
 import Path from "../../Shapes/Path/Path";
 import { pathParse } from "../../../utils/Transform";
+import CircleComponent from "../../Shapes/CircleComponent/CircleComponent";
 
 const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, voltageColor, angle, opacity }) => {
 
@@ -12,7 +12,7 @@ const GenerationComponent = React.memo(({ x, y, isShowTerminals, terminals, volt
   // console.log(`render generation`)
   return (
     <>
-      <Circle
+      <CircleComponent
         center={new Point(x, y)}
         radius={config.elements.generation.radius}
         fill="none"

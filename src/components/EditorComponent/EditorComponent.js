@@ -31,6 +31,8 @@ import GridComponent from '../GridComponent/GridComponent';
 import { Polyline } from '../../models/Elements/Shapes/Polyline';
 import { Polygon } from '../../models/Elements/Shapes/Polygon';
 import { Line } from '../../models/Elements/Shapes/Line';
+import { Ellipse } from '../../models/Elements/Shapes/Ellipse';
+import { Rectangle } from '../../models/Elements/Shapes/Rectangle';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -138,23 +140,56 @@ function EditorComponent(props) {
         break;
 
       // New logic create ------------------------------------------------
+      case Editor.Modes.AddPolyline:
       case Editor.Modes.ChangePolyline:
+        if (editor.newElement) {
+          switch (editor.addMode) {
+            case Editor.AddModes.Circle:
+              console.log(editor.newElement)
+              if (cursorGrid.y - editor.newElement.startPosition.y > 0) {
+                editor.newElement.radius.y = cursorGrid.y - editor.newElement.startPosition.y;
+              } else {
+                editor.newElement.radius.y = editor.newElement.startPosition.y - cursorGrid.y;
+                editor.newElement.position.y = cursorGrid.y;
+              }
+              if (cursorGrid.x - editor.newElement.startPosition.x > 0) {
+                editor.newElement.radius.x = cursorGrid.x - editor.newElement.startPosition.x;
+              } else {
+                editor.newElement.radius.x = editor.newElement.startPosition.x - cursorGrid.x;
+                editor.newElement.position.x = cursorGrid.x;
+              }
 
-        switch (editor.addMode) {
-          case Editor.AddModes.Line:
-            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
-            break;
-          case Editor.AddModes.Polyline:
-            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
-            break;
-          case Editor.AddModes.Polygon:
-            editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
-            break;
-          case Editor.AddModes.Path:
-            break;
-          default:
-            break;
+              break;
+            case Editor.AddModes.Rectangle:
+              if (cursorGrid.y - editor.newElement.startPosition.y > 0) {
+                editor.newElement.height = cursorGrid.y - editor.newElement.startPosition.y;
+              } else {
+                editor.newElement.height = editor.newElement.startPosition.y - cursorGrid.y;
+                editor.newElement.position.y = cursorGrid.y;
+              }
+              if (cursorGrid.x - editor.newElement.startPosition.x > 0) {
+                editor.newElement.width = cursorGrid.x - editor.newElement.startPosition.x;
+              } else {
+                editor.newElement.width = editor.newElement.startPosition.x - cursorGrid.x;
+                editor.newElement.position.x = cursorGrid.x;
+              }
+              break;
+            case Editor.AddModes.Line:
+              editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+              break;
+            case Editor.AddModes.Polyline:
+              editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+              break;
+            case Editor.AddModes.Polygon:
+              editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
+              break;
+            case Editor.AddModes.Path:
+              break;
+            default:
+              break;
+          }
         }
+
 
         break;
       // New logic create ------------------------------------------------
@@ -189,6 +224,7 @@ function EditorComponent(props) {
             editor.selectLayer.box[0].initSelectLine();
             editor.selectLayer.box[0].updateControls();
           }
+
         }
         // New logic create ------------------------------------------------
 
@@ -203,9 +239,9 @@ function EditorComponent(props) {
           } else {
             editor.selectLayer.rotate(cursor);
           }
-
+          editor.selectLayer.select();
         }
-        //editor.selectLayer.select();
+
         break;
 
       case Editor.Modes.AddBranch:
@@ -306,6 +342,16 @@ function EditorComponent(props) {
       // New logic create ------------------------------------------------
       case Editor.Modes.AddPolyline:
         switch (editor.addMode) {
+          case Editor.AddModes.Circle:
+            editor.newElement = new Ellipse("Ellipse", cursorGrid, new Point(1, 1), "#FFFFFF", 3, "#FFFF0020");
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
+            break;
+          case Editor.AddModes.Rectangle:
+            editor.newElement = new Rectangle("Rectangle", cursorGrid, 0, 0, "#FFFFFF", 3, "#FFFF0020");
+            editor.scheme.elements.unshift(editor.newElement);
+            editor.mode = Editor.Modes.ChangePolyline;
+            break;
           case Editor.AddModes.Line:
             editor.newElement = new Line("Line", "#FFFFFF", 3);
             editor.newElement.points.push(cursorGrid);
@@ -321,7 +367,7 @@ function EditorComponent(props) {
             editor.mode = Editor.Modes.ChangePolyline;
             break;
           case Editor.AddModes.Polygon:
-            editor.newElement = new Polygon("Polygon", "#FFFFFF", 3, "none");
+            editor.newElement = new Polygon("Polygon", "#FFFFFF", 3, "#FFFF0020");
             editor.newElement.points.push(cursorGrid);
             editor.newElement.points.push(cursorGrid);
             editor.scheme.elements.unshift(editor.newElement);
@@ -337,14 +383,25 @@ function EditorComponent(props) {
         break;
       case Editor.Modes.ChangePolyline:
         switch (editor.addMode) {
+          case Editor.AddModes.Circle:
+          case Editor.AddModes.Rectangle:
+            if (e.button === 2) {
+              // remove element if right click
+              editor.removeNewElement();
+            }
+            editor.mode = Editor.Modes.Default;
+            editor.selectLayer.selectElement(editor.newElement);
+            editor.newElement = null;
+            break;
           case Editor.AddModes.Line:
             editor.mode = Editor.Modes.Default;
             if (e.button === 2) {
               // remove element if right click
               editor.removeNewElement();
-            } else {
-              editor.mode = Editor.Modes.Default;
             }
+            editor.mode = Editor.Modes.Default;
+            editor.selectLayer.selectElement(editor.newElement);
+            editor.newElement = null;
             break;
           case Editor.AddModes.Polyline:
             if (e.button === 2) {
@@ -356,6 +413,8 @@ function EditorComponent(props) {
                 editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
               }
               editor.mode = Editor.Modes.Default;
+              editor.selectLayer.selectElement(editor.newElement);
+              editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);
             }
@@ -370,6 +429,8 @@ function EditorComponent(props) {
                 editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
               }
               editor.mode = Editor.Modes.Default;
+              editor.selectLayer.selectElement(editor.newElement);
+              editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);
             }
@@ -407,6 +468,12 @@ function EditorComponent(props) {
   const addPolylineHandler = useCallback((e, mode) => {
     editor.mode = Editor.Modes.AddPolyline; // TODO: rename AddPolyline
     switch (mode) {
+      case Editor.AddModes.Circle:
+        editor.addMode = Editor.AddModes.Circle;
+        break;
+      case Editor.AddModes.Rectangle:
+        editor.addMode = Editor.AddModes.Rectangle;
+        break;
       case Editor.AddModes.Line:
         editor.addMode = Editor.AddModes.Line;
         break;
