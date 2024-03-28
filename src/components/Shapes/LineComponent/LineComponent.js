@@ -1,6 +1,4 @@
-function LineComponent(props) {
-
-  let { p1, p2, stroke, strokeWidth, strokeDasharray, opacity = 1 } = props;
+function LineComponent({ p1, p2, stroke, strokeWidth, strokeDasharray, opacity = 1, id }) {
 
   return (
     <line

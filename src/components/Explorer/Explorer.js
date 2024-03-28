@@ -74,7 +74,6 @@ const Explorer = React.memo(({ scheme, onSelect, selected }) => {
       }
 
     }
-    console.log(data)
     return data;
   }, [scheme.elements, selected])
 

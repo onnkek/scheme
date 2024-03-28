@@ -1,14 +1,13 @@
 import React from "react";
 import { config } from "../../../config";
 import TerminalComponent from "../../TerminalComponent/TerminalComponent";
-import Polygon from "../../Shapes/PolygonComponent/PolygonComponent";
+import PolygonComponent from "../../Shapes/PolygonComponent/PolygonComponent";
 import { Point } from "../../../utils/Point";
 import { getRotateTransformPoints } from "../../../utils/Transform";
 
 const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals, voltageColor, angle, opacity }) => {
 
-	console.log(`render switch`)
-	// if(state === "null" || state === "false" || state ===)
+	//console.log(`render switch`)
 	let fill = state ? voltageColor : "none";
 
 	const polygon = [
@@ -19,7 +18,7 @@ const SwitchComponent = React.memo(({ state, x, y, isShowTerminals, terminals, v
 	]
 	return (
 		<>
-			<Polygon
+			<PolygonComponent
 				points={getRotateTransformPoints(polygon, angle, new Point(x, y))}
 				stroke={voltageColor}
 				strokeWidth={config.elements.switch.strokeWidth}

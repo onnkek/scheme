@@ -9,7 +9,7 @@ function Text(props) {
       fontSize={fontSize}
       fill={fill}
       fontFamily="Verdana"
-      text-anchor={textAnchor}
+      textAnchor={textAnchor}
       opacity={opacity}
       transform={`rotate(${angle}, ${rotatePoint.x}, ${rotatePoint.y})`}
     >{props.children}</text>

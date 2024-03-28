@@ -21,6 +21,7 @@ export class Grid {
     let grid = [];
     for (let i = 1; i < this.editorWidth / this.stepX + 1; i++) {
       grid.push(<Line
+        key={Math.random()}
         p1={{ x: i * this.stepX, y: 0 }}
         p2={{ x: i * this.stepX, y: this.editorHeight }}
         stroke={this.backgroundColor}
@@ -30,6 +31,7 @@ export class Grid {
     }
     for (let i = 1; i < this.editorHeight / this.stepY + 1; i++) {
       grid.push(<Line
+        key={Math.random()}
         p1={{ x: 0, y: i * this.stepY }}
         p2={{ x: this.editorWidth, y: i * this.stepY }}
         stroke={this.backgroundColor}

@@ -72,6 +72,7 @@ export class Editor {
 	svgOffset;
 	propertyBarWidth;
 	grid;
+	backgroundColor;
 
 	constructor () {
 		this.mode = Editor.Modes.Default;
@@ -83,6 +84,7 @@ export class Editor {
 		this.svgOffset = new Point(-300, -50);
 		this.propertyBarWidth = 300;
 		this.grid = new Grid(1400, 1000);
+		this.backgroundColor = "#000000";
 	}
 
 	addElement(addMode, cursor) {

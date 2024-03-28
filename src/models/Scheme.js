@@ -7,6 +7,9 @@ import { Transformer } from "./Elements/Transformer";
 import { Generation } from "./Elements/Generation";
 import { Load } from "./Elements/Load";
 import { TextBlock } from "./Elements/TextBlock";
+import { Polyline } from "./Elements/Shapes/Polyline";
+import { Polygon } from "./Elements/Shapes/Polygon";
+import { Line } from "./Elements/Shapes/Line";
 
 export class Scheme {
   elements = [];
@@ -169,6 +172,27 @@ export class Scheme {
     elem.color = "#00FFD5";
     elem.fontSize = 24;
     this.elements.push(elem);
+
+    elem = new Polyline("Test Polyline", "#FF00FF", 3, "#6ac8ff70")
+    elem.points.push(new Point(50, 20));
+    elem.points.push(new Point(75, 100));
+    elem.points.push(new Point(100, 50));
+    elem.points.push(new Point(125, 100));
+    elem.points.push(new Point(150, 20));
+    this.elements.unshift(elem)
+
+    elem = new Polygon("Test Polygon", "#FFFF00", 3, "#6ac8ff70")
+    elem.points.push(new Point(50, 120));
+    elem.points.push(new Point(75, 200));
+    elem.points.push(new Point(100, 150));
+    elem.points.push(new Point(125, 200));
+    elem.points.push(new Point(150, 120));
+    this.elements.unshift(elem)
+
+    elem = new Line("Test Line", "#00FFFF", 3, "#ffffff0")
+    elem.points.push(new Point(50, 250));
+    elem.points.push(new Point(150, 250));
+    this.elements.unshift(elem)
 
   }
 

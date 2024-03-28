@@ -2,6 +2,9 @@ import { Point } from "../utils/Point";
 import { getRotateTransformPoint, getRotateTransformPoints } from "../utils/Transform";
 import { hitTestFrame } from "../utils/hitTest";
 import { Branch } from "./Elements/Branch";
+import { Line } from "./Elements/Shapes/Line";
+import { Polygon } from "./Elements/Shapes/Polygon";
+import { Polyline } from "./Elements/Shapes/Polyline";
 import { SelectBox } from "./SelectBox";
 import { SelectLine } from "./SelectLine";
 import { SelectionFrameBox } from "./SelectionFrame";
@@ -72,7 +75,7 @@ export class SelectLayer {
 		this.angle = lastAngle;
 		//this.rotatePoint = newPoint;
 
-		console.log(this.box[0])
+		// console.log(this.box[0])
 
 
 		this.lastAngle = lastAngle;
@@ -135,11 +138,12 @@ export class SelectLayer {
 		let points = [];
 
 		for (let i = 0; i < this.selected.length; i++) {
-			if (!(this.selected[i] instanceof Branch)) {
+			if (!(this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line)) {
 				points.push(this.selected[i].position);
 				points.push(...this.selected[i].getFrame())
 			}
-			if (this.selected[i] instanceof Branch) {
+			if (this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line) {
+				// console.log(this.selected[i])
 				for (let j = 0; j < this.selected[i].points.length; j++) {
 					points.push(this.selected[i].points[j]);
 				}
@@ -155,7 +159,7 @@ export class SelectLayer {
 			}
 
 		}
-		console.log(points)
+		// console.log(points)
 		const minX = Math.min(...points.map(x => x.x)) - 10
 		const maxX = Math.max(...points.map(x => x.x)) + 10
 		const minY = Math.min(...points.map(x => x.y)) - 10
@@ -172,7 +176,9 @@ export class SelectLayer {
 		this.box = [];
 		for (let i = 0; i < this.selected.length; i++) {
 			if (this.selected[i] instanceof Branch) {
-				this.box.push(new SelectLine(this.selected[i].getFrame()));
+				this.box.push(new SelectLine(this.selected[i].getFrame(), true));
+			} else if (this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line) {
+				this.box.push(new SelectLine(this.selected[i].getFrame(), false));
 			} else {
 				let canRotate = this.selected.length === 1 ? this.selected[i].canRotate : false;
 				this.box.push(new SelectBox(this.selected[i].getFrame(), this.selected[i].angle, canRotate, this.selected[i].canResize));
@@ -183,12 +189,6 @@ export class SelectLayer {
 			let selectBox = new SelectBox(frame, this.angle, true, false);
 			selectBox.color = "lightblue";
 			selectBox.strokeDasharray = "5"
-			console.log(this.angle)
-			console.log(this.angle)
-			console.log(this.angle)
-			console.log(this.angle)
-			console.log(this.angle)
-			console.log(this.angle)
 			if (Math.abs(this.angle) === 90 || Math.abs(this.angle) === 270) { // TODO NEED REFACTORING
 				selectBox.controls[0].heightFrame = frame[1].x - frame[0].x;
 			} else {

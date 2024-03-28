@@ -12,7 +12,7 @@
 }
 
 .section {
-  border: 1px solid #686868;
+  border: 1px solid var(--bs-border-color);
   border-radius: 4px;
 }
 .section__title {
@@ -73,6 +73,7 @@
 
 .add-btn {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 5px;
 }
@@ -84,4 +85,39 @@
 }
 .add-btn div {
   color: #e2e2e2;
+}
+
+.points {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 4px;
+}
+.points__title {
+  display: flex;
+  align-items: center;
+  height: 31px;
+  padding-left: 10px;
+  background-color: var(--bs-tertiary-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.points__body {
+  max-height: 205px;
+  overflow: auto;
+  padding: 10px 10px 0px 10px;
+}
+.points__body::-webkit-scrollbar {
+  width: 10px;
+}
+.points__body::-webkit-scrollbar-track {
+  background: "transparent";
+}
+.points__body::-webkit-scrollbar-thumb {
+  background-color: var(--bs-tertiary-bg);
+  border-radius: 5px;
+  border: 1px solid var(--bs-border-color);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }/*# sourceMappingURL=PropertiesBar.css.map */

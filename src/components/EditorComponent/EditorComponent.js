@@ -59,7 +59,7 @@ function EditorComponent(props) {
       case Editor.Modes.Selected:
       case Editor.Modes.ContextMenu:
         if (!elem) {
-          console.log(elem)
+          // console.log(elem)
           editor.mode = Editor.Modes.Selection;
           editor.selectLayer.selectionFrame = new SelectionFrame(cursor, cursor);
         }
@@ -171,6 +171,28 @@ function EditorComponent(props) {
         break;
       case Editor.Modes.Edit:
 
+
+        // New logic create ------------------------------------------------
+
+        if (editor.selectLayer.selected.length === 1 && editor.selectControl) {
+          // console.log(editor.selectLayer.selected[0])
+          if (editor.selectLayer.selected[0] instanceof Polyline || editor.selectLayer.selected[0] instanceof Polygon || editor.selectLayer.selected[0] instanceof Line) {
+            // console.log("TEST2")
+            let indexOfPoint = editor.selectLayer.box[0].controls.findIndex(x => x === editor.selectControl);
+            // console.log(indexOfPoint);
+            editor.selectLayer.selected[0].points = [
+              ...editor.selectLayer.selected[0].points.slice(0, indexOfPoint),
+              new Point(Math.round(cursor.x / editor.grid.stepX) * editor.grid.stepX, Math.round(cursor.y / editor.grid.stepY) * editor.grid.stepY),
+              ...editor.selectLayer.selected[0].points.slice(indexOfPoint + 1)
+            ]
+            editor.selectLayer.box[0].frame = editor.selectLayer.selected[0].getFrame();
+            editor.selectLayer.box[0].initSelectLine();
+            editor.selectLayer.box[0].updateControls();
+          }
+        }
+        // New logic create ------------------------------------------------
+
+
         if (editor.selectLayer.selected.length === 1 && editor.selectLayer.selected[0] instanceof Node) {
           editor.selectLayer.selected[0].changeSize(editor.selectControl.type, delta);
         }
@@ -183,7 +205,7 @@ function EditorComponent(props) {
           }
 
         }
-        editor.selectLayer.select();
+        //editor.selectLayer.select();
         break;
 
       case Editor.Modes.AddBranch:
@@ -656,7 +678,7 @@ function EditorComponent(props) {
 
     const serializer = new Serializer([Scheme, Node, Branch, Switch, Transformer, Load, Generation, Terminal, Array, Point]);
     editor.test = serializer.serialize(editor.scheme);
-    console.log(editor.test)
+    // console.log(editor.test)
 
   }, [editor])
 
@@ -760,7 +782,6 @@ function EditorComponent(props) {
       <div className='edit-panel'>
 
         <Button
-          secondary
           outline
           className="add-btn m-1"
           onClick={save}
@@ -772,7 +793,6 @@ function EditorComponent(props) {
 
         </Button>
         <Button
-          secondary
           outline
           className="add-btn"
           onClick={load}

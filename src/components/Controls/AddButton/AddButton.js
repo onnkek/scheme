@@ -5,7 +5,6 @@ const AddButton = ({ onClick, text, children, icon, borderColor }) => {
 
   return (
     <Button
-      secondary
       outline
       // className={`edit-panel__button ${editor.addMode === Editor.AddModes.Generation ? "edit-panel__button_active" : ""}`}
       className='add-btn p-0 mb-1'

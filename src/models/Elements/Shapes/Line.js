@@ -1,6 +1,7 @@
 import LineComponent from "../../../components/Shapes/LineComponent/LineComponent";
 import { Element } from "../Element";
 import icon from "../../../assets/icons/Shapes/line.svg";
+import { Point } from "../../../utils/Point";
 
 export class Line extends Element {
 
@@ -25,9 +26,15 @@ export class Line extends Element {
       "name"
     ]
   }
+  move(delta) {
+    for (let i = 0; i < this.points.length; i++) {
+      this.points[i] = new Point(this.points[i].x + delta.x, this.points[i].y + delta.y);
+    }
+  }
   drawComponent() {
     return (
       <LineComponent
+        key={Math.random()}
         p1={this.points[0]}
         p2={this.points[1]}
         stroke={this.stroke}

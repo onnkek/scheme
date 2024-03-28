@@ -30,6 +30,8 @@ import { Circle } from "../../models/Elements/Shapes/Circle";
 import { Rectangle } from "../../models/Elements/Shapes/Rectangle";
 import { Polyline } from "../../models/Elements/Shapes/Polyline";
 import AddButton from "../Controls/AddButton/AddButton";
+import { Polygon } from "../../models/Elements/Shapes/Polygon";
+import { Line } from "../../models/Elements/Shapes/Line";
 
 const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, polyline }) => {
 
@@ -50,7 +52,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
 
     const props = selected[0].getObjectProperties();
     objectProperties = props.map(x =>
-      <InputGroup size="sm" className="mb-2">
+      <InputGroup size="sm" className="mb-2" key={Math.random()}>
         <InputGroupText className="w-50">{x}</InputGroupText>
         {x.includes("voltage") || x.includes("state") ? <Input type="number" placeholder="Y" value={selected[0][x]} onChange={(e) => {
           setValue(e.target.value);
@@ -127,14 +129,14 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                 <AddButton
                   onClick={(e) => polyline(e, Editor.AddModes.Line)}
                   icon={lineIcon}
-                  borderColor="warning"
+                  borderColor="secondary"
                   text="Line"
                 >
                   <Badge
-                    color="warning"
+                    color="primary"
                     className="ms-2"
-                    style={{ display: "block", top: 0, color: "black" }}
-                  >Without selection</Badge>
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
                 </AddButton>
                 <AddButton
                   onClick={(e) => add(e, Editor.AddModes.Circle)}
@@ -163,26 +165,26 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                 <AddButton
                   onClick={(e) => polyline(e, Editor.AddModes.Polyline)}
                   icon={polylineIcon}
-                  borderColor="warning"
+                  borderColor="secondary"
                   text="Polyline"
                 >
                   <Badge
-                    color="warning"
+                    color="primary"
                     className="ms-2"
-                    style={{ display: "block", top: 0, color: "black" }}
-                  >Without selection</Badge>
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
                 </AddButton>
                 <AddButton
                   onClick={(e) => polyline(e, Editor.AddModes.Polygon)}
                   icon={polygonIcon}
-                  borderColor="warning"
+                  borderColor="secondary"
                   text="Polygon"
                 >
                   <Badge
-                    color="warning"
+                    color="primary"
                     className="ms-2"
-                    style={{ display: "block", top: 0, color: "black" }}
-                  >Without selection</Badge>
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
                 </AddButton>
                 <AddButton
                   onClick={(e) => polyline(e, Editor.AddModes.Path)}
@@ -207,7 +209,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
             </Label>
             <div className="m-3">
               <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "60px" }}><img src={fillIcon} alt="" /></InputGroupText>
+                <InputGroupText style={{ width: "27%" }}><img src={fillIcon} alt="" /></InputGroupText>
                 <Input type="color" placeholder="Y" value={editor.backgroundColor} onChange={(e) => {
                   setValue(e.target.value);
                   editor.backgroundColor = e.target.value;
@@ -221,28 +223,28 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
             </Label>
             <div className="m-3">
               <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "60px" }}>Step X</InputGroupText>
+                <InputGroupText style={{ width: "27%" }}>Step X</InputGroupText>
                 <Input type="number" placeholder="px" value={editor.grid.stepX} onChange={(e) => {
                   setValue(e.target.value);
                   editor.grid.stepX = e.target.value;
                 }} />
               </InputGroup>
               <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "60px" }}>Step Y</InputGroupText>
+                <InputGroupText style={{ width: "27%" }}>Step Y</InputGroupText>
                 <Input type="number" placeholder="px" value={editor.grid.stepY} onChange={(e) => {
                   setValue(e.target.value);
                   editor.grid.stepY = e.target.value;
                 }} />
               </InputGroup>
               <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                <InputGroupText style={{ width: "27%" }}><img src={widthIcon} alt="" /></InputGroupText>
                 <Input type="number" placeholder="px" value={editor.grid.strokeWidth} onChange={(e) => {
                   setValue(e.target.value);
                   editor.grid.strokeWidth = e.target.value;
                 }} />
               </InputGroup>
               <InputGroup size="sm mb-2">
-                <InputGroupText style={{ width: "60px" }}><img src={fillIcon} alt="" /></InputGroupText>
+                <InputGroupText style={{ width: "27%" }}><img src={fillIcon} alt="" /></InputGroupText>
                 <Input type="color" placeholder="Y" value={editor.grid.backgroundColor} onChange={(e) => {
                   setValue(e.target.value);
                   editor.grid.backgroundColor = e.target.value;
@@ -264,7 +266,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
           <div className="right-bar__section section">
             <Label className="section__title p-3 pt-1 pb-1 m-0">Frame</Label>
             <div className="m-3">
-              {!(selected[0] instanceof Branch) && !(selected[0] instanceof Polyline) && <>
+              {!(selected[0] instanceof Branch) && !(selected[0] instanceof Polyline) && !(selected[0] instanceof Polygon) && !(selected[0] instanceof Line) && <>
                 <div className="d-flex mb-2">
                   <InputGroup className="me-3" size="sm">
                     <InputGroupText style={{ width: "30px" }}>X</InputGroupText>
@@ -320,31 +322,94 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                   selected[0].opacity = Number(e.target.value) / 100;
                 }} />
               </InputGroup>
-              {selected[0] instanceof Circle &&
+
+              {(selected[0] instanceof Polyline || selected[0] instanceof Polygon || selected[0] instanceof Line) &&
                 <>
+                  {!(selected[0] instanceof Line) &&
+                    <InputGroup size="sm mb-2">
+                      <InputGroupText style={{ width: "27%" }}>Fill</InputGroupText>
+                      <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
+                        setValue(e.target.value);
+                        selected[0].fill = e.target.value;
+                      }} />
+                    </InputGroup>
+                  }
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}>R</InputGroupText>
-                    <Input type="number" placeholder="px" value={selected[0].radius} onChange={(e) => {
-                      setValue(e.target.value);
-                      selected[0].radius = Number(e.target.value);
-                    }} />
-                  </InputGroup>
-                  <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}>Fill</InputGroupText>
-                    <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
-                      setValue(e.target.value);
-                      selected[0].fill = e.target.value;
-                    }} />
-                  </InputGroup>
-                  <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                    <InputGroupText style={{ width: "27%" }}><img src={widthIcon} alt="" /></InputGroupText>
                     <Input type="number" placeholder="px" value={selected[0].strokeWidth} onChange={(e) => {
                       setValue(e.target.value);
                       selected[0].strokeWidth = e.target.value;
                     }} />
                   </InputGroup>
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}>Stroke</InputGroupText>
+                    <InputGroupText style={{ width: "27%" }}>Stroke</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} value={selected[0].stroke} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].stroke = e.target.value;
+                    }} />
+                  </InputGroup>
+
+
+
+                  <div className="points mb-2">
+
+                    <div className="points__title">
+                      <Label className="mb-0">Points</Label>
+                    </div>
+
+                    <div className="points__body">
+                      {selected[0].points.map(point =>
+                        <div className="d-flex mb-2" key={Math.random()}>
+                          <InputGroup className="me-2" size="sm" style={{ width: "26px" }}>
+                            <InputGroupText>{selected[0].points.findIndex(x => x === point)}</InputGroupText>
+
+                          </InputGroup>
+                          <InputGroup className="me-2" size="sm">
+                            <InputGroupText style={{ width: "26px" }}>X</InputGroupText>
+                            <Input type="number" placeholder="X" value={point.x} onChange={(e) => {
+                              setValue(e.target.value);
+                              point.x = Number(e.target.value);
+                            }} />
+                          </InputGroup>
+                          <InputGroup size="sm">
+                            <InputGroupText style={{ width: "26px" }}>Y</InputGroupText>
+                            <Input type="number" placeholder="Y" value={point.y} onChange={(e) => {
+                              setValue(e.target.value);
+                              point.y = Number(e.target.value);
+                            }} />
+                          </InputGroup>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                </>
+              }
+              {selected[0] instanceof Circle &&
+                <>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "27%" }}>R</InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].radius} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].radius = Number(e.target.value);
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "27%" }}>Fill</InputGroupText>
+                    <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].fill = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "27%" }}><img src={widthIcon} alt="" /></InputGroupText>
+                    <Input type="number" placeholder="px" value={selected[0].strokeWidth} onChange={(e) => {
+                      setValue(e.target.value);
+                      selected[0].strokeWidth = e.target.value;
+                    }} />
+                  </InputGroup>
+                  <InputGroup size="sm mb-2">
+                    <InputGroupText style={{ width: "27%" }}>Stroke</InputGroupText>
                     <Input type="color" style={{ height: "31px" }} value={selected[0].stroke} onChange={(e) => {
                       setValue(e.target.value);
                       selected[0].stroke = e.target.value;
@@ -371,21 +436,21 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                     </InputGroup>
                   </div>
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}>Fill</InputGroupText>
+                    <InputGroupText style={{ width: "27%" }}>Fill</InputGroupText>
                     <Input type="color" style={{ height: "31px" }} placeholder="Y" value={selected[0].fill} onChange={(e) => {
                       setValue(e.target.value);
                       selected[0].fill = e.target.value;
                     }} />
                   </InputGroup>
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}><img src={widthIcon} alt="" /></InputGroupText>
+                    <InputGroupText style={{ width: "27%" }}><img src={widthIcon} alt="" /></InputGroupText>
                     <Input type="number" placeholder="px" value={selected[0].strokeWidth} onChange={(e) => {
                       setValue(e.target.value);
                       selected[0].strokeWidth = e.target.value;
                     }} />
                   </InputGroup>
                   <InputGroup size="sm mb-2">
-                    <InputGroupText style={{ width: "60px" }}>Stroke</InputGroupText>
+                    <InputGroupText style={{ width: "27%" }}>Stroke</InputGroupText>
                     <Input type="color" style={{ height: "31px" }} value={selected[0].stroke} onChange={(e) => {
                       setValue(e.target.value);
                       selected[0].stroke = e.target.value;
@@ -451,7 +516,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                     </InputGroup>
                   </div>
 
-                  <div class="container-box">
+                  <div className="container-box">
                     <div className="container-box__corner container-box__corner_1"></div>
                     <div className="container-box__corner container-box__corner_2"></div>
                     <div className="container-box__corner container-box__corner_3"></div>
@@ -488,11 +553,11 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                 <div>{getType(selected[0])}</div>
 
               </div>
-              <div style={{ border: "1px solid #686868", borderRadius: "4px", width: "48px", height: "48px" }}>
-                <img src={selected[0].icon} alt="" className="p-1"></img>
+              <div style={{ border: "1px solid #686868", borderRadius: "4px", width: "48px", height: "48px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <img src={selected[0].icon} width="40px" height="40px" alt="" className="p-1"></img>
               </div>
             </div>
-            <Input size="sm" className="mb-3" value={selected[0].id} onChange={() => { }} />
+            <Input bsSize="sm" className="mb-3" value={selected[0].id} onChange={() => { }} />
 
             {objectProperties}
             {/* <InputGroup size="sm" className="mb-2">
