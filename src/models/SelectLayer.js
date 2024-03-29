@@ -182,7 +182,8 @@ export class SelectLayer {
 			} else if (this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line) {
 				this.box.push(new SelectLine(this.selected[i].getFrame(), false));
 			} else if (this.selected[i] instanceof Path) {
-				this.box.push(new SelectSpline(this.selected[i].getFrame()));
+				this.selected[i].path = Path.getSpline(this.selected[i].points);
+				this.box.push(new SelectSpline(this.selected[i].getFrame(), this.selected[i].path));
 			} else {
 				let canRotate = this.selected.length === 1 ? this.selected[i].canRotate : false;
 				this.box.push(new SelectBox(this.selected[i].getFrame(), this.selected[i].angle, canRotate, this.selected[i].canResize));

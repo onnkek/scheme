@@ -11,7 +11,7 @@ export class Grid {
   constructor (width, height) {
     this.stepX = 10;
     this.stepY = 10;
-    this.backgroundColor = "#787878";
+    this.backgroundColor = "#FFFFFF30";
     this.strokeWidth = 0.7;
     this.editorWidth = width;
     this.editorHeight = height;

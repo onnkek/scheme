@@ -35,6 +35,7 @@ import { Ellipse } from '../../models/Elements/Shapes/Ellipse';
 import { Rectangle } from '../../models/Elements/Shapes/Rectangle';
 import { Path } from '../../models/Elements/Shapes/Path';
 import { PointControl } from '../../models/Controls/PointControl';
+import { SplineControl } from '../../models/Controls/SplineControl';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -111,6 +112,7 @@ function EditorComponent(props) {
         break;
     }
     setLastCursor(cursor);
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
   }
 
   const svgMouseMoveHandler = useThrottle((e) => {
@@ -185,8 +187,32 @@ function EditorComponent(props) {
               editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
               break;
             case Editor.AddModes.Path:
-              editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
-              editor.newElement.getSpline();
+              console.log(editor.newElement.points)
+              if (editor.newElement.points.length === 4) {
+                console.log(editor.newElement.points)
+                const point1 = editor.newElement.points[0];
+                const point2 = editor.newElement.points[editor.newElement.points.length - 1];
+                const c1 = 1 / 3;
+                const c1Point = new Point((point1.x + c1 * point2.x) / (1 + c1), (point1.y + c1 * point2.y) / (1 + c1));
+                const c2Point = new Point((point2.x + c1 * point1.x) / (1 + c1), (point2.y + c1 * point1.y) / (1 + c1));
+
+                editor.newElement.points[editor.newElement.points.length - 1] = cursorGrid;
+                editor.newElement.points[editor.newElement.points.length - 2] = c2Point;
+                editor.newElement.points[editor.newElement.points.length - 3] = c1Point;
+                console.log(editor.newElement.points)
+                editor.newElement.path = Path.getSpline(editor.newElement.points);
+
+              } else {
+                const point1 = editor.newElement.points[editor.newElement.points.length - 1 - 2];
+                const point2 = editor.newElement.points[editor.newElement.points.length - 1];
+                const midPoint = new Point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+
+                editor.newElement.points[editor.newElement.points.length - 1] = cursorGrid;
+                editor.newElement.points[editor.newElement.points.length - 2] = midPoint;
+                editor.newElement.path = Path.getSpline(editor.newElement.points);
+
+              }
+
               break;
             default:
               break;
@@ -212,23 +238,25 @@ function EditorComponent(props) {
 
         // New logic create ------------------------------------------------
 
-        if (editor.selectLayer.selected.length === 1 && editor.selectControl instanceof PointControl) {
+        if (editor.selectLayer.selected.length === 1 && editor.selectControl instanceof SplineControl) {
           const index = editor.selectLayer.box[0].controls.findIndex(x => x === editor.selectControl);
           editor.selectLayer.selected[0].points[index] = cursorGrid;
-          editor.selectLayer.selected[0].getSpline();
+          editor.selectLayer.selected[0].path = Path.getSpline(editor.selectLayer.selected[0].points);
+          editor.selectLayer.box[0].initSelectLine();
+          editor.selectLayer.box[0].updateControls();
         }
 
         if (editor.selectLayer.selected.length === 1 && editor.selectControl) {
-          // console.log(editor.selectLayer.selected[0])
-          if (editor.selectLayer.selected[0] instanceof Polyline || editor.selectLayer.selected[0] instanceof Polygon || editor.selectLayer.selected[0] instanceof Line) {
-            // console.log("TEST2")
+          if (editor.selectLayer.selected[0] instanceof Polyline || editor.selectLayer.selected[0] instanceof Polygon || editor.selectLayer.selected[0] instanceof Line || editor.selectLayer.selected[0] instanceof Path) {
             let indexOfPoint = editor.selectLayer.box[0].controls.findIndex(x => x === editor.selectControl);
-            // console.log(indexOfPoint);
             editor.selectLayer.selected[0].points = [
               ...editor.selectLayer.selected[0].points.slice(0, indexOfPoint),
               new Point(Math.round(cursor.x / editor.grid.stepX) * editor.grid.stepX, Math.round(cursor.y / editor.grid.stepY) * editor.grid.stepY),
               ...editor.selectLayer.selected[0].points.slice(indexOfPoint + 1)
             ]
+            if (editor.selectLayer.selected[0] instanceof Path) {
+              editor.selectLayer.selected[0].path = Path.getSpline(editor.selectLayer.selected[0].points);
+            }
             editor.selectLayer.box[0].frame = editor.selectLayer.selected[0].getFrame();
             editor.selectLayer.box[0].initSelectLine();
             editor.selectLayer.box[0].updateControls();
@@ -262,6 +290,7 @@ function EditorComponent(props) {
         break
     }
     setLastCursor(cursor);
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
   }, 1);
 
 
@@ -384,10 +413,11 @@ function EditorComponent(props) {
             break;
           case Editor.AddModes.Path:
             editor.newElement = new Path("Path", cursorGrid, "", "#FFFFFF", 3, "none");
-            editor.newElement.points.push(cursorGrid);
-            editor.newElement.points.push(cursorGrid);
-            editor.newElement.points.push(cursorGrid);
-            editor.newElement.getSpline();
+            editor.newElement.points.push(new Point(cursorGrid.x, cursorGrid.y));
+            editor.newElement.points.push(new Point(cursorGrid.x, cursorGrid.y));
+            editor.newElement.points.push(new Point(cursorGrid.x, cursorGrid.y));
+            editor.newElement.points.push(new Point(cursorGrid.x, cursorGrid.y));
+            editor.newElement.path = Path.getSpline(editor.newElement.points);
 
             editor.scheme.elements.unshift(editor.newElement);
             editor.mode = Editor.Modes.ChangePolyline;
@@ -406,17 +436,16 @@ function EditorComponent(props) {
               // remove element if right click
               editor.removeNewElement();
             }
-            editor.mode = Editor.Modes.Default;
+            editor.mode = Editor.Modes.Selected;
             editor.selectLayer.selectElement(editor.newElement);
             editor.newElement = null;
             break;
           case Editor.AddModes.Line:
-            editor.mode = Editor.Modes.Default;
             if (e.button === 2) {
               // remove element if right click
               editor.removeNewElement();
             }
-            editor.mode = Editor.Modes.Default;
+            editor.mode = Editor.Modes.Selected;
             editor.selectLayer.selectElement(editor.newElement);
             editor.newElement = null;
             break;
@@ -425,12 +454,13 @@ function EditorComponent(props) {
               if (editor.newElement.points.length < 3) {
                 // remove element if count of points < 3 (2 point and 1 move point)
                 editor.removeNewElement();
+                editor.mode = Editor.Modes.Default;
               } else {
                 // remove last point in cursor position
                 editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
+                editor.mode = Editor.Modes.Selected;
+                editor.selectLayer.selectElement(editor.newElement);
               }
-              editor.mode = Editor.Modes.Default;
-              editor.selectLayer.selectElement(editor.newElement);
               editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);
@@ -441,12 +471,14 @@ function EditorComponent(props) {
               if (editor.newElement.points.length < 3) {
                 // remove element if count of points < 3 (2 point and 1 move point)
                 editor.removeNewElement();
+                editor.mode = Editor.Modes.Default;
               } else {
                 // remove last point in cursor position
                 editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 1);
+                editor.mode = Editor.Modes.Selected;
+                editor.selectLayer.selectElement(editor.newElement);
               }
-              editor.mode = Editor.Modes.Default;
-              editor.selectLayer.selectElement(editor.newElement);
+
               editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);
@@ -457,13 +489,15 @@ function EditorComponent(props) {
               if (editor.newElement.points.length < 4) {
                 // remove element if count of points < 4 (2 point and 1 move point)
                 editor.removeNewElement();
+                editor.mode = Editor.Modes.Default;
               } else {
                 // remove 2 last point in cursor position
                 editor.newElement.points = editor.newElement.points.slice(0, editor.newElement.points.length - 2);
-                editor.newElement.getSpline();
+                editor.newElement.path = Path.getSpline(editor.newElement.points);
+                editor.mode = Editor.Modes.Selected;
+                editor.selectLayer.selectElement(editor.newElement);
               }
-              editor.mode = Editor.Modes.Default;
-              editor.selectLayer.selectElement(editor.newElement);
+              
               editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);
@@ -495,6 +529,7 @@ function EditorComponent(props) {
     }
     //console.log(editor.selectLayer.selected)
     setLastCursor(cursor);
+    console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
   }
 
 

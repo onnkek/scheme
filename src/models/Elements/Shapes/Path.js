@@ -48,20 +48,24 @@ export class Path extends Element {
       />
     );
   }
-  getSpline() {
-    console.log(this.points)
-    let string = "M ";
-    for (let i = 0; i < this.points.length; i++) {
-      if (i === 0 || i % 2 === 0) {
-        string += `${this.points[i].x} ${this.points[i].y} `;
-      } else {
-        string += `Q ${this.points[i].x} ${this.points[i].y} `;
+  static getSpline(points) {
+    let string = "";
+    for (let i = 0; i < points.length; i++) {
+      if (i === 0) {
+        string += `M ${points[i].x} ${points[i].y} `;
+      }
+      if (i === 1) {
+        string += `C ${points[i].x} ${points[i].y} `;
+      }
+      if (i > 3 && i % 2 === 0) {
+        string += `S ${points[i].x} ${points[i].y} `;
+      }
+      if ((i > 1 && i % 2 !== 0) || i === 2) {
+        string += `${points[i].x} ${points[i].y} `;
       }
     }
     string = string.trim();
-    console.log(string)
-    console.log(pathParse(string))
-    this.path = string;
+    return string;
   }
   addTerminals() { }
   getFrame() {
