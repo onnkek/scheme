@@ -1,5 +1,6 @@
 import { Branch } from "../models/Elements/Branch";
 import { Line } from "../models/Elements/Shapes/Line";
+import { Path } from "../models/Elements/Shapes/Path";
 import { Polygon } from "../models/Elements/Shapes/Polygon";
 import { Polyline } from "../models/Elements/Shapes/Polyline";
 import { Point } from "./Point";
@@ -72,7 +73,19 @@ export const hitTestElement = (elements, cursor, radius) => {
       if (hitTestBranch(elements[i].getFrame(), cursor, radius)) {
         return elements[i];
       }
-    } else {
+    } else if (elements[i] instanceof Path) {
+      const points = [];
+      const path = document.getElementById(elements[i].id);
+      const length = path.getTotalLength();
+      for (let i = 0; i < 1; i += 0.005) {
+        points.push(path.getPointAtLength(length * i));
+      }
+      // elements[i].approx = points;
+      if (hitTestBranch(points, cursor, radius)) {
+        return elements[i];
+      }
+    }
+    else {
       if (hitTestFrame(getRotateTransformPoints(elements[i].getFrame(), elements[i].angle, elements[i].position), cursor, radius)) {
         return elements[i];
       }

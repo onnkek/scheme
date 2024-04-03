@@ -3,6 +3,7 @@ import { Element } from "../Element";
 import icon from "../../../assets/icons/Shapes/circle.svg";
 import PathComponent from "../../../components/Shapes/PathComponent/PathComponent";
 import { pathParse } from "../../../utils/Transform";
+import PolylineComponent from "../../../components/Shapes/PolylineComponent/PolylineComponent";
 
 export class Path extends Element {
 
@@ -15,6 +16,7 @@ export class Path extends Element {
   stroke;
   strokeWidth;
   points;
+  // approx;
   constructor (name, position, path, stroke, strokeWidth, fill) {
     super(name);
     this.position = position;
@@ -28,6 +30,7 @@ export class Path extends Element {
     this.strokeWidth = strokeWidth;
     this.icon = icon;
     this.points = [];
+    // this.approx = [];
   }
   getObjectProperties() {
     return [
@@ -36,7 +39,10 @@ export class Path extends Element {
   }
   drawComponent() {
     return (
+      // <g key={this.id}>
       <PathComponent
+        key={this.id}
+        id={this.id}
         point={this.position}
         path={pathParse(this.path)}
         fill={this.fill}
@@ -46,7 +52,22 @@ export class Path extends Element {
         offset={this.offset}
         opacity={this.opacity}
       />
+      //   <PolylineComponent
+
+      //     points={this.approx}
+      //     stroke="red"
+      //     strokeWidth={1}
+      //     opacity={1}
+      //     fill="none"
+      //   />
+      // </g>
+
     );
+  }
+  move(delta) {
+    for (let i = 0; i < this.points.length; i++) {
+      this.points[i] = new Point(this.points[i].x + delta.x, this.points[i].y + delta.y);
+    }
   }
   static getSpline(points) {
     let string = "";

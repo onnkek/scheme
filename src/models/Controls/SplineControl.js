@@ -15,7 +15,7 @@ export class SplineControl extends Control {
 
   drawComponent() {
     return (
-      <>
+      <g key={this.id}>
         <CircleComponent
           key={this.id}
           center={this.position}
@@ -31,7 +31,7 @@ export class SplineControl extends Control {
           strokeWidth={1}
           opacity={1}
         />
-      </>
+      </g>
 
     );
   }

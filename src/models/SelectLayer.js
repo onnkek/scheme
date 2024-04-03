@@ -140,11 +140,11 @@ export class SelectLayer {
 		let points = [];
 
 		for (let i = 0; i < this.selected.length; i++) {
-			if (!(this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line)) {
+			if (!(this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line || this.selected[i] instanceof Path)) {
 				points.push(this.selected[i].position);
 				points.push(...this.selected[i].getFrame())
 			}
-			if (this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line) {
+			if (this.selected[i] instanceof Branch || this.selected[i] instanceof Polyline || this.selected[i] instanceof Polygon || this.selected[i] instanceof Line || this.selected[i] instanceof Path) {
 				// console.log(this.selected[i])
 				for (let j = 0; j < this.selected[i].points.length; j++) {
 					points.push(this.selected[i].points[j]);
@@ -183,7 +183,7 @@ export class SelectLayer {
 				this.box.push(new SelectLine(this.selected[i].getFrame(), false));
 			} else if (this.selected[i] instanceof Path) {
 				this.selected[i].path = Path.getSpline(this.selected[i].points);
-				this.box.push(new SelectSpline(this.selected[i].getFrame(), this.selected[i].path));
+				this.box.push(new SelectSpline(this.selected[i].points, this.selected[i].path));
 			} else {
 				let canRotate = this.selected.length === 1 ? this.selected[i].canRotate : false;
 				this.box.push(new SelectBox(this.selected[i].getFrame(), this.selected[i].angle, canRotate, this.selected[i].canResize));

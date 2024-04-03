@@ -5,7 +5,6 @@ import { Point } from "../../../utils/Point";
 
 const SelectSplineComponent = ({ box }) => {
 
-  console.log(box.points[0])
   return (
     <>
       <PathComponent

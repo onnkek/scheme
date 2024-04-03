@@ -189,14 +189,14 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
                 <AddButton
                   onClick={(e) => polyline(e, Editor.AddModes.Path)}
                   icon={pathIcon}
-                  borderColor="danger"
+                  borderColor="secondary"
                   text="Spline"
                 >
                   <Badge
-                    color="danger"
+                    color="primary"
                     className="ms-2"
-                    style={{ display: "block", top: 0, color: "black" }}
-                  >Doesnt work</Badge>
+                    style={{ display: "block", top: 0 }}
+                  >New</Badge>
                 </AddButton>
 
               </div>

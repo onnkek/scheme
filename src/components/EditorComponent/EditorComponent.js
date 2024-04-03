@@ -187,9 +187,9 @@ function EditorComponent(props) {
               editor.newElement.points = [...editor.newElement.points.slice(0, editor.newElement.points.length - 1), cursorGrid];
               break;
             case Editor.AddModes.Path:
-              console.log(editor.newElement.points)
+              // console.log(editor.newElement.points)
               if (editor.newElement.points.length === 4) {
-                console.log(editor.newElement.points)
+                // console.log(editor.newElement.points)
                 const point1 = editor.newElement.points[0];
                 const point2 = editor.newElement.points[editor.newElement.points.length - 1];
                 const c1 = 1 / 3;
@@ -199,7 +199,7 @@ function EditorComponent(props) {
                 editor.newElement.points[editor.newElement.points.length - 1] = cursorGrid;
                 editor.newElement.points[editor.newElement.points.length - 2] = c2Point;
                 editor.newElement.points[editor.newElement.points.length - 3] = c1Point;
-                console.log(editor.newElement.points)
+                // console.log(editor.newElement.points)
                 editor.newElement.path = Path.getSpline(editor.newElement.points);
 
               } else {
@@ -314,13 +314,46 @@ function EditorComponent(props) {
         let selectElements = [];
         for (let i = 0; i < editor.scheme.elements.length; i++) {
           if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Contain) {
-            let containElement = polyPolyContain(selectionVertices, editor.scheme.elements[i].getFrame());
+            let containElement = null;
+            if (editor.scheme.elements[i] instanceof Path) {
+              ////
+              const points = [];
+              const path = document.getElementById(editor.scheme.elements[i].id);
+              const length = path.getTotalLength();
+              for (let i = 0; i < 1; i += 0.005) {
+                const SVGPoint = path.getPointAtLength(length * i);
+                points.push(new Point(SVGPoint.x, SVGPoint.y));
+              }
+              // console.log(points)
+              containElement = polyPolyContain(selectionVertices, points);
+              // console.log(containElement)
+              ////
+            } else {
+              containElement = polyPolyContain(selectionVertices, editor.scheme.elements[i].getFrame());
+            }
+
             if (containElement) {
               selectElements.push(editor.scheme.elements[i]);
             }
           }
           if (editor.selectLayer.selectionFrame.mode === SelectionFrame.Modes.Intersect) {
-            let containElement = polyPoly(selectionVertices, editor.scheme.elements[i].getFrame());
+            let containElement = null;
+            if (editor.scheme.elements[i] instanceof Path) {
+              ////
+              const points = [];
+              const path = document.getElementById(editor.scheme.elements[i].id);
+              const length = path.getTotalLength();
+              for (let i = 0; i < 1; i += 0.005) {
+                const SVGPoint = path.getPointAtLength(length * i);
+                points.push(new Point(SVGPoint.x, SVGPoint.y));
+              }
+              // console.log(points)
+              containElement = polyPoly(selectionVertices, points);
+              // console.log(containElement)
+              ////
+            } else {
+              containElement = polyPoly(selectionVertices, editor.scheme.elements[i].getFrame());
+            }
             if (containElement) {
               //console.log(editor.scheme.elements[i])
               selectElements.push(editor.scheme.elements[i]);
@@ -497,7 +530,7 @@ function EditorComponent(props) {
                 editor.mode = Editor.Modes.Selected;
                 editor.selectLayer.selectElement(editor.newElement);
               }
-              
+
               editor.newElement = null;
             } else {
               editor.newElement.points.push(cursorGrid);

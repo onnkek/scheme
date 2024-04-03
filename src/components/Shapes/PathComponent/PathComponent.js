@@ -1,7 +1,7 @@
 import { Point } from "../../../utils/Point";
 import { getRotateTransformPoint } from "../../../utils/Transform";
 
-function PathComponent({ point, path, stroke, strokeWidth, angle, fill = "none", offset, opacity = 1 }) {
+function PathComponent({ point, path, stroke, strokeWidth, angle, fill = "none", offset, opacity = 1, id }) {
 
   let stringPath = "";
   for (let i = 0; i < path.length; i++) {
@@ -16,6 +16,7 @@ function PathComponent({ point, path, stroke, strokeWidth, angle, fill = "none",
   }
   return (
     <path
+      id={id}
       d={stringPath}
       stroke={stroke}
       strokeWidth={strokeWidth}
