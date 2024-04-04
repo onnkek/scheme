@@ -36,6 +36,7 @@ import { Rectangle } from '../../models/Elements/Shapes/Rectangle';
 import { Path } from '../../models/Elements/Shapes/Path';
 import { PointControl } from '../../models/Controls/PointControl';
 import { SplineControl } from '../../models/Controls/SplineControl';
+import ColorPicker from '../Controls/ColorPicker/ColorPicker';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -993,6 +994,7 @@ function EditorComponent(props) {
         polyline={addPolylineHandler}
       />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
+      <ColorPicker />
     </div>
 
 
