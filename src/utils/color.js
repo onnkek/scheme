@@ -66,9 +66,19 @@ export const hexToHSL = (hex) => {
   return HSL;
 }
 
-export const hsvToHsl = (h, s, v, l = v * (1 - (s / 2))) => [h, l === 0 || l === 1 ? 0 : (v - l) / Math.min(l, 1 - l), l];
+
+
+export const hsbToHsl = (HSB) => {
+  const L = HSB.B / 100 - HSB.B / 100 * HSB.S / 100 / 2;
+  const m = Math.min(L, 1 - L);
+  return {
+    H: +HSB.H,
+    S: (m ? (HSB.B / 100 - L) / m : 0) * 100,
+    L: L * 100
+  }
+}
+
 export const hslToHsb = (HSL) => {
-  console.log(HSL)
   const B = HSL.L + HSL.S * Math.min(HSL.L, 1 - HSL.L);
   return {
     H: HSL.H,
