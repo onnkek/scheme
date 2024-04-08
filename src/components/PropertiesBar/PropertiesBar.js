@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./PropertiesBar.css"
 import { Node } from "../../models/Elements/Node";
 import { Branch } from "../../models/Elements/Branch";
@@ -32,8 +32,10 @@ import { Polyline } from "../../models/Elements/Shapes/Polyline";
 import AddButton from "../Controls/AddButton/AddButton";
 import { Polygon } from "../../models/Elements/Shapes/Polygon";
 import { Line } from "../../models/Elements/Shapes/Line";
+import ColorPicker from "../Controls/ColorPicker/ColorPicker";
+import { Point } from "../../utils/Point";
 
-const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, polyline }) => {
+const PropertiesBar = React.memo(({ selected, add, connectModeHandler, width, editor, polyline }) => {
 
   //console.log(`render PropertiesBar`)
   // ICONS REFERENCE
@@ -67,6 +69,20 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
       </InputGroup>
     );
   }
+
+  const setGridColor = useCallback((color) => {
+
+    setValue(color);
+    editor.grid.backgroundColor = `rgba(${color.R}, ${color.G}, ${color.B}, ${color.A})`;
+
+  }, [editor.grid])
+  const setEditorColor = useCallback((color) => {
+
+    setValue(color);
+    editor.backgroundColor = `rgba(${color.R}, ${color.G}, ${color.B}, ${color.A})`;
+    console.log(editor.backgroundColor)
+
+  }, [editor])
 
   return (
     <div className="right-bar" style={{ width: width }}>
@@ -210,10 +226,13 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
             <div className="m-3">
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "27%" }}><img src={fillIcon} alt="" /></InputGroupText>
-                <Input type="color" placeholder="Y" value={editor.backgroundColor} onChange={(e) => {
-                  setValue(e.target.value);
-                  editor.backgroundColor = e.target.value;
-                }} />
+                <ColorPicker value={editor.backgroundColor} onChange={setEditorColor}
+                // onChange={(color) => {
+                //   setValue(`rgba(${color.R}, ${color.G}, ${color.B}, ${color.A})`);
+                //   editor.backgroundColor = `rgba(${color.R}, ${color.G}, ${color.B}, ${color.A})`
+                // }} 
+                />
+
               </InputGroup>
             </div>
           </div>
@@ -245,10 +264,7 @@ const PropertiesBar = (({ selected, add, connectModeHandler, width, editor, poly
               </InputGroup>
               <InputGroup size="sm mb-2">
                 <InputGroupText style={{ width: "27%" }}><img src={fillIcon} alt="" /></InputGroupText>
-                <Input type="color" placeholder="Y" value={editor.grid.backgroundColor} onChange={(e) => {
-                  setValue(e.target.value);
-                  editor.grid.backgroundColor = e.target.value;
-                }} />
+                <ColorPicker value={editor.grid.backgroundColor} onChange={setGridColor} />
               </InputGroup>
             </div>
           </div>

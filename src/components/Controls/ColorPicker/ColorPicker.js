@@ -1,27 +1,30 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./ColorPicker.css"
 import pipetteIcon from "../../../assets/icons/pipette.svg"
 import { Input, InputGroup } from "reactstrap";
 import { Point } from "../../../utils/Point";
-import { hexToHSL, hexToRGB, hsbToHsl, hsl2hsv, hslToHex, rgbToHex } from "../../../utils/color";
+import { RGBStringToHSL, hexToHSL, hexToRGB, hsbToHsl, hsl2hsv, hslToHex, hslToRgb, rgbToHex } from "../../../utils/color";
 
-const ColorPicker = ({ }) => {
+const ColorPicker = React.memo(({ onChange, value = "rgba(0, 0, 0, 1)" }) => {
 
   const [selectPosition, setSelectPosition] = useState(new Point(240 - 6, -6));
   const [selectColorPosition, setSelectColorPosition] = useState(new Point(0, 0));
-  const windowPosition = useMemo(() => new Point(400, 400), []);
-  const [selectMain, setSelectMain] = useState({ H: 0, S: 100, L: 50 })
-  const [selectColor, setSelectColor] = useState({ H: 0, S: 100, L: 50 })
+  const [selectMain, setSelectMain] = useState(RGBStringToHSL(value))
+  const [selectColor, setSelectColor] = useState(RGBStringToHSL(value))
 
   const [selectAlpha, setSelectAlpha] = useState(100)
   const [selectAlphaPosition, setSelectAlphaPosition] = useState(new Point(0, 0));
 
   const [textType, setTextType] = useState("Hex");
-
-  const [selectHex, setSelectHex] = useState("#FF0000")
+  const [position, setPosition] = useState(new Point(0, 0))
+  const ref = useRef();
+  const [selectHex, setSelectHex] = useState("#000000")
   const [selectHSB, setSelectHSB] = useState({ H: 0, S: 100, B: 100 })
   const [selectHSL, setSelectHSL] = useState({ H: 0, S: 100, L: 50 })
   const [selectRGB, setSelectRGB] = useState({ R: 255, G: 0, B: 0 })
+  const [offset, setOffset] = useState(new Point(-334, 0))
+
+  const [visible, setVisible] = useState(false);
 
   const Modes = useMemo(() => ({
     Default: "Default",
@@ -31,26 +34,30 @@ const ColorPicker = ({ }) => {
   }), [])
 
   const [mode, setMode] = useState(Modes.Default)
+
+
+
   const pointerMouseDownHandler = (e) => {
+    e.stopPropagation();
     setMode(Modes.Main);
 
-    let position = new Point(e.clientX, e.clientY);
-    if (position.x <= windowPosition.x) {
-      position.x = windowPosition.x;
+    let cursor = new Point(e.clientX, e.clientY);
+    if (cursor.x <= position.x) {
+      cursor.x = position.x;
     }
-    if (position.x >= windowPosition.x + 240) {
-      position.x = windowPosition.x + 240;
+    if (cursor.x >= position.x + 240) {
+      cursor.x = position.x + 240;
     }
-    if (position.y <= windowPosition.y) {
-      position.y = windowPosition.y;
+    if (cursor.y <= position.y) {
+      cursor.y = position.y;
     }
-    if (position.y >= windowPosition.y + 240) {
-      position.y = windowPosition.y + 240;
+    if (cursor.y >= position.y + 240) {
+      cursor.y = position.y + 240;
     }
-    setSelectPosition(new Point(position.x - windowPosition.x - 6, position.y - windowPosition.y - 6));
+    setSelectPosition(new Point(cursor.x - position.x - 6, cursor.y - position.y - 6));
 
-    const S = 100 / 240 * (position.x - windowPosition.x);
-    const L = 100 - 100 / 240 * (position.y - windowPosition.y);
+    const S = 100 / 240 * (cursor.x - position.x);
+    const L = 100 - 100 / 240 * (cursor.y - position.y);
     const LHSL = (L / 2) * (2 - (S / 100));
     const down = LHSL < 50 ? LHSL * 2 : 200 - LHSL * 2;
     const SHSL = (L * S) / down;
@@ -65,20 +72,22 @@ const ColorPicker = ({ }) => {
     setSelectRGB(hexToRGB(hslToHex(HSL.H, HSL.S, HSL.L)))
     setSelectHSB(hsl2hsv(HSL))
     setSelectHSL(HSL);
+    // onChange({ R: selectRGB.R, G: selectRGB.G, B: selectRGB.B, A: selectAlpha / 100 });
   }
 
   const linearPointerMouseDownHandler = (e) => {
+    e.stopPropagation();
     setMode(Modes.Color);
-    let position = new Point(e.clientX, e.clientY);
-    if (position.x <= windowPosition.x + 60 + 6) {
-      position.x = windowPosition.x + 60 + 6;
+    let cursor = new Point(e.clientX, e.clientY);
+    if (cursor.x <= position.x + 60 + 6) {
+      cursor.x = position.x + 60 + 6;
     }
-    if (position.x >= windowPosition.x + 240 - 8 - 6) {
-      position.x = windowPosition.x + 240 - 8 - 6;
+    if (cursor.x >= position.x + 240 - 8 - 6) {
+      cursor.x = position.x + 240 - 8 - 6;
     }
-    setSelectColorPosition(new Point(position.x - windowPosition.x - 60 - 6, 0));
+    setSelectColorPosition(new Point(cursor.x - position.x - 60 - 6, 0));
 
-    const newH = 360 / (172 - 12) * (position.x - windowPosition.x - 60 - 6);
+    const newH = 360 / (172 - 12) * (cursor.x - position.x - 60 - 6);
     setSelectColor({
       H: newH,
       S: 100,
@@ -95,39 +104,43 @@ const ColorPicker = ({ }) => {
     setSelectRGB(hexToRGB(hslToHex(HSL.H, HSL.S, HSL.L)))
     setSelectHSB(hsl2hsv(HSL))
     setSelectHSL(HSL);
+    // onChange({ R: selectRGB.R, G: selectRGB.G, B: selectRGB.B, A: selectAlpha / 100 });
   }
 
   const alphaPointerMouseDownHandler = (e) => {
+    e.stopPropagation();
     setMode(Modes.Alpha);
-    let position = new Point(e.clientX, e.clientY);
-    if (position.x <= windowPosition.x + 60 + 6) {
-      position.x = windowPosition.x + 60 + 6;
+    let cursor = new Point(e.clientX, e.clientY);
+    if (cursor.x <= position.x + 60 + 6) {
+      cursor.x = position.x + 60 + 6;
     }
-    if (position.x >= windowPosition.x + 240 - 8 - 6) {
-      position.x = windowPosition.x + 240 - 8 - 6;
+    if (cursor.x >= position.x + 240 - 8 - 6) {
+      cursor.x = position.x + 240 - 8 - 6;
     }
-    setSelectAlphaPosition(new Point(position.x - windowPosition.x - 60 - 6, 0));
-    setSelectAlpha(100 - 100 / (172 - 12) * (position.x - windowPosition.x - 60 - 6));
+    setSelectAlphaPosition(new Point(cursor.x - position.x - 60 - 6, 0));
+    setSelectAlpha(100 - 100 / (172 - 12) * (cursor.x - position.x - 60 - 6));
+    // onChange({ R: selectRGB.R, G: selectRGB.G, B: selectRGB.B, A: selectAlpha / 100 });
   }
+
   const pointerMouseMoveHandler = useCallback((e) => {
     if (mode === Modes.Main) {
-      let position = new Point(e.clientX, e.clientY);
-      if (position.x <= windowPosition.x) {
-        position.x = windowPosition.x;
+      let cursor = new Point(e.clientX, e.clientY);
+      if (cursor.x <= position.x) {
+        cursor.x = position.x;
       }
-      if (position.x >= windowPosition.x + 240) {
-        position.x = windowPosition.x + 240;
+      if (cursor.x >= position.x + 240) {
+        cursor.x = position.x + 240;
       }
-      if (position.y <= windowPosition.y) {
-        position.y = windowPosition.y;
+      if (cursor.y <= position.y) {
+        cursor.y = position.y;
       }
-      if (position.y >= windowPosition.y + 240) {
-        position.y = windowPosition.y + 240;
+      if (cursor.y >= position.y + 240) {
+        cursor.y = position.y + 240;
       }
-      setSelectPosition(new Point(position.x - windowPosition.x - 6, position.y - windowPosition.y - 6));
+      setSelectPosition(new Point(cursor.x - position.x - 6, cursor.y - position.y - 6));
 
-      const S = 100 / 240 * (position.x - windowPosition.x);
-      const L = 100 - 100 / 240 * (position.y - windowPosition.y);
+      const S = 100 / 240 * (cursor.x - position.x);
+      const L = 100 - 100 / 240 * (cursor.y - position.y);
       const LHSL = (L / 2) * (2 - (S / 100));
       const down = LHSL < 50 ? LHSL * 2 : 200 - LHSL * 2;
       const SHSL = down === 0 ? 1 : (L * S) / down;
@@ -144,16 +157,16 @@ const ColorPicker = ({ }) => {
       setSelectHSL(HSL);
     }
     if (mode === Modes.Color) {
-      let position = new Point(e.clientX, e.clientY);
-      if (position.x <= windowPosition.x + 60 + 6) {
-        position.x = windowPosition.x + 60 + 6;
+      let cursor = new Point(e.clientX, e.clientY);
+      if (cursor.x <= position.x + 60 + 6) {
+        cursor.x = position.x + 60 + 6;
       }
-      if (position.x >= windowPosition.x + 240 - 8 - 6) {
-        position.x = windowPosition.x + 240 - 8 - 6;
+      if (cursor.x >= position.x + 240 - 8 - 6) {
+        cursor.x = position.x + 240 - 8 - 6;
       }
-      setSelectColorPosition(new Point(position.x - windowPosition.x - 60 - 6, 0));
+      setSelectColorPosition(new Point(cursor.x - position.x - 60 - 6, 0));
 
-      const newH = 360 / (172 - 12) * (position.x - windowPosition.x - 60 - 6);
+      const newH = 360 / (172 - 12) * (cursor.x - position.x - 60 - 6);
       setSelectColor({
         H: newH,
         S: 100,
@@ -172,21 +185,29 @@ const ColorPicker = ({ }) => {
       setSelectHSL(HSL);
     }
     if (mode === Modes.Alpha) {
-      let position = new Point(e.clientX, e.clientY);
-      if (position.x <= windowPosition.x + 60 + 6) {
-        position.x = windowPosition.x + 60 + 6;
+      let cursor = new Point(e.clientX, e.clientY);
+      if (cursor.x <= position.x + 60 + 6) {
+        cursor.x = position.x + 60 + 6;
       }
-      if (position.x >= windowPosition.x + 240 - 8 - 6) {
-        position.x = windowPosition.x + 240 - 8 - 6;
+      if (cursor.x >= position.x + 240 - 8 - 6) {
+        cursor.x = position.x + 240 - 8 - 6;
       }
-      setSelectAlphaPosition(new Point(position.x - windowPosition.x - 60 - 6, 0));
-      setSelectAlpha(100 - 100 / (172 - 12) * (position.x - windowPosition.x - 60 - 6));
+      setSelectAlphaPosition(new Point(cursor.x - position.x - 60 - 6, 0));
+      setSelectAlpha(100 - 100 / (172 - 12) * (cursor.x - position.x - 60 - 6));
     }
-  }, [Modes, mode, selectColor, selectMain, windowPosition])
+    // onChange({ R: selectRGB.R, G: selectRGB.G, B: selectRGB.B, A: selectAlpha / 100 });
+  }, [Modes, mode, selectColor, selectMain, selectRGB, selectAlpha, onChange, position])
 
-  const pointerMouseUpHandler = useCallback(() => {
+  const pointerMouseUpHandler = useCallback((e) => {
     setMode(Modes.Default);
-  }, [Modes.Default])
+    if (e.clientX < position.x - 50 ||
+      e.clientX > position.x + 240 + 50 ||
+      e.clientY < position.y - 50 ||
+      e.clientY > position.y + 348 + 50) {
+      setVisible(false);
+    }
+
+  }, [Modes.Default, position])
 
   useEffect(() => {
     window.addEventListener("mouseup", pointerMouseUpHandler);
@@ -327,6 +348,7 @@ const ColorPicker = ({ }) => {
 
   }
 
+
   let text = textType === "Hex" ? <>
     <Input type="text" placeholder="Y" style={{ fontSize: "12px" }} value={selectHex} onChange={(e) => { setHex(e.target.value) }} />
     <Input type="text" placeholder="Y" style={{ flexGrow: 0, minWidth: "53px", fontSize: "12px" }} value={`${Math.round(selectAlpha)}%`} onChange={() => { }} />
@@ -347,49 +369,88 @@ const ColorPicker = ({ }) => {
     <Input type="text" placeholder="Y" style={{ flexGrow: 0, minWidth: "53px", fontSize: "12px" }} value={`${Math.round(selectAlpha)}%`} onChange={() => { }} />
   </> : <></>;
 
+  useEffect(() => {
+    const rect = ref.current.getBoundingClientRect();
 
+    const windowOffset = window.innerHeight - rect.y - 388;
 
+    let position = new Point(rect.x + offset.x, rect.y + offset.y);
+
+    if (windowOffset < 0) {
+      setOffset(new Point(offset.x, offset.y + windowOffset));
+      position.y += windowOffset + 15;
+    }
+
+    setPosition(position)
+
+  }, []);
+  console.log(selectColor)
   return (
-    <div className="color-picker">
-      <div className="color-picker__color" onMouseDown={pointerMouseDownHandler} style={{ backgroundColor: `hsl(${selectColor.H} ${selectColor.S}% ${selectColor.L}%)` }} >
+    <>
+
+      <div
+        ref={ref}
+
+        className={`color-picker__form-control ${visible && "color-picker__form-control_focus"}`}
+        onClick={() => setVisible(true)}
+      >
         <div
-          className="color-picker__color-pointer"
-          style={{ top: selectPosition.y, left: selectPosition.x, backgroundColor: `hsl(${selectMain.H} ${selectMain.S}% ${selectMain.L}%)` }}
+
+          className="color-picker__input"
+          style={{
+            backgroundColor: `rgba(
+              ${hexToRGB(hslToHex(selectMain.H, selectMain.S, selectMain.L)).R}, 
+              ${hexToRGB(hslToHex(selectMain.H, selectMain.S, selectMain.L)).G}, 
+              ${hexToRGB(hslToHex(selectMain.H, selectMain.S, selectMain.L)).B}, 
+              ${selectAlpha / 100}
+            )`
+          }}
         />
-        <div className="color-picker__color-bg1" />
-        <div className="color-picker__color-bg2" />
-      </div>
-      <div className="color-picker__select">
-        <div className="color-picker__select-pipette">
-          <img className="color-picker__select-pipette-icon" src={pipetteIcon} alt=""></img>
-        </div>
-        <div className="color-picker__select-color">
-          <div className="color-picker__select-rgb" onMouseDown={linearPointerMouseDownHandler}>
-            <div className="color-picker__color-pointer" style={{ top: selectColorPosition.y, left: selectColorPosition.x, backgroundColor: `hsl(${selectColor.H} ${selectColor.S}% ${selectColor.L}%)` }} />
+        {visible && <div className="color-picker" style={{ left: offset.x, top: offset.y }}>
+          <div className="color-picker__color" onMouseDown={pointerMouseDownHandler} style={{ backgroundColor: `hsl(${selectColor.H} ${selectColor.S}% ${selectColor.L}%)` }} >
+            <div
+              className="color-picker__color-pointer"
+              style={{ top: selectPosition.y, left: selectPosition.x, backgroundColor: `hsl(${selectMain.H} ${selectMain.S}% ${selectMain.L}%)` }}
+            />
+            <div className="color-picker__color-bg1" />
+            <div className="color-picker__color-bg2" />
           </div>
-          <div className="color-picker__select-rgba" onMouseDown={alphaPointerMouseDownHandler}>
-            <div className="color-picker__color-pointer" style={{ top: selectAlphaPosition.y, left: selectAlphaPosition.x }} />
-            <div className="color-picker__select-rgba-bg" />
+          <div className="color-picker__select">
+            <div className="color-picker__select-pipette">
+              <img className="color-picker__select-pipette-icon" src={pipetteIcon} alt=""></img>
+            </div>
+            <div className="color-picker__select-color">
+              <div className="color-picker__select-rgb" onMouseDown={linearPointerMouseDownHandler}>
+                <div className="color-picker__color-pointer" style={{ top: selectColorPosition.y, left: selectColorPosition.x, backgroundColor: `hsl(${selectColor.H} ${selectColor.S}% ${selectColor.L}%)` }} />
+              </div>
+              <div className="color-picker__select-rgba" onMouseDown={alphaPointerMouseDownHandler}>
+                <div className="color-picker__color-pointer" style={{ top: selectAlphaPosition.y, left: selectAlphaPosition.x }} />
+                <div className="color-picker__select-rgba-bg" />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="color-picker__text">
-        <InputGroup size="sm">
-          <Input
-            type="select"
-            style={{ paddingRight: "0", width: "60px", flexGrow: 0, fontSize: "12px" }}
-            onChange={changeTextTypeHandler}
-          >
-            <option>Hex</option>
-            <option>RGB</option>
-            <option>HSL</option>
-            <option>HSB</option>
-          </Input>
-          {text}
-        </InputGroup>
-      </div>
-    </div>
+          <div className="color-picker__text">
+            <InputGroup size="sm">
+              <Input
+                type="select"
+                style={{ paddingRight: "0", width: "60px", flexGrow: 0, fontSize: "12px" }}
+                onChange={changeTextTypeHandler}
+              >
+                <option>Hex</option>
+                <option>RGB</option>
+                <option>HSL</option>
+                <option>HSB</option>
+              </Input>
+              {text}
+            </InputGroup>
+          </div>
+        </div>}
+      </div >
+
+
+    </>
+
   );
-}
+})
 
 export default ColorPicker;

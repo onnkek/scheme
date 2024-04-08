@@ -84,7 +84,7 @@ export class Editor {
 		this.svgOffset = new Point(-300, -50);
 		this.propertyBarWidth = 300;
 		this.grid = new Grid(1400, 1000);
-		this.backgroundColor = "#000000";
+		this.backgroundColor = "rgba(0,0,0,1)";
 	}
 
 	addElement(addMode, cursor) {

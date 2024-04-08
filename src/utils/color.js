@@ -35,8 +35,11 @@ export const hslToHex = (h, s, l) => {
 }
 
 export const hexToHSL = (hex) => {
+  console.log(hex)
+  hex = hex.substring(0, 7)
+  console.log(hex)
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
+  console.log(result)
   let r = parseInt(result[1], 16);
   let g = parseInt(result[2], 16);
   let b = parseInt(result[3], 16);
@@ -109,4 +112,42 @@ export const hexToRGB = (hex) => {
 export const rgbToHex = (RGB) => {
   const rgb = (RGB.R << 16) | (RGB.G << 8) | (RGB.B << 0);
   return '#' + (0x1000000 + rgb).toString(16).slice(1).toUpperCase();
+}
+
+
+export const RGBStringToHSL = (string) => {
+  console.log(string);
+  const rgb = string.match(/^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d.\d|\d)\s*\)/i);
+  console.log(rgb);
+  const r = rgb[1] / 255;
+  const g = rgb[2] / 255;
+  const b = rgb[3] / 255;
+  var max = Math.max(r, g, b), min = Math.min(r, g, b);
+  var h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d; break;
+      case g: h = 2 + ((b - r) / d); break;
+      case b: h = 4 + ((r - g) / d); break;
+      default:
+        break;
+    }
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  console.log({
+    H: h,
+    S: s,
+    L: l
+  })
+  return {
+    H: h,
+    S: s,
+    L: l
+  }
 }

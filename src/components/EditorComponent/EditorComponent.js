@@ -994,7 +994,7 @@ function EditorComponent(props) {
         polyline={addPolylineHandler}
       />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
-      <ColorPicker />
+      
     </div>
 
 
