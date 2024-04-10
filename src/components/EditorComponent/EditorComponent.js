@@ -24,7 +24,7 @@ import { Serializer } from '../../utils/Serializer';
 import { SelectionFrame } from '../../models/SelectionFrame';
 import PropertiesBar from '../PropertiesBar/PropertiesBar';
 import Explorer from '../Explorer/Explorer';
-import { Button } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
 import openIcon from '../../assets/icons/open.svg';
 import downloadIcon from '../../assets/icons/download.svg';
 import GridComponent from '../GridComponent/GridComponent';
@@ -37,6 +37,7 @@ import { Path } from '../../models/Elements/Shapes/Path';
 import { PointControl } from '../../models/Controls/PointControl';
 import { SplineControl } from '../../models/Controls/SplineControl';
 import ColorPicker from '../Controls/ColorPicker/ColorPicker';
+import TableComponent from '../TableComponent/TableComponent';
 
 // TODO:
 // Чистить SVGPanel и реализовывать функционал обратно
@@ -47,6 +48,17 @@ function EditorComponent(props) {
   const [editor] = useState(new Editor());
   const [lastCursor, setLastCursor] = useState(new Point(0, 0));
   const { setContextMenu } = useContextMenu();
+  const [editorWindow, setEditorWindow] = useState("Table");
+
+  const testTable = [
+    ["№", "Name", "Pн", "Qн", "Pг", "Qг", "B", "U"],
+    ["1", "1", "100", "50", "Pг", "Qг", "0", "220"],
+    ["2", "2", "0", "0", "200", "100", "0", "10"],
+    ["3", "3", "200", "100", "Pг", "Qг", "100", "220"],
+    ["4", "4", "0", "0", "300", "150", "1000", "10"]
+  ]
+
+
 
   const svgMouseDownHandler = (e) => {
     console.log(`%c mode %c ${editor.mode} %c`, 'background:green ; padding: 0px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#c3e6f0 ; padding: 0px; border-radius: 0 3px 3px 0;  color: #222;', 'background:transparent');
@@ -942,6 +954,16 @@ function EditorComponent(props) {
 
   }
 
+  const setEditorWindowHandler = (window) => {
+    if (window === "Editor") {
+      setEditorWindow("Editor")
+    }
+
+    if (window === "Table") {
+      setEditorWindow("Table")
+    }
+  }
+
   return (
     <div className='editor'
       onMouseDown={editorMouseDownHandler}
@@ -971,8 +993,28 @@ function EditorComponent(props) {
             <div>LOAD</div>
           </div>
         </Button>
+        <Button
+          outline
+          className="add-btn"
+          onClick={(e) => setEditorWindowHandler("Editor")}
+        >
+          <div className='add-btn'>
+            <img className="me-2" src={openIcon} alt="Connect"></img>
+            <div>Editor</div>
+          </div>
+        </Button>
+        <Button
+          outline
+          className="add-btn"
+          onClick={(e) => setEditorWindowHandler("Table")}
+        >
+          <div className='add-btn'>
+            <img className="me-2" src={openIcon} alt="Connect"></img>
+            <div>Table</div>
+          </div>
+        </Button>
       </div>
-      <svg id='svg'
+      {editorWindow === "Editor" && <svg id='svg'
         onContextMenu={(e) => e.preventDefault()}
         onMouseDown={svgMouseDownHandler}
         onMouseMove={svgMouseMoveHandler}
@@ -984,7 +1026,11 @@ function EditorComponent(props) {
         <SchemeComponent scheme={editor.scheme} />
         <SelectLayerComponent selectLayer={editor.selectLayer} />
         <GridComponent grid={editor.grid} backgroundColor={editor.grid.backgroundColor} stepX={editor.grid.stepX} stepY={editor.grid.stepY} strokeWidth={editor.grid.strokeWidth} />
-      </svg>
+      </svg>}
+      {editorWindow === "Table" &&
+        <TableComponent inputTable={testTable} />
+
+      }
       <PropertiesBar
         width={editor.propertyBarWidth}
         editor={editor}
@@ -994,7 +1040,7 @@ function EditorComponent(props) {
         polyline={addPolylineHandler}
       />
       <Explorer selected={editor.selectLayer.selected} scheme={editor.scheme} onSelect={explorerSelectHandler} />
-      
+
     </div>
 
 
